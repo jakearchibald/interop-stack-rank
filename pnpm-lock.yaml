@@ -11,6 +11,9 @@ importers:
       arctic:
         specifier: ^3.7.0
         version: 3.7.0
+      cookie:
+        specifier: ^1.0.2
+        version: 1.0.2
     devDependencies:
       '@cloudflare/vite-plugin':
         specifier: ^1.13.3

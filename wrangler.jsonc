@@ -12,11 +12,11 @@
   },
 
   /**
-   * Development environment variables
-   * For production, use: wrangler secret put <SECRET_NAME>
+   * Environment Variables
+   * https://developers.cloudflare.com/workers/wrangler/configuration/#environment-variables
    */
   "vars": {
-    "ENVIRONMENT": "development"
+    "GITHUB_CLIENT_ID": "Ov23ctvJ80X4pLdb0cHY"
   },
 
   /**
@@ -31,6 +31,13 @@
    * databases, object storage, AI inference, real-time communication and more.
    * https://developers.cloudflare.com/workers/runtime-apis/bindings/
    */
+  "kv_namespaces": [
+    {
+      "binding": "SESSIONS",
+      "preview_id": "sessions-preview",
+      "id": "sessions-prod"
+    }
+  ],
   "durable_objects": {
     "bindings": [
       {
