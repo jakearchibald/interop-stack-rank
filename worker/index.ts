@@ -1,3 +1,5 @@
+import { RankingStorage } from './durable-objects/RankingStorage';
+
 const routeModules = import.meta.glob('./routes/**/*.ts') as Record<
   string,
   () => Promise<{ default: NonNullable<ExportedHandler<Env>['fetch']> }>
@@ -40,3 +42,5 @@ export default {
     return module.default(request, env, ctx);
   },
 } satisfies ExportedHandler<Env>;
+
+export { RankingStorage };

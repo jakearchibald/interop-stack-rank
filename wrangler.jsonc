@@ -9,7 +9,15 @@
   "main": "worker/index.ts",
   "observability": {
     "enabled": true
-  }
+  },
+
+  /**
+   * Development environment variables
+   * For production, use: wrangler secret put <SECRET_NAME>
+   */
+  "vars": {
+    "ENVIRONMENT": "development"
+  },
 
   /**
    * Smart Placement
@@ -23,6 +31,20 @@
    * databases, object storage, AI inference, real-time communication and more.
    * https://developers.cloudflare.com/workers/runtime-apis/bindings/
    */
+  "durable_objects": {
+    "bindings": [
+      {
+        "name": "RANKING_STORAGE",
+        "class_name": "RankingStorage"
+      }
+    ]
+  },
+  "migrations": [
+    {
+      "tag": "v1",
+      "new_classes": ["RankingStorage"]
+    }
+  ]
 
   /**
    * Environment Variables
