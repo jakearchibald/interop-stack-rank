@@ -1,23 +1,16 @@
 import { GitHub } from 'arctic';
 import { parse } from 'cookie';
+import { createSession, createSessionResponse } from '../../../utils/session';
 
 interface GitHubUser {
   id: number;
   login: string;
-  email: string;
   name: string;
-}
-
-interface GithubEmail {
-  email: string;
-  primary: boolean;
-  verified: boolean;
-  visibility: string | null;
+  avatar_url: string;
 }
 
 const route: ExportedHandler<Env>['fetch'] = async (request, env, ctx) => {
   const url = new URL(request.url);
-  console.log('Got request url:', url.toString());
   const code = url.searchParams.get('code');
   const state = url.searchParams.get('state');
 
@@ -38,63 +31,31 @@ const route: ExportedHandler<Env>['fetch'] = async (request, env, ctx) => {
   try {
     const tokens = await github.validateAuthorizationCode(code);
 
-    const emailResponse = await fetch('https://api.github.com/user/emails', {
+    const userResponse = await fetch('https://api.github.com/user', {
       headers: {
         Authorization: `Bearer ${tokens.accessToken()}`,
         'User-Agent': 'interop-stack-rank',
       },
     });
 
-    if (!emailResponse.ok) {
+    if (!userResponse.ok) {
       throw new Error('Failed to fetch user info');
     }
 
-    const emails = (await emailResponse.json()) as GithubEmail[];
-    const primaryEmail = emails.find((e) => e.primary);
+    const user = (await userResponse.json()) as GitHubUser;
+    const userDataStub = env.USER_DATA.getByName('global');
 
-    if (!primaryEmail) {
-      return new Response('No primary email found in GitHub account', {
-        status: 400,
-      });
-    }
+    const [sessionId] = await Promise.all([
+      createSession({ githubId: user.id }, env),
+      userDataStub.saveUser({
+        githubId: user.id,
+        displayName: user.name || user.login,
+        githubUsername: user.login,
+        avatarSrc: user.avatar_url,
+      }),
+    ]);
 
-    const email = primaryEmail.email;
-
-    // Store user in database using email as primary key
-    const rankingStorageId = env.RANKING_STORAGE.idFromName('global');
-    const rankingStorage = env.RANKING_STORAGE.get(rankingStorageId);
-
-    const dbUserResponse = await rankingStorage.fetch(
-      new Request('https://dummy/users', {
-        method: 'POST',
-        body: JSON.stringify({
-          email: email,
-          provider: 'github',
-        }),
-      })
-    );
-
-    const dbUser = await dbUserResponse.json();
-
-    // Generate secure session ID and store in KV
-    const sessionId = crypto.randomUUID();
-    const sessionData = JSON.stringify({ email });
-
-    await env.SESSIONS.put(sessionId, sessionData, {
-      expirationTtl: 86400 // 24 hours
-    });
-
-    const response = Response.redirect(url.origin);
-    response.headers.set(
-      'Set-Cookie',
-      `session=${sessionId}; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=86400`
-    );
-    response.headers.set(
-      'Set-Cookie',
-      `oauth_state=; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=0`
-    );
-
-    return response;
+    return createSessionResponse(sessionId, url.origin);
   } catch (error) {
     console.error('GitHub OAuth error:', error);
     return new Response('Authentication failed', { status: 500 });

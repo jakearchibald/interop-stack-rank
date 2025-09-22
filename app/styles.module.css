@@ -158,19 +158,6 @@
   background-color: #555;
 }
 
-.googleButton {
-  background-color: #4285f4;
-  color: white;
-  text-decoration: none;
-  padding: 12px 24px;
-  border-radius: 6px;
-  font-weight: 500;
-}
-
-.googleButton:hover {
-  background-color: #357ae8;
-}
-
 .logoutButton {
   background-color: #dc3545;
   color: white;

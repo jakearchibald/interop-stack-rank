@@ -14,7 +14,7 @@ interface RankingState {
 
 interface User {
   id: string;
-  provider: 'github' | 'google';
+  provider: 'github';
   name: string;
   email: string;
   username?: string;
@@ -194,12 +194,6 @@ function RankingApp() {
               className={`${styles.button} ${styles.githubButton}`}
             >
               Sign in with GitHub
-            </a>
-            <a
-              href="/auth/google"
-              className={`${styles.button} ${styles.googleButton}`}
-            >
-              Sign in with Google
             </a>
           </div>
         </div>

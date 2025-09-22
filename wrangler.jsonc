@@ -41,15 +41,15 @@
   "durable_objects": {
     "bindings": [
       {
-        "name": "RANKING_STORAGE",
-        "class_name": "RankingStorage"
+        "name": "USER_DATA",
+        "class_name": "UserData"
       }
     ]
   },
   "migrations": [
     {
       "tag": "v1",
-      "new_classes": ["RankingStorage"]
+      "new_sqlite_classes": ["UserData"]
     }
   ]
 

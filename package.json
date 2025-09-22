@@ -17,7 +17,7 @@
     "preact": "^10.27.2",
     "typescript": "^5.9.2",
     "typescript-plugin-css-modules": "^5.2.0",
-    "vite": "^7.1.6",
+    "vite": "^7.1.7",
     "wrangler": "^4.38.0"
   },
   "packageManager": "pnpm@10.15.0",

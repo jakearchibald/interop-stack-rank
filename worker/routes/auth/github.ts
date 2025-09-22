@@ -8,7 +8,7 @@ const route: ExportedHandler<Env>['fetch'] = async (request, env, ctx) => {
   );
 
   const state = generateState();
-  const url = await github.createAuthorizationURL(state, ['user:email']);
+  const url = await github.createAuthorizationURL(state, []);
 
   // Store state for validation in callback
   const response = new Response('', {

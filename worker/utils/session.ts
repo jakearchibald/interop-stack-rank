@@ -1,10 +1,50 @@
 import { parse } from 'cookie';
 
 export interface SessionUser {
-  email: string;
+  githubId: number;
 }
 
-export async function getSessionUser(request: Request, env: Env): Promise<SessionUser | null> {
+export async function createSession(
+  user: SessionUser,
+  env: Env
+): Promise<string> {
+  const sessionId = crypto.randomUUID();
+  const sessionData = JSON.stringify(user);
+
+  await env.SESSIONS.put(sessionId, sessionData, {
+    expirationTtl: 86400, // 24 hours
+  });
+
+  return sessionId;
+}
+
+export function createSessionResponse(
+  sessionId: string,
+  location: string
+): Response {
+  const responseHeaders = new Headers();
+  responseHeaders.append('Location', location);
+  responseHeaders.append(
+    'Set-Cookie',
+    `session=${sessionId}; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=86400`
+  );
+  responseHeaders.append(
+    'Set-Cookie',
+    `oauth_state=; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=0`
+  );
+
+  const response = new Response('', {
+    status: 302,
+    headers: responseHeaders,
+  });
+
+  return response;
+}
+
+export async function getSessionUser(
+  request: Request,
+  env: Env
+): Promise<SessionUser | null> {
   const cookies = parse(request.headers.get('Cookie') || '');
   const sessionId = cookies.session;
 
@@ -24,7 +64,9 @@ export async function getSessionUser(request: Request, env: Env): Promise<Sessio
   }
 }
 
-export function requireAuth(user: SessionUser | null): asserts user is SessionUser {
+export function requireAuth(
+  user: SessionUser | null
+): asserts user is SessionUser {
   if (!user) {
     throw new Response('Unauthorized', { status: 401 });
   }
