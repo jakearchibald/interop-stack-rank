@@ -40,7 +40,7 @@ export class UserData extends DurableObject<Env> {
     `);
   }
 
-  async getUserById(githubId: number): Promise<User | null> {
+  getUserById(githubId: number): User | null {
     const query = this.#sql.exec<UserDBValue>(
       'SELECT * FROM users WHERE githubId = ?',
       [githubId]
@@ -61,8 +61,7 @@ export class UserData extends DurableObject<Env> {
     return null;
   }
 
-  async saveUser(user: Omit<User, 'rankings'>) {
-    console.log('Saving user:', user);
+  saveUser(user: Omit<User, 'rankings'>) {
     this.#sql.exec(
       `
         INSERT INTO users (githubId, displayName, githubUsername, avatarSrc, rankings) VALUES (?, ?, ?, ?, ?)
@@ -77,10 +76,9 @@ export class UserData extends DurableObject<Env> {
       user.avatarSrc,
       '[]'
     );
-    console.log('Saved user');
   }
 
-  async saveRankings(githubId: number, rankings: number[]) {
+  saveRankings(githubId: number, rankings: number[]) {
     const validIdSet = getValidIdSet();
 
     for (const ranking of rankings) {
