@@ -1,11 +1,14 @@
 import { DurableObject } from 'cloudflare:workers';
+import validIds from './valid-ids.json';
+import type { User } from '../../../shared/user-data';
 
-export interface User {
-  githubId: number;
-  displayName: string;
-  githubUsername: string;
-  avatarSrc: string;
-  rankings: number[];
+let validIdSet: Set<number> | null = null;
+
+function getValidIdSet() {
+  if (!validIdSet) {
+    validIdSet = new Set(validIds);
+  }
+  return validIdSet;
 }
 
 type UserDBValue = {
@@ -75,5 +78,25 @@ export class UserData extends DurableObject<Env> {
       '[]'
     );
     console.log('Saved user');
+  }
+
+  async saveRankings(githubId: number, rankings: number[]) {
+    const validIdSet = getValidIdSet();
+
+    for (const ranking of rankings) {
+      if (!validIdSet.has(ranking)) {
+        throw new Error(`Invalid ranking ID: ${ranking}`);
+      }
+    }
+
+    const uniqueRankings = [...new Set(rankings)];
+
+    this.#sql.exec(
+      `
+        UPDATE users SET rankings = ? WHERE githubId = ?
+      `,
+      JSON.stringify(uniqueRankings),
+      githubId
+    );
   }
 }

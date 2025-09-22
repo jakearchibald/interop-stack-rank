@@ -6,7 +6,7 @@ const route: ExportedHandler<Env>['fetch'] = async (request, env, ctx) => {
   const user = await getSessionUser(request, env);
 
   if (!user) {
-    return new Response('Unauthorized', { status: 401 });
+    return Response.json({ userData: null });
   }
 
   const userData = await userDataStub.getUserById(user.githubId);

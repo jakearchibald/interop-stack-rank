@@ -13,6 +13,7 @@
   "devDependencies": {
     "@cloudflare/vite-plugin": "^1.13.3",
     "@preact/preset-vite": "^2.10.2",
+    "@preact/signals": "^2.3.1",
     "@types/node": "^24.5.2",
     "preact": "^10.27.2",
     "typescript": "^5.9.2",
@@ -20,7 +21,7 @@
     "vite": "^7.1.7",
     "wrangler": "^4.38.0"
   },
-  "packageManager": "pnpm@10.15.0",
+  "packageManager": "pnpm@10.17.0",
   "dependencies": {
     "arctic": "^3.7.0",
     "cookie": "^1.0.2"

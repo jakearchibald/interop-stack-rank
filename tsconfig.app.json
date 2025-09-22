@@ -31,5 +31,5 @@
       }
     ]
   },
-  "include": ["app"]
+  "include": ["app", "shared"]
 }
