@@ -118,13 +118,17 @@ const Ranker: FunctionComponent<Props> = ({ user }) => {
       start(pointerEvent) {
         if (pointerTracker.currentPointers.length > 0) return false;
         if (!(pointerEvent.target instanceof HTMLElement)) return false;
+
         const handle = pointerEvent.target.closest(`.${styles.dragHandle}`);
         if (handle === null) return false;
+
         const item = handle.closest(`[data-item-id]`);
         if (!(item instanceof HTMLElement)) return false;
+
         const itemId = Number(item.dataset.itemId);
         const itemData = itemsById.get(itemId);
         if (!itemData) return false;
+
         draggingItem.value = itemData;
 
         const itemRect = item.getBoundingClientRect();
@@ -167,6 +171,7 @@ const Ranker: FunctionComponent<Props> = ({ user }) => {
             !element.classList.contains(styles.dropTarget)
           ) {
             activeDropZone = null;
+            return;
           }
           activeDropZone = element as HTMLElement;
           activeDropZone.classList.add(styles.activeDropZone);
@@ -175,6 +180,11 @@ const Ranker: FunctionComponent<Props> = ({ user }) => {
       end(pointerEvent) {
         const draggedItem = draggingItem.value!;
         draggingItem.value = null;
+
+        if (activeDropZone) {
+          activeDropZone.classList.remove(styles.activeDropZone);
+          activeDropZone = null;
+        }
 
         const element = document.elementFromPoint(
           pointerEvent.clientX,
