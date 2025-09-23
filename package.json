@@ -15,6 +15,7 @@
     "@preact/preset-vite": "^2.10.2",
     "@preact/signals": "^2.3.1",
     "@types/node": "^24.5.2",
+    "pointer-tracker": "^2.5.3",
     "preact": "^10.27.2",
     "typescript": "^5.9.2",
     "typescript-plugin-css-modules": "^5.2.0",

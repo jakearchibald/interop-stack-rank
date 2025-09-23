@@ -1,6 +1,6 @@
 import { getSessionUser } from '../../utils/session';
 
-const route: ExportedHandler<Env>['fetch'] = async (request, env, ctx) => {
+const route: ExportedHandler<Env>['fetch'] = async (request, env) => {
   const userDataStub = env.USER_DATA.getByName('global');
 
   const user = await getSessionUser(request, env);

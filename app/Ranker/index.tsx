@@ -1,92 +1,60 @@
 import { type FunctionComponent } from 'preact';
-import { useEffect, useMemo, useRef } from 'preact/hooks';
-import { useSignal } from '@preact/signals';
-import styles from './styles.module.css';
-import allItems from '../data.json';
-import type { User } from '../../shared/user-data';
+import { useEffect, useRef } from 'preact/hooks';
+import PointerTracker from '../utils/PointerTracker';
 
-const itemsById = new Map<number, RankingItem>();
-for (const item of allItems) itemsById.set(item.id, item);
+import styles from './styles.module.css';
+import type { User } from '../../shared/user-data';
+import { itemsById, useRankingSignals } from './useRankingSignals';
+import { useComputed, useSignal } from '@preact/signals';
+import RankingItem from './RankingItem';
+import { classes } from '../utils/classes';
 
 function swapIndexes(arr: unknown[], indexA: number, indexB: number) {
   [arr[indexA], arr[indexB]] = [arr[indexB], arr[indexA]];
 }
 
-interface RankingItem {
+export interface RankingItem {
   id: number;
   title: string;
 }
-
-type SimpleUser = Pick<
-  User,
-  'githubId' | 'displayName' | 'githubUsername' | 'avatarSrc'
->;
 
 interface Props {
   user: User;
 }
 
 const Ranker: FunctionComponent<Props> = ({ user }) => {
-  const simpleUser = useMemo<SimpleUser>(() => {
-    const { rankings, ...simpleUserData } = user;
-    return simpleUserData;
-  }, [user]);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const { rankedItems, unrankedItems } = useRankingSignals(user);
 
-  const initialRankedItems = useMemo<RankingItem[]>(() => {
-    let rankingIds: number[] | null = null;
+  const insertBeforeId = (
+    item: RankingItem,
+    targetList: 'ranked' | 'unranked',
+    beforeId: number | null
+  ) => {
+    const destinationList =
+      targetList === 'ranked' ? rankedItems : unrankedItems;
 
-    const lsUnsaved = localStorage.getItem('unsavedRanking');
-
-    if (lsUnsaved) {
-      try {
-        rankingIds = JSON.parse(lsUnsaved);
-      } catch {
-        // Ignore JSON parse errors
-      }
-    }
-
-    if (!rankingIds) {
-      rankingIds = user.rankings;
-    }
-
-    return rankingIds
-      .map((id) => itemsById.get(id))
-      .filter((item): item is RankingItem => item !== undefined);
-  }, [user.rankings]);
-
-  const initialUnrankedItems = useMemo<RankingItem[]>(() => {
-    const rankingIdsSet = new Set(user.rankings);
-    return allItems.filter((item) => !rankingIdsSet.has(item.id));
-  }, [user.rankings]);
-
-  const rankedItems = useSignal<RankingItem[]>(initialRankedItems);
-  const unrankedItems = useSignal<RankingItem[]>(initialUnrankedItems);
-
-  const addToRanking = (item: RankingItem) => {
-    rankedItems.value = [...rankedItems.value, item];
-    unrankedItems.value = unrankedItems.value.filter((i) => i.id !== item.id);
-    postRankings();
-  };
-
-  const removeFromRanking = (item: RankingItem) => {
+    // Remove from lists
     rankedItems.value = rankedItems.value.filter((i) => i.id !== item.id);
-    unrankedItems.value = [...unrankedItems.value, item];
-    postRankings();
-  };
+    unrankedItems.value = unrankedItems.value.filter((i) => i.id !== item.id);
 
-  const moveUp = (index: number) => {
-    if (index === 0) return;
-    const newRankedItems = [...rankedItems.value];
-    swapIndexes(newRankedItems, index, index - 1);
-    rankedItems.value = newRankedItems;
-    postRankings();
-  };
+    // Determine the index to insert at in the destination list
+    const insertIndex =
+      beforeId !== null
+        ? destinationList.value.findIndex((i) => i.id === beforeId)
+        : destinationList.value.length;
 
-  const moveDown = (index: number) => {
-    if (index === rankedItems.value.length - 1) return;
-    const newRankedItems = [...rankedItems.value];
-    swapIndexes(newRankedItems, index, index + 1);
-    rankedItems.value = newRankedItems;
+    // Insert into destination list at the correct position
+    if (insertIndex === -1) {
+      destinationList.value = [...destinationList.value, item];
+    } else {
+      destinationList.value = [
+        ...destinationList.value.slice(0, insertIndex),
+        item,
+        ...destinationList.value.slice(insertIndex),
+      ];
+    }
+
     postRankings();
   };
 
@@ -136,81 +104,235 @@ const Ranker: FunctionComponent<Props> = ({ user }) => {
     }
   }, []);
 
+  const initialDraggingPositionRef = useRef<{ x: number; y: number } | null>(
+    null
+  );
+  const draggingItem = useSignal<RankingItem | null>(null);
+  const draggingItemRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!containerRef.current) return;
+    let activeDropZone: HTMLElement | null = null;
+
+    const pointerTracker = new PointerTracker(containerRef.current, {
+      start(pointerEvent) {
+        if (pointerTracker.currentPointers.length > 0) return false;
+        if (!(pointerEvent.target instanceof HTMLElement)) return false;
+        const handle = pointerEvent.target.closest(`.${styles.dragHandle}`);
+        if (handle === null) return false;
+        const item = handle.closest(`[data-item-id]`);
+        if (!(item instanceof HTMLElement)) return false;
+        const itemId = Number(item.dataset.itemId);
+        const itemData = itemsById.get(itemId);
+        if (!itemData) return false;
+        draggingItem.value = itemData;
+
+        const itemRect = item.getBoundingClientRect();
+        initialDraggingPositionRef.current = { x: itemRect.x, y: itemRect.y };
+
+        Promise.resolve().then(() => {
+          if (!draggingItemRef.current) return;
+          draggingItemRef.current.style.width = `${itemRect.width}px`;
+          draggingItemRef.current.style.transform = `translate(${itemRect.x}px, ${itemRect.y}px)`;
+        });
+
+        return handle !== null;
+      },
+      move() {
+        const startPointer = pointerTracker.startPointers[0];
+        const currentPointer = pointerTracker.currentPointers[0];
+        if (!draggingItemRef.current || !initialDraggingPositionRef.current) {
+          return;
+        }
+
+        const deltaY = currentPointer.clientY - startPointer.clientY;
+        const { x, y } = initialDraggingPositionRef.current;
+
+        draggingItemRef.current.style.transform = `translate(${x}px, ${
+          y + deltaY
+        }px)`;
+
+        const element = document.elementFromPoint(
+          currentPointer.clientX,
+          currentPointer.clientY
+        );
+
+        if (element !== activeDropZone) {
+          if (activeDropZone) {
+            activeDropZone.classList.remove(styles.activeDropZone);
+          }
+          if (
+            element === null ||
+            !(element instanceof HTMLElement) ||
+            !element.classList.contains(styles.dropTarget)
+          ) {
+            activeDropZone = null;
+          }
+          activeDropZone = element as HTMLElement;
+          activeDropZone.classList.add(styles.activeDropZone);
+        }
+      },
+      end(pointerEvent) {
+        const draggedItem = draggingItem.value!;
+        draggingItem.value = null;
+
+        const element = document.elementFromPoint(
+          pointerEvent.clientX,
+          pointerEvent.clientY
+        );
+
+        if (
+          element === null ||
+          !(element instanceof HTMLElement) ||
+          !element.classList.contains(styles.dropTarget)
+        ) {
+          return;
+        }
+
+        const targetList = element.dataset.targetList as 'ranked' | 'unranked';
+
+        const beforeId = Number(element.dataset.targetBeforeId) || null;
+        insertBeforeId(draggedItem, targetList, beforeId);
+      },
+    });
+    return () => {
+      pointerTracker.stop();
+    };
+  }, []);
+
   return (
-    <div className={styles.container}>
-      <header className={styles.header}>
-        <h1 className={styles.title}>Stack Ranking</h1>
-        <div className={styles.userInfo}>
-          <span>Welcome, {simpleUser.displayName}!</span>
+    <div class={styles.container} ref={containerRef}>
+      <header class={styles.header}>
+        <h1 class={styles.title}>Stack Ranking</h1>
+        <div class={styles.userInfo}>
+          <span>Welcome, {user.displayName}!</span>
           <a
             href="/auth/logout"
-            className={`${styles.button} ${styles.logoutButton}`}
+            class={`${styles.button} ${styles.logoutButton}`}
           >
             Logout
           </a>
         </div>
       </header>
 
-      <div className={styles.section}>
-        <h2 className={styles.sectionTitle}>
-          Ranked Items (Top = Most Important)
-        </h2>
-        <div className={styles.dropZone}>
-          {rankedItems.value.length === 0 && (
-            <p className={styles.emptyMessage}>Drag items here to rank them</p>
+      <div class={styles.section}>
+        <h2 class={styles.sectionTitle}>Ranked Items (Top = Most Important)</h2>
+        <div class={styles.dropZone}>
+          {rankedItems.value.length === 0 ? (
+            <p class={styles.emptyMessage}>Drag items here to rank them</p>
+          ) : (
+            <ol class={styles.rankList}>
+              {rankedItems.value.map((item, index, arr) => (
+                <>
+                  {draggingItem.value &&
+                    index === 0 &&
+                    item.id !== draggingItem.value.id && (
+                      <li
+                        class={styles.dropTarget}
+                        key={`drop-target-before-${item.id}`}
+                        data-target-list="ranked"
+                        data-target-before-id={item.id}
+                      />
+                    )}
+                  <li
+                    key={item.id}
+                    class={classes({
+                      [styles.beingDragged]: draggingItem.value?.id === item.id,
+                    })}
+                  >
+                    <RankingItem
+                      item={item}
+                      index={index}
+                      isRanked={true}
+                      showUpButton={true}
+                      showDownButton={index !== rankedItems.value.length - 1}
+                      showRemoveButton={true}
+                      onMoveUp={() =>
+                        insertBeforeId(item, 'ranked', arr[index - 1]?.id)
+                      }
+                      onMoveDown={() =>
+                        insertBeforeId(
+                          item,
+                          'ranked',
+                          arr[index + 2]?.id ?? null
+                        )
+                      }
+                      onRemove={() =>
+                        insertBeforeId(
+                          item,
+                          'unranked',
+                          unrankedItems.value[0]?.id ?? null
+                        )
+                      }
+                    />
+                  </li>
+                  {draggingItem.value &&
+                    item.id !== draggingItem.value.id &&
+                    draggingItem.value.id !== arr[index + 1]?.id && (
+                      <li
+                        class={styles.dropTarget}
+                        key={`drop-target-after-${item.id}`}
+                        data-target-list="ranked"
+                        data-target-before-id={arr[index + 1]?.id ?? ''}
+                      />
+                    )}
+                </>
+              ))}
+            </ol>
           )}
-          {rankedItems.value.map((item, index) => (
-            <div key={item.id} className={styles.item}>
-              <div draggable className={styles.dragHandle}>
-                ⋮⋮
-              </div>
-              <span className={styles.rankedItemName}>
-                #{index + 1} {item.title}
-              </span>
-              <button
-                disabled={index === 0}
-                className={`${styles.button} ${styles.upButton}`}
-                onClick={() => moveUp(index)}
-              >
-                ↑
-              </button>
-              <button
-                disabled={index === rankedItems.value.length - 1}
-                className={`${styles.button} ${styles.downButton}`}
-                onClick={() => moveDown(index)}
-              >
-                ↓
-              </button>
-              <button
-                className={`${styles.button} ${styles.removeButton}`}
-                onClick={() => removeFromRanking(item)}
-              >
-                Remove
-              </button>
-            </div>
-          ))}
         </div>
       </div>
 
-      <div className={styles.section}>
-        <h2 className={styles.sectionTitle}>No Opinion</h2>
-        <div className={styles.noOpinionZone}>
-          {unrankedItems.value.length === 0 && (
-            <p className={styles.emptyMessage}>All items are ranked</p>
+      <div class={styles.section}>
+        <h2 class={styles.sectionTitle}>No Opinion</h2>
+        <div class={styles.noOpinionZone}>
+          {unrankedItems.value.length === 0 ? (
+            <p class={styles.emptyMessage}>All items are ranked</p>
+          ) : (
+            <ol class={styles.rankList}>
+              {unrankedItems.value.map((item, index, arr) => (
+                <>
+                  {draggingItem.value &&
+                    index === 0 &&
+                    item.id !== draggingItem.value.id && (
+                      <li
+                        class={styles.dropTarget}
+                        key={`drop-target-before-${item.id}`}
+                        data-target-list="unranked"
+                        data-target-before-id={item.id}
+                      />
+                    )}
+                  <li
+                    key={item.id}
+                    class={classes({
+                      [styles.beingDragged]: draggingItem.value?.id === item.id,
+                    })}
+                  >
+                    <RankingItem
+                      item={item}
+                      showAddButton={true}
+                      onAdd={() => insertBeforeId(item, 'ranked', null)}
+                    />
+                  </li>
+                  {draggingItem.value &&
+                    item.id !== draggingItem.value.id &&
+                    draggingItem.value.id !== arr[index + 1]?.id && (
+                      <li
+                        class={styles.dropTarget}
+                        key={`drop-target-after-${item.id}`}
+                        data-target-list="unranked"
+                        data-target-before-id={arr[index + 1]?.id ?? ''}
+                      />
+                    )}
+                </>
+              ))}
+            </ol>
           )}
-          {unrankedItems.value.map((item) => (
-            <div key={item.id} className={styles.item}>
-              <div className={styles.dragHandle}>⋮⋮</div>
-              <span className={styles.itemName}>{item.title}</span>
-              <button
-                className={styles.addButton}
-                onClick={() => addToRanking(item)}
-              >
-                Add to Ranking
-              </button>
-            </div>
-          ))}
         </div>
+      </div>
+
+      <div class={styles.draggingItemContainer} ref={draggingItemRef}>
+        {draggingItem.value && <RankingItem item={draggingItem.value} />}
       </div>
     </div>
   );

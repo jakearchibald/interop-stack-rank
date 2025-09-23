@@ -27,6 +27,9 @@ importers:
       '@types/node':
         specifier: ^24.5.2
         version: 24.5.2
+      pointer-tracker:
+        specifier: ^2.5.3
+        version: 2.5.3
       preact:
         specifier: ^10.27.2
         version: 10.27.2
@@ -1279,6 +1282,9 @@ packages:
   pify@4.0.1:
     resolution: {integrity: sha512-uB80kBFb/tfd68bVleG9T5GGsGPjJrLAUpR5PZIrhBnIaRTQRjqdJSsIKkOP6OAIFbj7GOrcudc5pNjZ+geV2g==}
     engines: {node: '>=6'}
+
+  pointer-tracker@2.5.3:
+    resolution: {integrity: sha512-LiJUeIbzk4dXq678YeyrZ++mdY17q4n/2sBHfU9wIuvmSzdiPgMvmvWN2g8mY4J7YwYOIrqrZUWP/MfFHVwYtg==}
 
   postcss-load-config@3.1.4:
     resolution: {integrity: sha512-6DiM4E7v4coTE4uzA8U//WhtPwyhiim3eyjEMFCnUpzbrkK9wJHgKDT2mR+HbtSrd/NubVaYTOpSpjUl8NQeRg==}
@@ -2603,6 +2609,8 @@ snapshots:
 
   pify@4.0.1:
     optional: true
+
+  pointer-tracker@2.5.3: {}
 
   postcss-load-config@3.1.4(postcss@8.5.6):
     dependencies:

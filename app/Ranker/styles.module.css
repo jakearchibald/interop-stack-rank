@@ -57,6 +57,7 @@
   border-radius: 3px;
   font-size: 12px;
   user-select: none;
+  touch-action: none;
 }
 
 .dragHandle:active {
@@ -169,4 +170,64 @@
 
 .logoutButton:hover {
   background-color: #c82333;
+}
+
+.rankList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.draggingItemContainer {
+  pointer-events: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  opacity: 0.8;
+  z-index: 1000;
+  will-change: transform;
+  transition: opacity 150ms ease;
+
+  @starting-style {
+    opacity: 1;
+  }
+
+  & > * {
+    margin: 0;
+  }
+}
+
+.dropTarget {
+  position: relative;
+  z-index: 1;
+
+  &::before {
+    content: '';
+    display: block;
+    position: absolute;
+
+    inset: -15px 0;
+  }
+
+  &::after {
+    content: '';
+    display: block;
+    position: absolute;
+
+    inset: -1px 0;
+    background: red;
+    will-change: transform;
+    opacity: 0;
+    scale: 0.5 1;
+    transition: opacity 150ms ease, scale 150ms ease;
+  }
+
+  &.activeDropZone::after {
+    opacity: 1;
+    scale: 1;
+  }
+}
+
+.beingDragged {
+  visibility: hidden;
 }

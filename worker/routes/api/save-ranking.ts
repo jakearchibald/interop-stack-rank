@@ -1,6 +1,6 @@
 import { getSessionUser } from '../../utils/session';
 
-const route: ExportedHandler<Env>['fetch'] = async (request, env, ctx) => {
+const route: ExportedHandler<Env>['fetch'] = async (request, env) => {
   if (request.method !== 'POST') {
     return Response.json({ error: 'Method not allowed' }, { status: 405 });
   }
