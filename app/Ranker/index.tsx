@@ -56,6 +56,63 @@ const Ranker: FunctionComponent<Props> = ({ user }) => {
     }
 
     postRankings();
+
+    // Get current item positions
+    const initialStyles: Record<
+      string,
+      { x: number; y: number; opacity: number }
+    > = {};
+
+    for (const el of containerRef.current!.querySelectorAll('[data-anim-id]')) {
+      if (!(el instanceof HTMLElement)) continue;
+      const animId = el.dataset.animId;
+      if (!animId) continue;
+      const rect = el.getBoundingClientRect();
+      initialStyles[animId] = {
+        x: rect.x,
+        y: rect.y,
+        opacity: Number(getComputedStyle(el).opacity),
+      };
+    }
+
+    requestAnimationFrame(() => {
+      for (const el of containerRef.current!.querySelectorAll(
+        '[data-anim-id]'
+      )) {
+        if (!(el instanceof HTMLElement)) continue;
+        const animId = el.dataset.animId;
+        if (!animId) continue;
+        const rect = el.getBoundingClientRect();
+        const initial = initialStyles[animId];
+        if (!initial) continue;
+
+        // Optimise by skipping anims that are completely offscreen
+        const viewportWidth = window.innerWidth;
+        const viewportHeight = window.innerHeight;
+
+        const startAndEndOutOfView = [initial, rect].every(
+          (pos) =>
+            pos.x < -el.offsetWidth ||
+            pos.y < -el.offsetHeight ||
+            pos.x > viewportWidth ||
+            pos.y > viewportHeight
+        );
+
+        if (startAndEndOutOfView) continue;
+
+        const deltaX = initial.x - rect.x;
+        const deltaY = initial.y - rect.y;
+
+        el.animate(
+          {
+            offset: 0,
+            transform: `translate(${deltaX}px, ${deltaY}px)`,
+            opacity: initial.opacity,
+          },
+          { duration: 200, easing: 'ease' }
+        );
+      }
+    });
   };
 
   const fetchControllerRef = useRef<AbortController | null>(null);
@@ -134,7 +191,7 @@ const Ranker: FunctionComponent<Props> = ({ user }) => {
         const itemRect = item.getBoundingClientRect();
         initialDraggingPositionRef.current = { x: itemRect.x, y: itemRect.y };
 
-        Promise.resolve().then(() => {
+        queueMicrotask(() => {
           if (!draggingItemRef.current) return;
           draggingItemRef.current.style.width = `${itemRect.width}px`;
           draggingItemRef.current.style.transform = `translate(${itemRect.x}px, ${itemRect.y}px)`;
@@ -255,8 +312,13 @@ const Ranker: FunctionComponent<Props> = ({ user }) => {
                       index={index}
                       isRanked={true}
                       showUpButton={true}
-                      showDownButton={index !== rankedItems.value.length - 1}
+                      showDownButton={true}
                       showRemoveButton={true}
+                      animId={
+                        draggingItem.value?.id === item.id
+                          ? null
+                          : `item-${item.id}`
+                      }
                       onMoveUp={() =>
                         insertBeforeId(item, 'ranked', arr[index - 1]?.id)
                       }
@@ -294,7 +356,9 @@ const Ranker: FunctionComponent<Props> = ({ user }) => {
       </div>
 
       <div class={styles.section}>
-        <h2 class={styles.sectionTitle}>No Opinion</h2>
+        <h2 class={styles.sectionTitle} data-anim-id="unranked-heading">
+          No Opinion
+        </h2>
         <div class={styles.noOpinionZone}>
           {unrankedItems.value.length === 0 ? (
             <p class={styles.emptyMessage}>All items are ranked</p>
@@ -322,6 +386,11 @@ const Ranker: FunctionComponent<Props> = ({ user }) => {
                       item={item}
                       showAddButton={true}
                       onAdd={() => insertBeforeId(item, 'ranked', null)}
+                      animId={
+                        draggingItem.value?.id === item.id
+                          ? null
+                          : `item-${item.id}`
+                      }
                     />
                   </li>
                   {draggingItem.value &&
@@ -342,7 +411,12 @@ const Ranker: FunctionComponent<Props> = ({ user }) => {
       </div>
 
       <div class={styles.draggingItemContainer} ref={draggingItemRef}>
-        {draggingItem.value && <RankingItem item={draggingItem.value} />}
+        {draggingItem.value && (
+          <RankingItem
+            item={draggingItem.value}
+            animId={`item-${draggingItem.value.id}`}
+          />
+        )}
       </div>
     </div>
   );

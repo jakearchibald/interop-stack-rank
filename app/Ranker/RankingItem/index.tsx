@@ -9,6 +9,7 @@ interface Props {
   showDownButton?: boolean;
   showRemoveButton?: boolean;
   showAddButton?: boolean;
+  animId?: string | null;
   onMoveUp?: () => void;
   onMoveDown?: () => void;
   onRemove?: () => void;
@@ -27,10 +28,11 @@ const RankingItem: FunctionComponent<Props> = ({
   onMoveDown,
   onRemove,
   onAdd,
+  animId = null,
   isRanked = false,
 }) => {
   return (
-    <div class={styles.item} data-item-id={item.id}>
+    <div class={styles.item} data-item-id={item.id} data-anim-id={animId}>
       <div class={styles.dragHandle}>⋮⋮</div>
       <span class={isRanked ? styles.rankedItemName : styles.itemName}>
         {isRanked && typeof index === 'number' ? `#${index + 1} ` : ''}
@@ -38,7 +40,6 @@ const RankingItem: FunctionComponent<Props> = ({
       </span>
       {showUpButton && (
         <button
-          disabled={index === 0}
           class={`${styles.button} ${styles.upButton}`}
           onClick={onMoveUp}
         >
