@@ -36,7 +36,13 @@ const RankingItem: FunctionComponent<Props> = ({
       <div class={styles.dragHandle}>⋮⋮</div>
       <span class={isRanked ? styles.rankedItemName : styles.itemName}>
         {isRanked && typeof index === 'number' ? `#${index + 1} ` : ''}
-        {item.title}
+        <a
+          href={`https://github.com/web-platform-tests/interop/issues/${item.id}`}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          {item.title}
+        </a>
       </span>
       {showUpButton && (
         <button
