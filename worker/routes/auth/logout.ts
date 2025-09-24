@@ -5,8 +5,7 @@ const route: ExportedHandler<Env>['fetch'] = async (request, env, ctx) => {
     status: 302,
     headers: {
       Location: url.origin,
-      'Set-Cookie':
-        'session=; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=0',
+      'Set-Cookie': 'session=; Path=/; HttpOnly; SameSite=Lax; Max-Age=0',
     },
   });
 };

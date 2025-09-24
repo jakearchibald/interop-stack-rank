@@ -26,11 +26,11 @@ export function createSessionResponse(
   responseHeaders.append('Location', location);
   responseHeaders.append(
     'Set-Cookie',
-    `session=${sessionId}; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=86400`
+    `session=${sessionId}; Path=/; HttpOnly; SameSite=Lax; Max-Age=86400`
   );
   responseHeaders.append(
     'Set-Cookie',
-    `oauth_state=; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=0`
+    `oauth_state=; Path=/; HttpOnly; SameSite=Lax; Max-Age=0`
   );
 
   const response = new Response('', {

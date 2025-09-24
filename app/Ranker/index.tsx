@@ -211,6 +211,8 @@ const Ranker: FunctionComponent<Props> = ({ user }) => {
         const itemData = itemsById.get(itemId);
         if (!itemData) return false;
 
+        pointerEvent.preventDefault();
+
         draggingItem.value = itemData;
 
         const itemRect = item.getBoundingClientRect();
@@ -222,7 +224,7 @@ const Ranker: FunctionComponent<Props> = ({ user }) => {
           draggingItemRef.current.style.transform = `translate(${itemRect.x}px, ${itemRect.y}px)`;
         });
 
-        return handle !== null;
+        return true;
       },
       move() {
         const startPointer = pointerTracker.startPointers[0];

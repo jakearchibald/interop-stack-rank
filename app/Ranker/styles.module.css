@@ -48,7 +48,7 @@
   background-color: white;
   border: 1px solid #ddd;
   border-radius: 4px;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 .dragHandle {
@@ -186,7 +186,6 @@
   left: 0;
   will-change: transform;
   z-index: 1000;
-
 
   & > .item {
     transition: opacity 150ms ease;
