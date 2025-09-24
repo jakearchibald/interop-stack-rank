@@ -71,3 +71,14 @@ export function requireAuth(
     throw new Response('Unauthorized', { status: 401 });
   }
 }
+
+export function requireAdmin(
+  user: SessionUser | null
+): asserts user is SessionUser {
+  if (!user) {
+    throw new Response('Unauthorized', { status: 401 });
+  }
+  if (user.githubId !== 93594) {
+    throw new Response('Forbidden', { status: 403 });
+  }
+}

@@ -92,4 +92,28 @@ export class UserData extends DurableObject<Env> {
       githubId
     );
   }
+
+  getAllRankings(): Record<number, number[]> {
+    const query = this.#sql.exec<{ githubId: number; rankings: string }>(
+      'SELECT githubId, rankings FROM users WHERE rankings IS NOT NULL'
+    );
+
+    const result: Record<number, number[]> = {};
+
+    for (const row of query) {
+      try {
+        const rankings = JSON.parse(row.rankings);
+        if (Array.isArray(rankings)) {
+          result[row.githubId] = rankings;
+        }
+      } catch (error) {
+        console.error(
+          `Error parsing rankings for user ${row.githubId}:`,
+          error
+        );
+      }
+    }
+
+    return result;
+  }
 }
