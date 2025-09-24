@@ -17,19 +17,19 @@
 }
 
 .dropZone {
-  min-height: 100px;
   border: 2px dashed #ccc;
   border-radius: 8px;
   padding: 10px;
   background-color: #f9f9f9;
+  position: relative;
 }
 
 .noOpinionZone {
-  min-height: 80px;
   border: 2px dashed #ccc;
   border-radius: 8px;
   padding: 10px;
   background-color: #f9f9f9;
+  position: relative;
 }
 
 .emptyMessage {
@@ -205,10 +205,17 @@
 
   &::before {
     content: '';
-    display: block;
     position: absolute;
-
     inset: -15px 0;
+  }
+
+  &.firstDropTarget {
+    position: absolute;
+    inset: 0;
+
+    &::before {
+      inset: 0;
+    }
   }
 
   &::after {
@@ -216,7 +223,11 @@
     display: block;
     position: absolute;
 
-    inset: -2px 0;
+    inset: auto 0;
+    height: 4px;
+    translate: 0 -50%;
+    top: 50%;
+
     background: red;
     will-change: transform;
     opacity: 0;

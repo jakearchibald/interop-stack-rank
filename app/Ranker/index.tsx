@@ -293,7 +293,15 @@ const Ranker: FunctionComponent<Props> = ({ user }) => {
         <h2 class={styles.sectionTitle}>Ranked Items (Top = Most Important)</h2>
         <div class={styles.dropZone}>
           {rankedItems.value.length === 0 ? (
-            <p class={styles.emptyMessage}>Drag items here to rank them</p>
+            <>
+              <p class={styles.emptyMessage}>Drag items here to rank them</p>
+              {draggingItem.value && (
+                <div
+                  class={`${styles.dropTarget} ${styles.firstDropTarget}`}
+                  data-target-list="ranked"
+                />
+              )}
+            </>
           ) : (
             <ol class={styles.rankList}>
               {rankedItems.value.map((item, index, arr) => (
@@ -368,7 +376,15 @@ const Ranker: FunctionComponent<Props> = ({ user }) => {
         </h2>
         <div class={styles.noOpinionZone}>
           {unrankedItems.value.length === 0 ? (
-            <p class={styles.emptyMessage}>All items are ranked</p>
+            <>
+              <p class={styles.emptyMessage}>All items are ranked</p>
+              {draggingItem.value && (
+                <div
+                  class={`${styles.dropTarget} ${styles.firstDropTarget}`}
+                  data-target-list="unranked"
+                />
+              )}
+            </>
           ) : (
             <ol class={styles.rankList}>
               {unrankedItems.value.map((item, index, arr) => (
