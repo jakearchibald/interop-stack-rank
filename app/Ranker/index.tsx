@@ -219,6 +219,8 @@ const Ranker: FunctionComponent<Props> = ({ user }) => {
           y + deltaY
         }px)`;
 
+        checkForAutoScroll();
+
         const element = document.elementFromPoint(
           currentPointer.clientX,
           currentPointer.clientY
@@ -243,6 +245,7 @@ const Ranker: FunctionComponent<Props> = ({ user }) => {
       end(pointerEvent) {
         const draggedItem = draggingItem.value!;
         draggingItem.value = null;
+        cancelScrollerFrame();
 
         if (activeDropZone) {
           activeDropZone.classList.remove(styles.activeDropZone);
@@ -269,6 +272,47 @@ const Ranker: FunctionComponent<Props> = ({ user }) => {
         insertBeforeId(draggedItem, targetList, beforeId);
       },
     });
+
+    let animFrameId: number | null = null;
+    let lastAnimationTime = 0;
+    const scrollThreshold = 25;
+
+    const checkForAutoScroll = () => {
+      if (animFrameId !== null) return;
+      const currentY = pointerTracker.currentPointers[0].clientY;
+      const inBounds =
+        currentY <= scrollThreshold ||
+        currentY >= window.innerHeight - scrollThreshold;
+
+      if (!inBounds) return;
+
+      animFrameId = requestAnimationFrame(scrollerFrame);
+      lastAnimationTime = document.timeline.currentTime as number;
+    };
+
+    const cancelScrollerFrame = () => {
+      if (animFrameId === null) return;
+      cancelAnimationFrame(animFrameId);
+      animFrameId = null;
+    };
+
+    const scrollerFrame = (now: number) => {
+      animFrameId = null;
+      const currentY = pointerTracker.currentPointers[0].clientY;
+      const delta = now - lastAnimationTime;
+
+      const scrollAmount = Math.ceil(delta / 2.5);
+
+      if (currentY <= scrollThreshold) {
+        // Scroll up
+        window.scrollBy({ top: -scrollAmount, behavior: 'instant' });
+      } else if (currentY >= window.innerHeight - 100) {
+        // Scroll down
+        window.scrollBy({ top: scrollAmount, behavior: 'instant' });
+      }
+      checkForAutoScroll();
+    };
+
     return () => {
       pointerTracker.stop();
     };
