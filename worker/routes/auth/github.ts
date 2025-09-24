@@ -4,7 +4,7 @@ const route: ExportedHandler<Env>['fetch'] = async (request, env, ctx) => {
   const github = new GitHub(
     env.GITHUB_CLIENT_ID,
     env.GITHUB_CLIENT_SECRET,
-    'http://localhost:5173/auth/github/callback'
+    null
   );
 
   const state = generateState();
