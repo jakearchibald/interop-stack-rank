@@ -81,19 +81,14 @@ export class UserData extends DurableObject<Env> {
   saveRankings(githubId: number, rankings: number[]) {
     const validIdSet = getValidIdSet();
 
-    for (const ranking of rankings) {
-      if (!validIdSet.has(ranking)) {
-        throw new Error(`Invalid ranking ID: ${ranking}`);
-      }
-    }
-
-    const uniqueRankings = [...new Set(rankings)];
+    // Using a set to filter out duplicates
+    const validRankings = new Set(rankings.filter((id) => validIdSet.has(id)));
 
     this.#sql.exec(
       `
         UPDATE users SET rankings = ? WHERE githubId = ?
       `,
-      JSON.stringify(uniqueRankings),
+      JSON.stringify([...validRankings]),
       githubId
     );
   }
