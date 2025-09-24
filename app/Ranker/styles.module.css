@@ -185,17 +185,21 @@
   top: 0;
   left: 0;
   will-change: transform;
-  transition: opacity 150ms ease;
   z-index: 1000;
 
-  @starting-style {
-    opacity: 1;
-  }
 
-  & > * {
+  & > .item {
+    transition: opacity 150ms ease;
+    transition-property: opacity, scale;
     margin: 0;
     opacity: 0.8;
+    scale: 1.05;
     z-index: 1000;
+
+    @starting-style {
+      opacity: 1;
+      scale: 1;
+    }
   }
 }
 
@@ -206,7 +210,7 @@
   &::before {
     content: '';
     position: absolute;
-    inset: -15px 0;
+    inset: -25px 0;
   }
 
   &.firstDropTarget {

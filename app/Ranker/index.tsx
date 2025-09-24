@@ -9,11 +9,22 @@ import { useSignal } from '@preact/signals';
 import RankingItem from './RankingItem';
 import { classes } from '../utils/classes';
 
+function getUnscaledPosition(rect: DOMRect, scale: number) {
+  const centerX = rect.x + rect.width / 2;
+  const centerY = rect.y + rect.height / 2;
+  const unscaledWidth = rect.width / scale;
+  const unscaledHeight = rect.height / scale;
+  return {
+    x: centerX - unscaledWidth / 2,
+    y: centerY - unscaledHeight / 2,
+  };
+}
+
 function doFlip(container: HTMLElement) {
   // Get current item positions
   const initialStyles: Record<
     string,
-    { x: number; y: number; opacity: string; zIndex: string }
+    { x: number; y: number; opacity: string; zIndex: string; scale: string }
   > = {};
 
   for (const el of container.querySelectorAll('[data-anim-id]')) {
@@ -21,11 +32,15 @@ function doFlip(container: HTMLElement) {
     const animId = el.dataset.animId;
     if (!animId) continue;
     const rect = el.getBoundingClientRect();
+    const computedStyle = getComputedStyle(el);
+    const scale = parseFloat(computedStyle.scale) || 1;
+    const unscaledPos = getUnscaledPosition(rect, scale);
     initialStyles[animId] = {
-      x: rect.x,
-      y: rect.y,
-      opacity: getComputedStyle(el).opacity,
-      zIndex: getComputedStyle(el).zIndex,
+      x: unscaledPos.x,
+      y: unscaledPos.y,
+      opacity: computedStyle.opacity,
+      zIndex: computedStyle.zIndex,
+      scale: computedStyle.scale,
     };
   }
 
@@ -38,11 +53,14 @@ function doFlip(container: HTMLElement) {
       const initial = initialStyles[animId];
       if (!initial) continue;
 
+      const currentScale = parseFloat(getComputedStyle(el).scale) || 1;
+      const currentUnscaledPos = getUnscaledPosition(rect, currentScale);
+
       // Optimise by skipping anims that are completely offscreen
       const viewportWidth = window.innerWidth;
       const viewportHeight = window.innerHeight;
 
-      const startAndEndOutOfView = [initial, rect].every(
+      const startAndEndOutOfView = [initial, currentUnscaledPos].every(
         (pos) =>
           pos.x < -el.offsetWidth ||
           pos.y < -el.offsetHeight ||
@@ -52,14 +70,15 @@ function doFlip(container: HTMLElement) {
 
       if (startAndEndOutOfView) continue;
 
-      const deltaX = initial.x - rect.x;
-      const deltaY = initial.y - rect.y;
+      const deltaX = initial.x - currentUnscaledPos.x;
+      const deltaY = initial.y - currentUnscaledPos.y;
 
       el.animate(
         {
           offset: 0,
           transform: `translate(${deltaX}px, ${deltaY}px)`,
           opacity: initial.opacity,
+          scale: initial.scale,
         },
         { duration: 250, easing: 'ease' }
       );
