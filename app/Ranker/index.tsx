@@ -5,12 +5,74 @@ import PointerTracker from '../utils/PointerTracker';
 import styles from './styles.module.css';
 import type { User } from '../../shared/user-data';
 import { itemsById, useRankingSignals } from './useRankingSignals';
-import { useComputed, useSignal } from '@preact/signals';
+import { useSignal } from '@preact/signals';
 import RankingItem from './RankingItem';
 import { classes } from '../utils/classes';
 
-function swapIndexes(arr: unknown[], indexA: number, indexB: number) {
-  [arr[indexA], arr[indexB]] = [arr[indexB], arr[indexA]];
+function doFlip(container: HTMLElement) {
+  // Get current item positions
+  const initialStyles: Record<
+    string,
+    { x: number; y: number; opacity: string; zIndex: string }
+  > = {};
+
+  for (const el of container.querySelectorAll('[data-anim-id]')) {
+    if (!(el instanceof HTMLElement)) continue;
+    const animId = el.dataset.animId;
+    if (!animId) continue;
+    const rect = el.getBoundingClientRect();
+    initialStyles[animId] = {
+      x: rect.x,
+      y: rect.y,
+      opacity: getComputedStyle(el).opacity,
+      zIndex: getComputedStyle(el).zIndex,
+    };
+  }
+
+  requestAnimationFrame(() => {
+    for (const el of container.querySelectorAll('[data-anim-id]')) {
+      if (!(el instanceof HTMLElement)) continue;
+      const animId = el.dataset.animId;
+      if (!animId) continue;
+      const rect = el.getBoundingClientRect();
+      const initial = initialStyles[animId];
+      if (!initial) continue;
+
+      // Optimise by skipping anims that are completely offscreen
+      const viewportWidth = window.innerWidth;
+      const viewportHeight = window.innerHeight;
+
+      const startAndEndOutOfView = [initial, rect].every(
+        (pos) =>
+          pos.x < -el.offsetWidth ||
+          pos.y < -el.offsetHeight ||
+          pos.x > viewportWidth ||
+          pos.y > viewportHeight
+      );
+
+      if (startAndEndOutOfView) continue;
+
+      const deltaX = initial.x - rect.x;
+      const deltaY = initial.y - rect.y;
+
+      el.animate(
+        {
+          offset: 0,
+          transform: `translate(${deltaX}px, ${deltaY}px)`,
+          opacity: initial.opacity,
+        },
+        { duration: 250, easing: 'ease' }
+      );
+
+      el.animate(
+        {
+          offset: 0,
+          zIndex: initial.zIndex,
+        },
+        { duration: 250, easing: 'step-end' }
+      );
+    }
+  });
 }
 
 export interface RankingItem {
@@ -56,63 +118,7 @@ const Ranker: FunctionComponent<Props> = ({ user }) => {
     }
 
     postRankings();
-
-    // Get current item positions
-    const initialStyles: Record<
-      string,
-      { x: number; y: number; opacity: number }
-    > = {};
-
-    for (const el of containerRef.current!.querySelectorAll('[data-anim-id]')) {
-      if (!(el instanceof HTMLElement)) continue;
-      const animId = el.dataset.animId;
-      if (!animId) continue;
-      const rect = el.getBoundingClientRect();
-      initialStyles[animId] = {
-        x: rect.x,
-        y: rect.y,
-        opacity: Number(getComputedStyle(el).opacity),
-      };
-    }
-
-    requestAnimationFrame(() => {
-      for (const el of containerRef.current!.querySelectorAll(
-        '[data-anim-id]'
-      )) {
-        if (!(el instanceof HTMLElement)) continue;
-        const animId = el.dataset.animId;
-        if (!animId) continue;
-        const rect = el.getBoundingClientRect();
-        const initial = initialStyles[animId];
-        if (!initial) continue;
-
-        // Optimise by skipping anims that are completely offscreen
-        const viewportWidth = window.innerWidth;
-        const viewportHeight = window.innerHeight;
-
-        const startAndEndOutOfView = [initial, rect].every(
-          (pos) =>
-            pos.x < -el.offsetWidth ||
-            pos.y < -el.offsetHeight ||
-            pos.x > viewportWidth ||
-            pos.y > viewportHeight
-        );
-
-        if (startAndEndOutOfView) continue;
-
-        const deltaX = initial.x - rect.x;
-        const deltaY = initial.y - rect.y;
-
-        el.animate(
-          {
-            offset: 0,
-            transform: `translate(${deltaX}px, ${deltaY}px)`,
-            opacity: initial.opacity,
-          },
-          { duration: 200, easing: 'ease' }
-        );
-      }
-    });
+    doFlip(containerRef.current!);
   };
 
   const fetchControllerRef = useRef<AbortController | null>(null);
@@ -253,6 +259,7 @@ const Ranker: FunctionComponent<Props> = ({ user }) => {
           !(element instanceof HTMLElement) ||
           !element.classList.contains(styles.dropTarget)
         ) {
+          doFlip(containerRef.current!);
           return;
         }
 
