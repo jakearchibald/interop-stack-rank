@@ -342,7 +342,7 @@ const Ranker: FunctionComponent<Props> = ({ user }) => {
   return (
     <div class={styles.container} ref={containerRef}>
       <header class={styles.header}>
-        <h1 class={styles.title}>Stack Ranking</h1>
+        <h1 class={styles.title}>Interop Feature Ranking</h1>
         <div class={styles.userInfo}>
           <span>Welcome, {user.displayName}!</span>
           <a

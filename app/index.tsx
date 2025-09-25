@@ -37,7 +37,7 @@ function App() {
   if (!user.value) {
     return (
       <div className={styles.container}>
-        <h1 className={styles.title}>Stack Ranking</h1>
+        <h1 className={styles.title}>Interop Feature Ranking</h1>
         <div className={styles.authSection}>
           <p>Please log in to access the stack ranking tool.</p>
           <div className={styles.authButtons}>
