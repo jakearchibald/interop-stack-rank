@@ -96,7 +96,7 @@ function doFlip(container: HTMLElement) {
 
 export interface RankingItem {
   id: number;
-  title: string;
+  titleHTML: string;
 }
 
 interface Props {

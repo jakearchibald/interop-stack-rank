@@ -40,9 +40,8 @@ const RankingItem: FunctionComponent<Props> = ({
           href={`https://github.com/web-platform-tests/interop/issues/${item.id}`}
           target="_blank"
           rel="noopener noreferrer"
-        >
-          {item.title}
-        </a>
+          dangerouslySetInnerHTML={{ __html: item.titleHTML }}
+        />
       </span>
       {showUpButton && (
         <button

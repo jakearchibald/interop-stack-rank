@@ -1,502 +1,538 @@
 [
   {
+    "id": 1168,
+    "titleHTML": "<code>box-shadow-*</code> longhands"
+  },
+  {
+    "id": 1167,
+    "titleHTML": "<code>display-p3-linear</code> colorspace"
+  },
+  {
+    "id": 1166,
+    "titleHTML": "Using <code>color-mix()</code> without specifying a colorspace"
+  },
+  {
+    "id": 1165,
+    "titleHTML": "CSS <code>contrast-color()</code> function"
+  },
+  {
+    "id": 1164,
+    "titleHTML": "<code>background-clip: border-area</code>"
+  },
+  {
+    "id": 1163,
+    "titleHTML": "JSON.parse source text access"
+  },
+  {
+    "id": 1162,
+    "titleHTML": "Payment Handler API"
+  },
+  {
+    "id": 1161,
+    "titleHTML": "WebVTT"
+  },
+  {
+    "id": 1160,
+    "titleHTML": "CSS filter() function"
+  },
+  {
     "id": 1157,
-    "title": "fully support fetch/range"
+    "titleHTML": "fully support fetch/range"
   },
   {
     "id": 1156,
-    "title": "fully support fetch/body for formdata and mime-type"
+    "titleHTML": "fully support fetch/body for formdata and mime-type"
   },
   {
     "id": 1155,
-    "title": "Support autocorrect attribute"
+    "titleHTML": "Support autocorrect attribute"
   },
   {
     "id": 1154,
-    "title": "CSS Paint API"
+    "titleHTML": "CSS Paint API"
   },
   {
     "id": 1152,
-    "title": "Customized built-in elements"
+    "titleHTML": "Customized built-in elements"
   },
   {
     "id": 1151,
-    "title": "IndexedDB getAllRecords() and direction option for getAll()/getAllKeys()"
+    "titleHTML": "IndexedDB getAllRecords() and direction option for getAll()/getAllKeys()"
   },
   {
     "id": 1150,
-    "title": "CSS object-view-box"
+    "titleHTML": "CSS object-view-box"
   },
   {
     "id": 1149,
-    "title": "CSS Custom Highlight API"
+    "titleHTML": "CSS Custom Highlight API"
   },
   {
     "id": 1147,
-    "title": "WASM Memory64"
+    "titleHTML": "WASM Memory64"
   },
   {
     "id": 1146,
-    "title": "CSS Flexbox Sizing"
+    "titleHTML": "CSS Flexbox Sizing"
   },
   {
     "id": 1143,
-    "title": "Incument Globals in Promises"
+    "titleHTML": "Incumbent Globals in Promises"
   },
   {
     "id": 1142,
-    "title": "NavigationTiming - NotRestoredReasons"
+    "titleHTML": "NavigationTiming - NotRestoredReasons"
   },
   {
     "id": 1140,
-    "title": "Mathematics Rendering"
+    "titleHTML": "Mathematics Rendering"
   },
   {
     "id": 1138,
-    "title": "Trusted Types"
+    "titleHTML": "Trusted Types"
   },
   {
     "id": 1137,
-    "title": "View Transition Types"
+    "titleHTML": "View Transition Types"
   },
   {
     "id": 1136,
-    "title": "text-wrap:pretty"
+    "titleHTML": "text-wrap:pretty"
   },
   {
     "id": 1135,
-    "title": "Scroll snap events"
+    "titleHTML": "Scroll snap events"
   },
   {
     "id": 1134,
-    "title": "scroll snap"
+    "titleHTML": "scroll snap"
   },
   {
     "id": 1131,
-    "title": "Scroll markers"
+    "titleHTML": "Scroll markers"
   },
   {
     "id": 1130,
-    "title": "reading-flow"
+    "titleHTML": "reading-flow"
   },
   {
     "id": 1129,
-    "title": "popover=\"hint\""
+    "titleHTML": "popover=&quot;hint&quot;"
   },
   {
     "id": 1127,
-    "title": "Promises In Detached Documents"
+    "titleHTML": "Promises In Detached Documents"
   },
   {
     "id": 1126,
-    "title": "Timing of scroll events relative to animation events"
+    "titleHTML": "Timing of scroll events relative to animation events"
   },
   {
     "id": 1125,
-    "title": "Rendering of fieldset / legend"
+    "titleHTML": "Rendering of fieldset / legend"
   },
   {
     "id": 1124,
-    "title": "`::before` and `::after` on replaced elements"
+    "titleHTML": "<code>::before</code> and <code>::after</code> on replaced elements"
   },
   {
     "id": 1123,
-    "title": "Pointer Events for Mobile"
+    "titleHTML": "Pointer Events for Mobile"
   },
   {
     "id": 1122,
-    "title": "MediaStreamTrackProcessor and VideoTrackGenerator"
+    "titleHTML": "MediaStreamTrackProcessor and VideoTrackGenerator"
   },
   {
     "id": 1121,
-    "title": "WebTransport"
+    "titleHTML": "WebTransport"
   },
   {
     "id": 1120,
-    "title": "Prioritized Task Scheduling"
+    "titleHTML": "Prioritized Task Scheduling"
   },
   {
     "id": 1119,
-    "title": "Web Neural Network API (WebNN) for On-Device AI"
+    "titleHTML": "Web Neural Network API (WebNN) for On-Device AI"
   },
   {
     "id": 1118,
-    "title": "Federated Credential Management (FedCM) for Interoperable Identity"
+    "titleHTML": "Federated Credential Management (FedCM) for Interoperable Identity"
   },
   {
     "id": 1114,
-    "title": "Support `sizes=auto` on img and source elements"
+    "titleHTML": "Support <code>sizes=auto</code> on img and source elements"
   },
   {
     "id": 1113,
-    "title": "Navigation API precommit handlers"
+    "titleHTML": "Navigation API precommit handlers"
   },
   {
     "id": 1112,
-    "title": "display-animation"
+    "titleHTML": "display-animation"
   },
   {
     "id": 1111,
-    "title": "dialog closedby"
+    "titleHTML": "dialog closedby"
   },
   {
     "id": 1110,
-    "title": "Cross-document View Transitions"
+    "titleHTML": "Cross-document View Transitions"
   },
   {
     "id": 1109,
-    "title": "::details-content"
+    "titleHTML": "::details-content"
   },
   {
     "id": 1107,
-    "title": "CSS Scroll Snap Events"
+    "titleHTML": "CSS Scroll Snap Events"
   },
   {
     "id": 1106,
-    "title": "Interopability of all rel attributes for the <link> HTML element"
+    "titleHTML": "Interopability of all rel attributes for the &lt;link&gt; HTML element"
   },
   {
     "id": 1105,
-    "title": "ESM Module Loading: Cyclic Module Records / multiple top-level awaits in different modules"
+    "titleHTML": "ESM Module Loading: Cyclic Module Records / multiple top-level awaits in different modules"
   },
   {
     "id": 1104,
-    "title": "Standardize CSS Filters on Inline SVG Elements"
+    "titleHTML": "Standardize CSS Filters on Inline SVG Elements"
   },
   {
     "id": 1103,
-    "title": "Custom supports"
+    "titleHTML": "Custom supports"
   },
   {
     "id": 1102,
-    "title": "CSS Gap Decorations"
+    "titleHTML": "CSS Gap Decorations"
   },
   {
     "id": 1101,
-    "title": "WebRTC Interop"
+    "titleHTML": "WebRTC Interop"
   },
   {
     "id": 1098,
-    "title": "Federated Credential Management (FedCM) API"
+    "titleHTML": "Federated Credential Management (FedCM) API"
   },
   {
     "id": 1097,
-    "title": "Opt-In Partitioned Cookies (CHIPS)"
+    "titleHTML": "Opt-In Partitioned Cookies (CHIPS)"
   },
   {
     "id": 1094,
-    "title": "WebDriver BiDi"
+    "titleHTML": "WebDriver BiDi"
   },
   {
     "id": 1093,
-    "title": "JSPI (JavaScript Promise Integration) for WASM"
+    "titleHTML": "JSPI (JavaScript Promise Integration) for WASM"
   },
   {
     "id": 1090,
-    "title": "CSS Scroll State Queries"
+    "titleHTML": "CSS Scroll State Queries"
   },
   {
     "id": 1089,
-    "title": "Keyboard focusable scrollers"
+    "titleHTML": "Keyboard focusable scrollers"
   },
   {
     "id": 1088,
-    "title": "CSS Typed OM Level 1"
+    "titleHTML": "CSS Typed OM Level 1"
   },
   {
     "id": 1087,
-    "title": "Standardized Browser Sidebar"
+    "titleHTML": "Standardized Browser Sidebar"
   },
   {
     "id": 1086,
-    "title": "Split-screen multi-pane layouts"
+    "titleHTML": "Split-screen multi-pane layouts"
   },
   {
     "id": 1085,
-    "title": "Unified PWA UX or Navigation, Tabs, Sidebar, and Multi-Pane Layout"
+    "titleHTML": "Unified PWA UX or Navigation, Tabs, Sidebar, and Multi-Pane Layout"
   },
   {
     "id": 1084,
-    "title": "Viewports"
+    "titleHTML": "Viewports"
   },
   {
     "id": 1083,
-    "title": "Web Share API"
+    "titleHTML": "Web Share API"
   },
   {
     "id": 1082,
-    "title": "Permissions Policy interop"
+    "titleHTML": "Permissions Policy interop"
   },
   {
     "id": 1081,
-    "title": "Speculation Rules API"
+    "titleHTML": "Speculation Rules API"
   },
   {
     "id": 1080,
-    "title": "Intersection Observer v2"
+    "titleHTML": "Intersection Observer v2"
   },
   {
     "id": 1079,
-    "title": "Network Information API (connection)"
+    "titleHTML": "Network Information API (connection)"
   },
   {
     "id": 1078,
-    "title": "Resource Timing"
+    "titleHTML": "Resource Timing"
   },
   {
     "id": 1077,
-    "title": "Advanced attr()"
+    "titleHTML": "Advanced attr()"
   },
   {
     "id": 1072,
-    "title": "`fetch`: `ReadableStream` in `body`"
+    "titleHTML": "<code>fetch</code>: <code>ReadableStream</code> in <code>body</code>"
   },
   {
     "id": 1071,
-    "title": "Signature-based Integrity"
+    "titleHTML": "Signature-based Integrity"
   },
   {
     "id": 1070,
-    "title": "HTML `blocking=render` attribute"
+    "titleHTML": "HTML <code>blocking=render</code> attribute"
   },
   {
     "id": 1069,
-    "title": "fetchLater API"
+    "titleHTML": "fetchLater API"
   },
   {
     "id": 1068,
-    "title": "ReadableStream API: [Symbol.asyncIterator]"
+    "titleHTML": "ReadableStream API: [Symbol.asyncIterator]"
   },
   {
     "id": 1067,
-    "title": "Long Animation Frames API"
+    "titleHTML": "Long Animation Frames API"
   },
   {
     "id": 1066,
-    "title": "Support css \"element()\" function in all browsers"
+    "titleHTML": "Support css &quot;element()&quot; function in all browsers"
   },
   {
     "id": 1065,
-    "title": "Firefox makes Voiceover read all non-interactive elements as \"clickable\""
+    "titleHTML": "Firefox makes Voiceover read all non-interactive elements as &quot;clickable&quot;"
   },
   {
     "id": 1064,
-    "title": "SharedWorker"
+    "titleHTML": "SharedWorker"
   },
   {
     "id": 1063,
-    "title": "HTML `switch` control"
+    "titleHTML": "HTML <code>switch</code> control"
   },
   {
     "id": 1062,
-    "title": "CSS `text-box` and `text-box-*`"
+    "titleHTML": "CSS <code>text-box</code> and <code>text-box-*</code>"
   },
   {
     "id": 1061,
-    "title": "CSS Stroked text"
+    "titleHTML": "CSS Stroked text"
   },
   {
     "id": 1058,
-    "title": "Dark mode for SVG"
+    "titleHTML": "Dark mode for SVG"
   },
   {
     "id": 1057,
-    "title": "Core Web Vitals: CLS / Layout Shift"
+    "titleHTML": "Core Web Vitals: CLS / Layout Shift"
   },
   {
     "id": 1056,
-    "title": "CSS Module Scripts"
+    "titleHTML": "CSS Module Scripts"
   },
   {
     "id": 1051,
-    "title": "`stretch` value for height & width."
+    "titleHTML": "<code>stretch</code> value for height &amp; width."
   },
   {
     "id": 1050,
-    "title": "CSS `ui-* font family`"
+    "titleHTML": "CSS <code>ui-* font family</code>"
   },
   {
     "id": 1049,
-    "title": "`alpha` attribute for `<input type=\"color\">`"
+    "titleHTML": "<code>alpha</code> attribute for <code>&lt;input type=&quot;color&quot;&gt;</code>"
   },
   {
     "id": 1048,
-    "title": "CSS `corner-shape`"
+    "titleHTML": "CSS <code>corner-shape</code>"
   },
   {
     "id": 1047,
-    "title": "Notification API"
+    "titleHTML": "Notification API"
   },
   {
     "id": 1046,
-    "title": "CSS `shape()` basic shape function"
+    "titleHTML": "CSS <code>shape()</code> basic shape function"
   },
   {
     "id": 1045,
-    "title": "Allow omission of fragment when using SVG `<use>`"
+    "titleHTML": "Allow omission of fragment when using SVG <code>&lt;use&gt;</code>"
   },
   {
     "id": 1044,
-    "title": "Support wrap-inside property for control of line breaks within boxes"
+    "titleHTML": "Support wrap-inside property for control of line breaks within boxes"
   },
   {
     "id": 1043,
-    "title": "Implement hanging punctuation for improved typography and layout"
+    "titleHTML": "Implement hanging punctuation for improved typography and layout"
   },
   {
     "id": 1042,
-    "title": "Full hyphenation control for better readability, and to bring the web up to the same typesetting quality as InDesign, Word, etc"
+    "titleHTML": "Full hyphenation control for better readability, and to bring the web up to the same typesetting quality as InDesign, Word, etc"
   },
   {
     "id": 1039,
-    "title": "Full support for break-after to prevent broken typography in multi-column and paginated material including ePub ebooks"
+    "titleHTML": "Full support for break-after to prevent broken typography in multi-column and paginated material including ePub ebooks"
   },
   {
     "id": 1038,
-    "title": "Full support for font-variant-position to prevent loss of visual semantics"
+    "titleHTML": "Full support for font-variant-position to prevent loss of visual semantics"
   },
   {
     "id": 1037,
-    "title": "CSS `justify-items` and `justify-self` without flexbox or grid"
+    "titleHTML": "CSS <code>justify-items</code> and <code>justify-self</code> without flexbox or grid"
   },
   {
     "id": 1036,
-    "title": "CSS `@custom-media`"
+    "titleHTML": "CSS <code>@custom-media</code>"
   },
   {
     "id": 1034,
-    "title": "DOM State-Preserving Move: `moveBefore()`"
+    "titleHTML": "DOM State-Preserving Move: <code>moveBefore()</code>"
   },
   {
     "id": 1033,
-    "title": "Scroll-driven animations"
+    "titleHTML": "Scroll-driven animations"
   },
   {
     "id": 1032,
-    "title": "CSS `@container style()`"
+    "titleHTML": "CSS <code>@container style()</code>"
   },
   {
     "id": 1031,
-    "title": "CSS property: `overlay`"
+    "titleHTML": "CSS property: <code>overlay</code>"
   },
   {
     "id": 1030,
-    "title": "CSS `interactivity: inert`"
+    "titleHTML": "CSS <code>interactivity: inert</code>"
   },
   {
     "id": 1029,
-    "title": "CSS `line-clamp` property"
+    "titleHTML": "CSS <code>line-clamp</code> property"
   },
   {
     "id": 1028,
-    "title": "CSS `accent-color` property"
+    "titleHTML": "CSS <code>accent-color</code> property"
   },
   {
     "id": 1027,
-    "title": "Scoped custom element registries"
+    "titleHTML": "Scoped custom element registries"
   },
   {
     "id": 1026,
-    "title": "CSS `background-clip: text`"
+    "titleHTML": "CSS <code>background-clip: text</code>"
   },
   {
     "id": 1025,
-    "title": "CSS `:open` pseudo-class"
+    "titleHTML": "CSS <code>:open</code> pseudo-class"
   },
   {
     "id": 1024,
-    "title": "CSS `sibling-count()` and `sibling-index()` functions"
+    "titleHTML": "CSS <code>sibling-count()</code> and <code>sibling-index()</code> functions"
   },
   {
     "id": 1022,
-    "title": "Temporal (Interop 2026 Focus Area Proposal)"
+    "titleHTML": "Temporal (Interop 2026 Focus Area Proposal)"
   },
   {
     "id": 1021,
-    "title": "WebXR API (Interop 2026 Focus Area Proposal)"
+    "titleHTML": "WebXR API (Interop 2026 Focus Area Proposal)"
   },
   {
     "id": 1020,
-    "title": "`font-smooth` and text rendering on macOS"
+    "titleHTML": "<code>font-smooth</code> and text rendering on macOS"
   },
   {
     "id": 1019,
-    "title": "WebGPU API (Interop 2026 Focus Area Proposal)"
+    "titleHTML": "WebGPU API (Interop 2026 Focus Area Proposal)"
   },
   {
     "id": 1018,
-    "title": "Consistent Print Layout Width"
+    "titleHTML": "Consistent Print Layout Width"
   },
   {
     "id": 1016,
-    "title": "VirtualKeyboard API"
+    "titleHTML": "VirtualKeyboard API"
   },
   {
     "id": 1012,
-    "title": "XSL Transformations (XSLT) Version 3.0"
+    "titleHTML": "XSL Transformations (XSLT) Version 3.0"
   },
   {
     "id": 1011,
-    "title": "Reference Target for Cross-Root ARIA"
+    "titleHTML": "Reference Target for Cross-Root ARIA"
   },
   {
     "id": 1010,
-    "title": "Smarter Article Reading Feature for Browsers for Iphones and Macbooks"
+    "titleHTML": "Smarter Article Reading Feature for Browsers for Iphones and Macbooks"
   },
   {
     "id": 1009,
-    "title": "Contextual menu option \"Add Image to Photos\" does NOT work with animated .GIF files"
+    "titleHTML": "Contextual menu option &quot;Add Image to Photos&quot; does NOT work with animated .GIF files"
   },
   {
     "id": 1008,
-    "title": "CSS `calc-size()` and `interpolate-size`"
+    "titleHTML": "CSS <code>calc-size()</code> and <code>interpolate-size</code>"
   },
   {
     "id": 1007,
-    "title": "Invoker API"
+    "titleHTML": "Invoker API"
   },
   {
     "id": 1006,
-    "title": "margin-trim"
+    "titleHTML": "margin-trim"
   },
   {
     "id": 1005,
-    "title": "requestIdleCallback"
+    "titleHTML": "requestIdleCallback"
   },
   {
     "id": 1004,
-    "title": "field-sizing: content"
+    "titleHTML": "field-sizing: content"
   },
   {
     "id": 1003,
-    "title": "Media element pseudo-classes"
+    "titleHTML": "Media element pseudo-classes"
   },
   {
     "id": 1002,
-    "title": "Web NFC support"
+    "titleHTML": "Web NFC support"
   },
   {
     "id": 1001,
-    "title": "Web Bluetooth API support"
+    "titleHTML": "Web Bluetooth API support"
   },
   {
     "id": 1000,
-    "title": "unprefix the `-webkit-user-select` CSS property"
+    "titleHTML": "unprefix the <code>-webkit-user-select</code> CSS property"
   },
   {
     "id": 999,
-    "title": "OpenID4VC support"
+    "titleHTML": "OpenID4VC support"
   },
   {
     "id": 996,
-    "title": "Link parameters for styling non-inline SVG"
+    "titleHTML": "Link parameters for styling non-inline SVG"
   },
   {
     "id": 995,
-    "title": "Customisable Single Select"
+    "titleHTML": "Customisable Single Select"
   },
   {
     "id": 994,
-    "title": "JPEG XL image format"
+    "titleHTML": "JPEG XL image format"
   }
 ]
