@@ -1,9 +1,11 @@
 import { render } from 'preact';
 import { useEffect } from 'preact/hooks';
+import { Suspense, lazy } from 'preact/compat';
 import { useSignal } from '@preact/signals';
 import styles from './styles.module.css';
 import type { User } from '../shared/user-data';
-import Ranker from './Ranker';
+
+const Ranker = lazy(() => import('./Ranker'));
 
 function App() {
   const loading = useSignal(true);
@@ -30,8 +32,10 @@ function App() {
     loadUserData();
   }, []);
 
+  const loadingResponse = <div className={styles.container}>Loading...</div>;
+
   if (loading.value) {
-    return <div className={styles.container}>Loading...</div>;
+    return loadingResponse;
   }
 
   if (!user.value) {
@@ -53,7 +57,11 @@ function App() {
     );
   }
 
-  return <Ranker user={user.value} />;
+  return (
+    <Suspense fallback={loadingResponse}>
+      <Ranker user={user.value} />
+    </Suspense>
+  );
 }
 
 render(<App />, document.getElementById('app')!);
