@@ -174,5 +174,9 @@
 }
 
 .beingDragged {
-  visibility: hidden;
+  /*
+    I originally used visibility: hidden; here but that caused a bug in Chrome,
+    where the item remained hidden even after this class was removed.
+  */
+  opacity: 0;
 }
