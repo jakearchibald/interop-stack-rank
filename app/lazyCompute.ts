@@ -1,30 +1,18 @@
-type Result<T> =
-  | { settled: false }
-  | { settled: true; value: T }
-  | { settled: true; error: Error };
-
 export function lazyCompute<T>(promiseFunc: () => Promise<T>): {
   value: T;
 } {
-  let result: Result<T> = { settled: false };
-  let promise: Promise<T> | null = null;
+  let result: PromiseSettledResult<T> | null = null;
+  let promise: Promise<PromiseSettledResult<T>> | null = null;
 
   return {
     get value() {
       if (!promise) {
-        promise = promiseFunc();
-        promise.then(
-          (val) => {
-            result = { settled: true, value: val };
-          },
-          (err) => {
-            result = { settled: true, error: err as Error };
-          }
-        );
+        promise = Promise.allSettled([promiseFunc()]).then((r) => r[0]);
+        promise.then((r) => (result = r));
       }
 
-      if (!result.settled) throw promise;
-      if ('error' in result) throw result.error;
+      if (!result) throw promise;
+      if ('reason' in result) throw result.reason;
       return result.value;
     },
   };
