@@ -1,12 +1,3 @@
-.container {
-  padding: 20px;
-  max-width: 600px;
-  margin: 0 auto;
-}
-
-.title {
-  margin-bottom: 30px;
-}
 
 .section {
   margin-bottom: 30px;
@@ -110,19 +101,6 @@
   cursor: pointer;
 }
 
-.header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 30px;
-  padding-bottom: 15px;
-  border-bottom: 1px solid #ddd;
-}
-
-.authSection {
-  text-align: center;
-  padding: 40px 20px;
-}
 
 .rankList {
   list-style: none;
