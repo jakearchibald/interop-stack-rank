@@ -1,6 +1,7 @@
 import { type FunctionComponent } from 'preact';
 import type { RankingItem as RankingItemType } from '../index';
 import styles from '../styles.module.css';
+import rootStyles from '../../styles.module.css';
 
 interface Props {
   item: RankingItemType;
@@ -45,7 +46,7 @@ const RankingItem: FunctionComponent<Props> = ({
       </span>
       {showUpButton && (
         <button
-          class={`${styles.button} ${styles.upButton}`}
+          class={`${rootStyles.button} ${styles.upButton}`}
           onClick={onMoveUp}
         >
           ↑
@@ -53,7 +54,7 @@ const RankingItem: FunctionComponent<Props> = ({
       )}
       {showDownButton && (
         <button
-          class={`${styles.button} ${styles.downButton}`}
+          class={`${rootStyles.button} ${styles.downButton}`}
           onClick={onMoveDown}
         >
           ↓
@@ -61,7 +62,7 @@ const RankingItem: FunctionComponent<Props> = ({
       )}
       {showRemoveButton && (
         <button
-          class={`${styles.button} ${styles.removeButton}`}
+          class={`${rootStyles.button} ${styles.removeButton}`}
           onClick={onRemove}
         >
           Remove

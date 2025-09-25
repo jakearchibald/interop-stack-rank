@@ -340,20 +340,7 @@ const Ranker: FunctionComponent<Props> = ({ user }) => {
   }, []);
 
   return (
-    <div class={styles.container} ref={containerRef}>
-      <header class={styles.header}>
-        <h1 class={styles.title}>Interop Feature Ranking</h1>
-        <div class={styles.userInfo}>
-          <span>Welcome, {user.displayName}!</span>
-          <a
-            href="/auth/logout"
-            class={`${styles.button} ${styles.logoutButton}`}
-          >
-            Logout
-          </a>
-        </div>
-      </header>
-
+    <div ref={containerRef}>
       <div class={styles.section}>
         <h2 class={styles.sectionTitle}>Ranked Items (Top = Most Important)</h2>
         <div class={styles.dropZone}>

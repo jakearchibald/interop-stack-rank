@@ -9,7 +9,7 @@ interface GitHubUser {
   avatar_url: string;
 }
 
-const route: ExportedHandler<Env>['fetch'] = async (request, env, ctx) => {
+const route: ExportedHandler<Env>['fetch'] = async (request, env) => {
   const url = new URL(request.url);
   const code = url.searchParams.get('code');
   const state = url.searchParams.get('state');
