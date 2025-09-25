@@ -1,49 +1,24 @@
-import { render } from 'preact';
-import { useEffect } from 'preact/hooks';
+import { render, type FunctionalComponent } from 'preact';
 import { Suspense, lazy } from 'preact/compat';
-import { useSignal } from '@preact/signals';
 import styles from './styles.module.css';
 import type { User } from '../shared/user-data';
+import { useLazy } from './useLazy';
 
 const Ranker = lazy(() => import('./Ranker'));
 
-function App() {
-  const loading = useSignal(true);
-  const user = useSignal<User | null>(null);
+interface AppInnerProps {
+  userReader: { read: () => User | null };
+}
 
-  useEffect(() => {
-    const loadUserData = async () => {
-      try {
-        const response = await fetch('/api/user-data');
-        const data = (await response.json()) as { userData: User | null };
+const AppInner: FunctionalComponent<AppInnerProps> = ({ userReader }) => {
+  const user = userReader.read();
 
-        if (!data.userData) {
-          return;
-        }
-
-        user.value = data.userData;
-      } catch (error) {
-        console.error('Failed to load user data:', error);
-      } finally {
-        loading.value = false;
-      }
-    };
-
-    loadUserData();
-  }, []);
-
-  const loadingResponse = <div className={styles.container}>Loading...</div>;
-
-  if (loading.value) {
-    return loadingResponse;
-  }
-
-  if (!user.value) {
+  if (!user) {
     return (
       <div className={styles.container}>
         <h1 className={styles.title}>Interop Feature Ranking</h1>
         <div className={styles.authSection}>
-          <p>Please log in to access the stack ranking tool.</p>
+          <p>Please log in to access the ranking tool.</p>
           <div className={styles.authButtons}>
             <a
               href="/auth/github"
@@ -57,9 +32,19 @@ function App() {
     );
   }
 
+  return <Ranker user={user} />;
+};
+
+function App() {
+  const userReader = useLazy(async () => {
+    const response = await fetch('/api/user-data');
+    const data = (await response.json()) as { userData: User | null };
+    return data.userData;
+  });
+
   return (
-    <Suspense fallback={loadingResponse}>
-      <Ranker user={user.value} />
+    <Suspense fallback={<div className={styles.container}>Loading...</div>}>
+      <AppInner userReader={userReader} />
     </Suspense>
   );
 }
