@@ -11,7 +11,7 @@
   &::before,
   &::after {
     content: '';
-    border-bottom: 1px solid #999;
+    border-bottom: 1px solid #ccc;
   }
 }
 

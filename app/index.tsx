@@ -56,7 +56,15 @@ const AppInner: FunctionalComponent = () => {
 
 function App() {
   return (
-    <Suspense fallback={<SiteShell>Loading...</SiteShell>}>
+    <Suspense
+      fallback={
+        <SiteShell>
+          <div class={styles.loadingMessage}>
+            <p>Loading…</p>
+          </div>
+        </SiteShell>
+      }
+    >
       <AppInner />
     </Suspense>
   );

@@ -50,3 +50,7 @@ body {
   margin: 1em auto;
   width: fit-content;
 }
+
+.loadingMessage {
+  text-align: center;
+}
