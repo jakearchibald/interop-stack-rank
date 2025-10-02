@@ -1,0 +1,23 @@
+.githubButton {
+  background-color: #333;
+  color: white;
+  text-decoration: none;
+  padding: 0.9em 1.3em;
+  border-radius: 6px;
+  font-weight: 500;
+  width: fit-content;
+
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: 1em;
+}
+
+.githubButton:hover {
+  background-color: #555;
+}
+
+.icon {
+  aspect-ratio: 1 / 1;
+  width: 1.3rem;
+}

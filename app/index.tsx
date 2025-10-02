@@ -4,6 +4,7 @@ import styles from './styles.module.css';
 import type { User } from '../shared/user-data';
 import { lazyCompute } from './lazyCompute';
 import SiteShell from './SiteShell';
+import GithubLoginButton from './GithubLoginButton';
 
 const Ranker = lazy(() => import('./Ranker'));
 
@@ -16,15 +17,9 @@ const user = lazyCompute(async () => {
 const AppInner: FunctionalComponent = () => {
   if (!user.value) {
     return (
-      <SiteShell>
-        <p>Please log in to access the ranking tool.</p>
-        <div class={styles.authButtons}>
-          <a
-            href="/auth/github"
-            class={`${styles.button} ${styles.githubButton}`}
-          >
-            Sign in with GitHub
-          </a>
+      <SiteShell userDetails={<GithubLoginButton>Sign in</GithubLoginButton>}>
+        <div class={styles.mainLoginButton}>
+          <GithubLoginButton>Sign in with GitHub</GithubLoginButton>
         </div>
       </SiteShell>
     );

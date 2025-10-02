@@ -3,6 +3,7 @@ import { useEffect, useRef } from 'preact/hooks';
 import PointerTracker from '../utils/PointerTracker';
 
 import styles from './styles.module.css';
+import itemStyles from './RankingItem/styles.module.css';
 import type { User } from '../../shared/user-data';
 import { itemsById, useRankingSignals } from './useRankingSignals';
 import { useSignal } from '@preact/signals';
@@ -199,9 +200,16 @@ const Ranker: FunctionComponent<Props> = ({ user }) => {
     const pointerTracker = new PointerTracker(containerRef.current, {
       start(pointerEvent) {
         if (pointerTracker.currentPointers.length > 0) return false;
-        if (!(pointerEvent.target instanceof HTMLElement)) return false;
+        if (
+          !(
+            pointerEvent.target instanceof HTMLElement ||
+            pointerEvent.target instanceof SVGElement
+          )
+        ) {
+          return false;
+        }
 
-        const handle = pointerEvent.target.closest(`.${styles.dragHandle}`);
+        const handle = pointerEvent.target.closest(`.${itemStyles.dragHandle}`);
         if (handle === null) return false;
 
         const item = handle.closest(`[data-item-id]`);
@@ -341,149 +349,137 @@ const Ranker: FunctionComponent<Props> = ({ user }) => {
 
   return (
     <div ref={containerRef}>
-      <div class={styles.section}>
-        <h2 class={styles.sectionTitle}>Ranked Items (Top = Most Important)</h2>
-        <div class={styles.dropZone}>
-          {rankedItems.value.length === 0 ? (
-            <>
-              <p class={styles.emptyMessage}>Drag items here to rank them</p>
-              {draggingItem.value && (
-                <div
-                  class={`${styles.dropTarget} ${styles.firstDropTarget}`}
-                  data-target-list="ranked"
-                />
-              )}
-            </>
-          ) : (
-            <ol class={styles.rankList}>
-              {rankedItems.value.map((item, index, arr) => (
-                <>
-                  {draggingItem.value &&
-                    index === 0 &&
-                    item.id !== draggingItem.value.id && (
-                      <li
-                        class={styles.dropTarget}
-                        key={`drop-target-before-${item.id}`}
-                        data-target-list="ranked"
-                        data-target-before-id={item.id}
-                      />
-                    )}
-                  <li
-                    key={item.id}
-                    class={classes({
-                      [styles.beingDragged]: draggingItem.value?.id === item.id,
-                    })}
-                  >
-                    <RankingItem
-                      item={item}
-                      index={index}
-                      isRanked={true}
-                      showUpButton={true}
-                      showDownButton={true}
-                      showRemoveButton={true}
-                      animId={
-                        draggingItem.value?.id === item.id
-                          ? null
-                          : `item-${item.id}`
-                      }
-                      onMoveUp={() =>
-                        insertBeforeId(item, 'ranked', arr[index - 1]?.id)
-                      }
-                      onMoveDown={() =>
-                        insertBeforeId(
-                          item,
-                          'ranked',
-                          arr[index + 2]?.id ?? null
-                        )
-                      }
-                      onRemove={() =>
-                        insertBeforeId(
-                          item,
-                          'unranked',
-                          unrankedItems.value[0]?.id ?? null
-                        )
-                      }
-                    />
-                  </li>
-                  {draggingItem.value &&
-                    item.id !== draggingItem.value.id &&
-                    draggingItem.value.id !== arr[index + 1]?.id && (
-                      <li
-                        class={styles.dropTarget}
-                        key={`drop-target-after-${item.id}`}
-                        data-target-list="ranked"
-                        data-target-before-id={arr[index + 1]?.id ?? ''}
-                      />
-                    )}
-                </>
-              ))}
-            </ol>
+      <h2 class={styles.sectionTitle}>
+        Ranked proposals (top = most important)
+      </h2>
+      {rankedItems.value.length === 0 ? (
+        <div class={styles.noItems} key="no-items">
+          <p class={styles.emptyMessage}>Move items here to rank them</p>
+          {draggingItem.value && (
+            <div
+              class={`${styles.dropTarget} ${styles.firstDropTarget}`}
+              data-target-list="ranked"
+            />
           )}
         </div>
-      </div>
+      ) : (
+        <ol class={styles.rankList} key="ranked-items">
+          {rankedItems.value.map((item, index, arr) => (
+            <>
+              {draggingItem.value &&
+                index === 0 &&
+                item.id !== draggingItem.value.id && (
+                  <li
+                    class={styles.dropTarget}
+                    key={`drop-target-before-${item.id}`}
+                    data-target-list="ranked"
+                    data-target-before-id={item.id}
+                  />
+                )}
+              <li
+                key={item.id}
+                class={classes({
+                  [styles.beingDragged]: draggingItem.value?.id === item.id,
+                })}
+              >
+                <RankingItem
+                  item={item}
+                  showUpButton={true}
+                  showDownButton={true}
+                  showRemoveButton={true}
+                  animId={
+                    draggingItem.value?.id === item.id
+                      ? null
+                      : `item-${item.id}`
+                  }
+                  onMoveUp={() =>
+                    insertBeforeId(item, 'ranked', arr[index - 1]?.id)
+                  }
+                  onMoveDown={() =>
+                    insertBeforeId(item, 'ranked', arr[index + 2]?.id ?? null)
+                  }
+                  onRemove={() =>
+                    insertBeforeId(
+                      item,
+                      'unranked',
+                      unrankedItems.value[0]?.id ?? null
+                    )
+                  }
+                />
+              </li>
+              {draggingItem.value &&
+                item.id !== draggingItem.value.id &&
+                draggingItem.value.id !== arr[index + 1]?.id && (
+                  <li
+                    class={styles.dropTarget}
+                    key={`drop-target-after-${item.id}`}
+                    data-target-list="ranked"
+                    data-target-before-id={arr[index + 1]?.id ?? ''}
+                  />
+                )}
+            </>
+          ))}
+        </ol>
+      )}
 
-      <div class={styles.section}>
-        <h2 class={styles.sectionTitle} data-anim-id="unranked-heading">
-          No Opinion
-        </h2>
-        <div class={styles.noOpinionZone}>
-          {unrankedItems.value.length === 0 ? (
-            <>
-              <p class={styles.emptyMessage}>All items are ranked</p>
-              {draggingItem.value && (
-                <div
-                  class={`${styles.dropTarget} ${styles.firstDropTarget}`}
-                  data-target-list="unranked"
-                />
-              )}
-            </>
-          ) : (
-            <ol class={styles.rankList}>
-              {unrankedItems.value.map((item, index, arr) => (
-                <>
-                  {draggingItem.value &&
-                    index === 0 &&
-                    item.id !== draggingItem.value.id && (
-                      <li
-                        class={styles.dropTarget}
-                        key={`drop-target-before-${item.id}`}
-                        data-target-list="unranked"
-                        data-target-before-id={item.id}
-                      />
-                    )}
-                  <li
-                    key={item.id}
-                    class={classes({
-                      [styles.beingDragged]: draggingItem.value?.id === item.id,
-                    })}
-                  >
-                    <RankingItem
-                      item={item}
-                      showAddButton={true}
-                      onAdd={() => insertBeforeId(item, 'ranked', null)}
-                      animId={
-                        draggingItem.value?.id === item.id
-                          ? null
-                          : `item-${item.id}`
-                      }
-                    />
-                  </li>
-                  {draggingItem.value &&
-                    item.id !== draggingItem.value.id &&
-                    draggingItem.value.id !== arr[index + 1]?.id && (
-                      <li
-                        class={styles.dropTarget}
-                        key={`drop-target-after-${item.id}`}
-                        data-target-list="unranked"
-                        data-target-before-id={arr[index + 1]?.id ?? ''}
-                      />
-                    )}
-                </>
-              ))}
-            </ol>
+      <h2 class={styles.sectionTitle} data-anim-id="unranked-heading">
+        No opinion / disinterested
+      </h2>
+      {unrankedItems.value.length === 0 ? (
+        <div class={styles.noItems} key="no-unranked-items">
+          <p class={styles.emptyMessage}>All items are ranked</p>
+          {draggingItem.value && (
+            <div
+              class={`${styles.dropTarget} ${styles.firstDropTarget}`}
+              data-target-list="unranked"
+            />
           )}
         </div>
-      </div>
+      ) : (
+        <ol class={styles.rankList} key="unranked-items">
+          {unrankedItems.value.map((item, index, arr) => (
+            <>
+              {draggingItem.value &&
+                index === 0 &&
+                item.id !== draggingItem.value.id && (
+                  <li
+                    class={styles.dropTarget}
+                    key={`drop-target-before-${item.id}`}
+                    data-target-list="unranked"
+                    data-target-before-id={item.id}
+                  />
+                )}
+              <li
+                key={item.id}
+                class={classes({
+                  [styles.beingDragged]: draggingItem.value?.id === item.id,
+                })}
+              >
+                <RankingItem
+                  item={item}
+                  showAddButton={true}
+                  onAdd={() => insertBeforeId(item, 'ranked', null)}
+                  animId={
+                    draggingItem.value?.id === item.id
+                      ? null
+                      : `item-${item.id}`
+                  }
+                />
+              </li>
+              {draggingItem.value &&
+                item.id !== draggingItem.value.id &&
+                draggingItem.value.id !== arr[index + 1]?.id && (
+                  <li
+                    class={styles.dropTarget}
+                    key={`drop-target-after-${item.id}`}
+                    data-target-list="unranked"
+                    data-target-before-id={arr[index + 1]?.id ?? ''}
+                  />
+                )}
+            </>
+          ))}
+        </ol>
+      )}
 
       <div class={styles.draggingItemContainer} ref={draggingItemRef}>
         {draggingItem.value && (

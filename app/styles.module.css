@@ -1,6 +1,15 @@
 html {
   font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
     Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+
+  background: #f1f1f1;
+
+  --viewport-padding: 1rem;
+  --container-rounding: 0.5rem;
+}
+
+body {
+  margin: 0;
 }
 
 .userInfo {
@@ -24,36 +33,20 @@ html {
 }
 
 .button {
-  padding: 5px 10px;
+  padding: 0.9em 1.3em;
   border: none;
-  border-radius: 3px;
-  cursor: pointer;
-  font-size: 14px;
-}
-
-.authButtons {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-  max-width: 300px;
-  margin: 20px auto 0;
-}
-
-.githubButton {
-  background-color: #333;
-  color: white;
-  text-decoration: none;
-  padding: 12px 24px;
   border-radius: 6px;
-  font-weight: 500;
-}
-
-.githubButton:hover {
-  background-color: #555;
+  cursor: pointer;
+  font-size: 0.8rem;
 }
 
 .avatar {
   width: 40px;
   height: 40px;
   border-radius: 50%;
+}
+
+.mainLoginButton {
+  margin: 1em auto;
+  width: fit-content;
 }

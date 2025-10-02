@@ -1,6 +1,9 @@
 .siteHeader {
   display: grid;
   grid-template-columns: 1fr auto;
+  background: #fff;
+  padding: var(--viewport-padding);
+  align-items: center;
 
   h1 {
     margin: 0;
@@ -9,7 +12,7 @@
 }
 
 .container {
-  padding: 20px;
+  padding: var(--viewport-padding);
   max-width: 600px;
   margin: 0 auto;
 }

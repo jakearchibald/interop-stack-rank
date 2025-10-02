@@ -1,0 +1,68 @@
+.dragHandle {
+  cursor: grab;
+  padding: 0 0.6rem;
+  border-radius: 3px;
+  font-size: 12px;
+  user-select: none;
+  touch-action: none;
+  align-self: stretch;
+  display: grid;
+  align-items: center;
+
+  svg {
+    fill: #0000002e;
+    width: 0.7rem;
+  }
+}
+
+.dragHandle:active {
+  cursor: grabbing;
+}
+
+.itemName {
+  flex: 1;
+  padding: var(--padding) 0;
+}
+
+.upButton {
+  background-color: #007bff;
+  color: white;
+}
+
+.upButton:disabled {
+  background-color: #f5f5f5;
+  color: #ccc;
+  cursor: not-allowed;
+}
+
+.downButton {
+  background-color: #007bff;
+  color: white;
+}
+
+.downButton:disabled {
+  background-color: #f5f5f5;
+  color: #ccc;
+  cursor: not-allowed;
+}
+
+.removeButton {
+  background-color: #6c757d;
+  color: white;
+}
+
+.addButton {
+  padding: 5px 15px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.buttons {
+  display: grid;
+  grid-auto-flow: column;
+  gap: var(--padding);
+  padding: var(--padding) 0;
+}

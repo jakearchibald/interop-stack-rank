@@ -1,111 +1,45 @@
-
-.section {
-  margin-bottom: 30px;
-}
-
 .sectionTitle {
-  margin-bottom: 10px;
-}
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  margin: 2.5rem var(--viewport-padding) 1.5rem;
+  font-size: 1.2rem;
+  font-weight: normal;
+  color: #333;
+  align-items: center;
+  gap: 1em;
 
-.dropZone {
-  border: 2px dashed #ccc;
-  border-radius: 8px;
-  padding: 10px;
-  background-color: #f9f9f9;
-  position: relative;
-}
-
-.noOpinionZone {
-  border: 2px dashed #ccc;
-  border-radius: 8px;
-  padding: 10px;
-  background-color: #f9f9f9;
-  position: relative;
+  &::before,
+  &::after {
+    content: '';
+    border-bottom: 1px solid #999;
+  }
 }
 
 .emptyMessage {
   color: #666;
   text-align: center;
-  margin: 20px 0;
+  margin: 2em 0;
+}
+
+.rankList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
 }
 
 .item {
   position: relative;
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 10px;
-  margin: 5px 0;
+  --padding: 0.8rem;
+  gap: var(--padding);
+  padding-right: var(--padding);
+  margin: 5px auto;
   background-color: white;
   border: 1px solid #ddd;
   border-radius: 4px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-}
-
-.dragHandle {
-  cursor: grab;
-  padding: 5px;
-  background-color: #f0f0f0;
-  border-radius: 3px;
-  font-size: 12px;
-  user-select: none;
-  touch-action: none;
-}
-
-.dragHandle:active {
-  cursor: grabbing;
-}
-
-.itemName {
-  flex: 1;
-}
-
-.rankedItemName {
-  flex: 1;
-  font-weight: bold;
-}
-
-.upButton {
-  background-color: #007bff;
-  color: white;
-}
-
-.upButton:disabled {
-  background-color: #f5f5f5;
-  color: #ccc;
-  cursor: not-allowed;
-}
-
-.downButton {
-  background-color: #007bff;
-  color: white;
-}
-
-.downButton:disabled {
-  background-color: #f5f5f5;
-  color: #ccc;
-  cursor: not-allowed;
-}
-
-.removeButton {
-  background-color: #6c757d;
-  color: white;
-}
-
-.addButton {
-  padding: 5px 15px;
-  background-color: #28a745;
-  color: white;
-  border: none;
-  border-radius: 3px;
-  cursor: pointer;
-}
-
-
-.rankList {
-  list-style: none;
-  padding: 0;
-  margin: 0;
+  max-width: 750px;
 }
 
 .draggingItemContainer {
@@ -131,8 +65,14 @@
   }
 }
 
+.noItems {
+  position: relative;
+}
+
 .dropTarget {
   position: relative;
+  max-width: 750px;
+  margin: 0 auto;
   z-index: 1;
 
   &::before {
@@ -144,10 +84,6 @@
   &.firstDropTarget {
     position: absolute;
     inset: 0;
-
-    &::before {
-      inset: 0;
-    }
   }
 
   &::after {

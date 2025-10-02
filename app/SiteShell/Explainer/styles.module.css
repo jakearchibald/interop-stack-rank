@@ -1,0 +1,20 @@
+.explainer {
+  background: #fff;
+  display: flow-root;
+  padding: 1rem 1rem;
+  border-radius: var(--container-rounding);
+
+  line-height: 1.7;
+
+  p {
+    margin: 1.5em 0;
+  }
+
+  > *:last-child {
+    margin-bottom: 0;
+  }
+
+  > *:first-child {
+    margin-top: 0;
+  }
+}
