@@ -251,7 +251,7 @@ const Ranker: FunctionComponent<Props> = ({ user }) => {
         checkForAutoScroll();
 
         const element = document.elementFromPoint(
-          currentPointer.clientX,
+          innerWidth / 2,
           currentPointer.clientY
         );
 
@@ -282,7 +282,7 @@ const Ranker: FunctionComponent<Props> = ({ user }) => {
         }
 
         const element = document.elementFromPoint(
-          pointerEvent.clientX,
+          innerHeight / 2,
           pointerEvent.clientY
         );
 
