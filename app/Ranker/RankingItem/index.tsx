@@ -59,8 +59,11 @@ const RankingItem: FunctionComponent<Props> = ({
           </button>
         )}
         {showAddButton && (
-          <button class={styles.addButton} onClick={onAdd}>
-            Add to Ranking
+          <button
+            class={`${rootStyles.button} ${styles.addButton}`}
+            onClick={onAdd}
+          >
+            +
           </button>
         )}
       </div>
