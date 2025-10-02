@@ -35,21 +35,9 @@
   color: white;
 }
 
-.upButton:disabled {
-  background-color: #f5f5f5;
-  color: #ccc;
-  cursor: not-allowed;
-}
-
 .downButton {
   background-color: #007bff;
   color: white;
-}
-
-.downButton:disabled {
-  background-color: #f5f5f5;
-  color: #ccc;
-  cursor: not-allowed;
 }
 
 .removeButton {
