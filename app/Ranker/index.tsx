@@ -386,25 +386,30 @@ const Ranker: FunctionComponent<Props> = ({ user }) => {
                   item={item}
                   showUpButton={true}
                   showDownButton={true}
-                  showRemoveButton={true}
                   animId={
                     draggingItem.value?.id === item.id
                       ? null
                       : `item-${item.id}`
                   }
-                  onMoveUp={() =>
-                    insertBeforeId(item, 'ranked', arr[index - 1]?.id)
-                  }
-                  onMoveDown={() =>
-                    insertBeforeId(item, 'ranked', arr[index + 2]?.id ?? null)
-                  }
-                  onRemove={() =>
-                    insertBeforeId(
-                      item,
-                      'unranked',
-                      unrankedItems.value[0]?.id ?? null
-                    )
-                  }
+                  onMoveUp={() => {
+                    if (index === 0) return;
+                    insertBeforeId(item, 'ranked', arr[index - 1]?.id);
+                  }}
+                  onMoveDown={() => {
+                    if (index === arr.length - 1) {
+                      insertBeforeId(
+                        item,
+                        'unranked',
+                        unrankedItems.value[0]?.id ?? null
+                      );
+                    } else {
+                      insertBeforeId(
+                        item,
+                        'ranked',
+                        arr[index + 2]?.id ?? null
+                      );
+                    }
+                  }}
                 />
               </li>
               {draggingItem.value &&

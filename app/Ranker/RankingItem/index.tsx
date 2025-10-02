@@ -10,12 +10,10 @@ interface Props {
   item: RankingItemType;
   showUpButton?: boolean;
   showDownButton?: boolean;
-  showRemoveButton?: boolean;
   showAddButton?: boolean;
   animId?: string | null;
   onMoveUp?: () => void;
   onMoveDown?: () => void;
-  onRemove?: () => void;
   onAdd?: () => void;
 }
 
@@ -23,11 +21,9 @@ const RankingItem: FunctionComponent<Props> = ({
   item,
   showUpButton = false,
   showDownButton = false,
-  showRemoveButton = false,
   showAddButton = false,
   onMoveUp,
   onMoveDown,
-  onRemove,
   onAdd,
   animId = null,
 }) => {
@@ -60,14 +56,6 @@ const RankingItem: FunctionComponent<Props> = ({
             onClick={onMoveDown}
           >
             ↓
-          </button>
-        )}
-        {showRemoveButton && (
-          <button
-            class={`${rootStyles.button} ${styles.removeButton}`}
-            onClick={onRemove}
-          >
-            Remove
           </button>
         )}
         {showAddButton && (
