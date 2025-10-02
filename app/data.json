@@ -312,18 +312,6 @@
     "titleHTML": "CSS Typed OM Level 1"
   },
   {
-    "id": 1087,
-    "titleHTML": "Standardized Browser Sidebar"
-  },
-  {
-    "id": 1086,
-    "titleHTML": "Split-screen multi-pane layouts"
-  },
-  {
-    "id": 1085,
-    "titleHTML": "Unified PWA UX or Navigation, Tabs, Sidebar, and Multi-Pane Layout"
-  },
-  {
     "id": 1084,
     "titleHTML": "Viewports"
   },
@@ -382,10 +370,6 @@
   {
     "id": 1066,
     "titleHTML": "Support css &quot;element()&quot; function in all browsers"
-  },
-  {
-    "id": 1065,
-    "titleHTML": "Firefox makes Voiceover read all non-interactive elements as &quot;clickable&quot;"
   },
   {
     "id": 1064,
@@ -546,14 +530,6 @@
   {
     "id": 1011,
     "titleHTML": "Reference Target for Cross-Root ARIA"
-  },
-  {
-    "id": 1010,
-    "titleHTML": "Smarter Article Reading Feature for Browsers for Iphones and Macbooks"
-  },
-  {
-    "id": 1009,
-    "titleHTML": "Contextual menu option &quot;Add Image to Photos&quot; does NOT work with animated .GIF files"
   },
   {
     "id": 1008,
