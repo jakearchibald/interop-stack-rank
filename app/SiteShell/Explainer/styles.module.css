@@ -18,3 +18,8 @@
     margin-top: 0;
   }
 }
+
+summary {
+  cursor: pointer;
+  color: blue;
+}
