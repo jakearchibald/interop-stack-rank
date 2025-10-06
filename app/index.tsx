@@ -17,7 +17,11 @@ const user = lazyCompute(async () => {
 const AppInner: FunctionalComponent = () => {
   if (!user.value) {
     return (
-      <SiteShell userDetails={<GithubLoginButton>Sign in</GithubLoginButton>}>
+      <SiteShell
+        userDetails={
+          <GithubLoginButton size="small">Sign in</GithubLoginButton>
+        }
+      >
         <div class={styles.mainLoginButton}>
           <GithubLoginButton>Sign in with GitHub</GithubLoginButton>
         </div>

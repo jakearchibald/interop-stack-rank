@@ -2,7 +2,8 @@
   background-color: #333;
   color: white;
   text-decoration: none;
-  padding: 0.9em 1.3em;
+  padding: 0.9em 1.6em;
+  padding-left: 1.3em;
   border-radius: 6px;
   font-weight: 500;
   width: fit-content;
@@ -11,6 +12,12 @@
   grid-template-columns: auto 1fr;
   align-items: center;
   gap: 1em;
+
+  &.small {
+    padding: 0.6em 1.1em;
+    padding-left: 0.9em;
+    gap: 0.8em;
+  }
 }
 
 .githubButton:hover {
@@ -20,4 +27,13 @@
 .icon {
   aspect-ratio: 1 / 1;
   width: 1.3rem;
+
+  .small & {
+    width: 1rem;
+  }
+
+  & svg {
+    display: block;
+    fill: #fff;
+  }
 }

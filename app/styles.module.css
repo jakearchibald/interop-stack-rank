@@ -4,12 +4,19 @@ html {
 
   background: #f1f1f1;
 
-  --viewport-padding: 1rem;
+  --viewport-padding: 1.3rem 1.5rem;
   --container-rounding: 0.5rem;
 }
 
 body {
   margin: 0;
+}
+
+:global(#app) {
+  min-height: 100dvh;
+
+  display: grid;
+  grid-template-rows: auto 1fr auto;
 }
 
 .userInfo {
@@ -47,7 +54,7 @@ body {
 }
 
 .mainLoginButton {
-  margin: 1em auto;
+  margin: 3rem auto;
   width: fit-content;
 }
 

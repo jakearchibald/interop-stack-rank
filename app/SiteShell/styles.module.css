@@ -13,10 +13,35 @@
 
 .container {
   padding: var(--viewport-padding);
+  padding-bottom: 0;
   max-width: 600px;
   margin: 0 auto;
 }
 
 .title {
   margin-bottom: 30px;
+}
+
+.siteFooter {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  background: #fff;
+  padding: var(--viewport-padding);
+  align-items: center;
+
+  & p {
+    margin: 0;
+  }
+}
+
+.githubLink {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.4em;
+  align-items: center;
+
+  & svg {
+    display: block;
+    width: 1.1em;
+  }
 }

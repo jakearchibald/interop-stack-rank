@@ -1,15 +1,27 @@
 import type { FunctionalComponent } from 'preact';
 import sharedStyles from '../styles.module.css';
 import styles from './styles.module.css';
-import githubLogo from './imgs/github.svg';
+import githubLogo from '../icons/github.svg?raw';
+import { classes } from '../utils/classes';
 
-const GithubLoginButton: FunctionalComponent = ({ children }) => {
+interface Props {
+  size?: 'small' | 'large';
+}
+
+const GithubLoginButton: FunctionalComponent<Props> = ({ children, size }) => {
   return (
     <a
       href="/auth/github"
-      class={`${sharedStyles.button} ${styles.githubButton}`}
+      class={classes({
+        [sharedStyles.button]: true,
+        [styles.githubButton]: true,
+        [styles.small]: size === 'small',
+      })}
     >
-      <img src={githubLogo} alt="GitHub Logo" class={styles.icon} />
+      <span
+        class={styles.icon}
+        dangerouslySetInnerHTML={{ __html: githubLogo }}
+      />
       {children}
     </a>
   );
