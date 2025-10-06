@@ -7,7 +7,8 @@ html {
   --link-color: #0066cc;
   --viewport-padding-inline: 1.5rem;
   --viewport-padding-block: 1.3rem;
-  --viewport-padding: var(--viewport-padding-block) var(--viewport-padding-inline);
+  --viewport-padding: var(--viewport-padding-block)
+    var(--viewport-padding-inline);
   --container-rounding: 0.5rem;
 }
 
@@ -29,7 +30,7 @@ a {
   text-underline-offset: 0.15em;
 }
 
-a:hover {
+a:not(.button):hover {
   color: #004499;
 }
 
@@ -62,10 +63,10 @@ a:focus-visible {
   border-radius: 4px;
   font-size: 12px;
   padding: 0.6em 1.1em;
-}
 
-.logoutButton:hover {
-  background-color: #c82333;
+  &:hover {
+    background-color: #c82333;
+  }
 }
 
 .avatar {
