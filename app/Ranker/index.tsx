@@ -141,6 +141,23 @@ const Ranker: FunctionComponent<Props> = ({ user }) => {
     doFlip(containerRef.current!);
   };
 
+  const nudgeItem = (item: RankingItem) => {
+    const itemElement = containerRef.current?.querySelector(
+      `[data-item-id="${item.id}"]`
+    );
+
+    if (!itemElement || !(itemElement instanceof HTMLElement)) return;
+
+    itemElement.animate(
+      [
+        { transform: 'translateY(0)' },
+        { transform: 'translateY(-15px)' },
+        { transform: 'translateY(0)' },
+      ],
+      { duration: 300, easing: 'ease' }
+    );
+  };
+
   const fetchControllerRef = useRef<AbortController | null>(null);
 
   const postRankings = async () => {
@@ -412,7 +429,10 @@ const Ranker: FunctionComponent<Props> = ({ user }) => {
                       : `item-${item.id}`
                   }
                   onMoveUp={() => {
-                    if (index === 0) return;
+                    if (index === 0) {
+                      nudgeItem(item);
+                      return;
+                    }
                     insertBeforeId(item, 'ranked', arr[index - 1]?.id);
                   }}
                   onMoveDown={() => {
