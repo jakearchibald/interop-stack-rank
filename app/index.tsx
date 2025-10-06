@@ -29,6 +29,11 @@ const AppInner: FunctionalComponent = () => {
     );
   }
 
+  const onUnauthenticated = () => {
+    // A bit blunt, but it'll do for now.
+    location.reload();
+  };
+
   const userAvatar = useMemo(() => {
     const url = new URL(user.value!.avatarSrc);
     url.searchParams.set('s', '80');
@@ -53,7 +58,7 @@ const AppInner: FunctionalComponent = () => {
         </div>
       }
     >
-      <Ranker user={user.value} />
+      <Ranker user={user.value} onUnauthenticated={onUnauthenticated} />
     </SiteShell>
   );
 };

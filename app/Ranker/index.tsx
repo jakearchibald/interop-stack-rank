@@ -102,9 +102,10 @@ export interface RankingItem {
 
 interface Props {
   user: User;
+  onUnauthenticated: () => void;
 }
 
-const Ranker: FunctionComponent<Props> = ({ user }) => {
+const Ranker: FunctionComponent<Props> = ({ user, onUnauthenticated }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const { rankedItems, unrankedItems } = useRankingSignals(user);
 
@@ -210,6 +211,9 @@ const Ranker: FunctionComponent<Props> = ({ user }) => {
       if (response.ok) {
         localStorage.removeItem('unsavedRanking');
       } else {
+        if (response.status === 401) {
+          onUnauthenticated();
+        }
         console.error('Failed to save rankings:', response.statusText);
       }
     } catch (error: unknown) {
