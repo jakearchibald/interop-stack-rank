@@ -213,11 +213,27 @@ const Ranker: FunctionComponent<Props> = ({ user }) => {
           return false;
         }
 
-        const handle = pointerEvent.target.closest(`.${itemStyles.dragHandle}`);
-        if (handle === null) return false;
+        const item = pointerEvent.target.closest(`[data-item-id]`);
 
-        const item = handle.closest(`[data-item-id]`);
-        if (!(item instanceof HTMLElement)) return false;
+        if (!item || !(item instanceof HTMLElement)) return false;
+
+        // For mouse, allow dragging from anywhere except interactive elements.
+        // Otherwise (eg touch), restrict dragging to the drag handle.
+        {
+          if (pointerEvent.pointerType === 'mouse') {
+            if (
+              pointerEvent.target.closest('a, button, input, select, textarea')
+            ) {
+              return false;
+            }
+          } else {
+            const handle = pointerEvent.target.closest(
+              `.${itemStyles.dragHandle}`
+            );
+            if (handle === null) return false;
+          }
+        }
+
 
         const itemId = Number(item.dataset.itemId);
         const itemData = itemsById.get(itemId);
