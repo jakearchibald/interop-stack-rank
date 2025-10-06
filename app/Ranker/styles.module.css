@@ -33,7 +33,8 @@
 
 .item {
   position: relative;
-  display: flex;
+  display: grid;
+  grid-template-columns: auto 1fr 5em;
   align-items: center;
   --padding: 0.8rem;
   gap: var(--padding);
@@ -44,6 +45,7 @@
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   max-width: 750px;
   box-sizing: border-box;
+  min-height: 3.5em;
 
   @media (width <= 750px) {
     border-radius: 0;

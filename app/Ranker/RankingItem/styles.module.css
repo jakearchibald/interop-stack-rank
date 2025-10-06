@@ -52,6 +52,7 @@
 .buttons {
   display: grid;
   grid-auto-flow: column;
+  justify-content: end;
   gap: 0.4em;
   padding: var(--padding) 0;
 }
