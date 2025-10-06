@@ -17,9 +17,9 @@
   > *:first-child {
     margin-top: 0;
   }
-}
-
-summary {
-  cursor: pointer;
-  color: var(--link-color);
+  summary {
+    cursor: pointer;
+    color: var(--link-color);
+    width: fit-content;
+  }
 }
