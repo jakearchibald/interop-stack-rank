@@ -154,6 +154,10 @@ const Ranker: FunctionComponent<Props> = ({ user }) => {
       rankedItems.value.map((item) => item.id)
     );
     localStorage.setItem('unsavedRanking', rankingBody);
+    localStorage.setItem(
+      'unranked',
+      JSON.stringify(unrankedItems.value.map((item) => item.id))
+    );
 
     try {
       const response = await fetch('/api/save-ranking', {
