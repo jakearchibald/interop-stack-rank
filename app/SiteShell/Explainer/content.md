@@ -10,11 +10,13 @@ You don't need to rank everything. **Ranking ~10 items will give us great data t
 
 <summary>More details on why we're doing this</summary>
 
-In previous years, we've used social media and emoji reactions on GitHub issues to get an impression of how developers feel about particular proposals, but there's a couple of weaknesses to this approach.
+In previous years, we've used social media and emoji reactions on GitHub issues to get an impression of how developers feel about particular proposals, but there's a couple of weaknesses to this approach…
 
 **Simple reactions are gameable.** Someone with a significant following on social media can link to a proposal they feel strongly about, and ask their followers to 'upvote' it.
 
-**Preference isn't captured.** A developer may 👍 two proposals, but significantly prefer one over the other, if resources meant that only one could be chosen for 2026.
+**Preference isn't captured.** A developer may 👍 two proposals, but significantly prefer one over the other.
+
+Ranking allows us to capture process, and because the bar is higher than clicking a 👍, the process should be less open to gaming, although we'll still keep an eye on that.
 
 We're hoping that the results of this process will help us figure out which proposals matter the most to developers, but it won't be the only signal we use. For example, there would be a proposal that is low level, and may only be used by a small number of framework developers, but that may positively impact a large number sites on the web.
 
