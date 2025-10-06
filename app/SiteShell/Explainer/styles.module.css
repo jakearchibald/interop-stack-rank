@@ -17,6 +17,13 @@
   > *:first-child {
     margin-top: 0;
   }
+
+  details {
+    > *:last-child {
+      margin-bottom: 0;
+    }
+  }
+
   summary {
     cursor: pointer;
     color: var(--link-color);

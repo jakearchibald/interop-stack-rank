@@ -23,6 +23,7 @@
 .itemName {
   flex: 1;
   padding: var(--padding) 0;
+  overflow-wrap: anywhere;
 }
 
 .upButton,

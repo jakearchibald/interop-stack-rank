@@ -5,8 +5,14 @@ html {
   background: #f1f1f1;
 
   --link-color: #0066cc;
-  --viewport-padding-inline: 1.5rem;
-  --viewport-padding-block: 1.3rem;
+  --viewport-padding-inline: 0.8rem;
+  --viewport-padding-block: 1rem;
+
+  @media (width >= 500px) {
+    --viewport-padding-inline: 1.5rem;
+    --viewport-padding-block: 1.3rem;
+  }
+
   --viewport-padding: var(--viewport-padding-block)
     var(--viewport-padding-inline);
   --container-rounding: 0.5rem;

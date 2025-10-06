@@ -1,5 +1,6 @@
 .rankingContainer {
   margin-bottom: var(--viewport-padding-inline);
+  overflow: clip;
 }
 
 .sectionTitle {
