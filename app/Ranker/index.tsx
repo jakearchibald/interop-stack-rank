@@ -348,7 +348,7 @@ const Ranker: FunctionComponent<Props> = ({ user }) => {
   }, []);
 
   return (
-    <div ref={containerRef}>
+    <div ref={containerRef} class={styles.rankingContainer}>
       <h2 class={styles.sectionTitle}>
         Ranked proposals (top = most important)
       </h2>

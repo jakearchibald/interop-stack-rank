@@ -4,7 +4,10 @@ html {
 
   background: #f1f1f1;
 
-  --viewport-padding: 1.3rem 1.5rem;
+  --link-color: #0066cc;
+  --viewport-padding-inline: 1.5rem;
+  --viewport-padding-block: 1.3rem;
+  --viewport-padding: var(--viewport-padding-block) var(--viewport-padding-inline);
   --container-rounding: 0.5rem;
 }
 
@@ -19,8 +22,34 @@ body {
   grid-template-rows: auto 1fr auto;
 }
 
+a {
+  color: var(--link-color);
+  text-decoration: underline;
+  text-decoration-thickness: 0.08em;
+  text-underline-offset: 0.15em;
+}
+
+a:hover {
+  color: #004499;
+}
+
+a:focus-visible {
+  outline: 2px solid #0066cc;
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+.button {
+  padding: 0.9em 1.3em;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.8rem;
+}
+
 .userInfo {
-  display: flex;
+  display: grid;
+  grid-auto-flow: column;
   align-items: center;
   gap: 15px;
   font-size: 14px;
@@ -30,21 +59,13 @@ body {
   background-color: #dc3545;
   color: white;
   text-decoration: none;
-  padding: 6px 12px;
   border-radius: 4px;
   font-size: 12px;
+  padding: 0.6em 1.1em;
 }
 
 .logoutButton:hover {
   background-color: #c82333;
-}
-
-.button {
-  padding: 0.9em 1.3em;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 0.8rem;
 }
 
 .avatar {
