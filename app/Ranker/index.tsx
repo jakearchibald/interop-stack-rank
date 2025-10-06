@@ -1,4 +1,4 @@
-import { type FunctionComponent } from 'preact';
+import { Fragment, type FunctionComponent } from 'preact';
 import { useEffect, useRef } from 'preact/hooks';
 import PointerTracker from '../utils/PointerTracker';
 
@@ -113,6 +113,9 @@ const Ranker: FunctionComponent<Props> = ({ user }) => {
     targetList: 'ranked' | 'unranked',
     beforeId: number | null
   ) => {
+    const focusedElement = document.activeElement as HTMLElement | null;
+    const parentItem = focusedElement?.closest('[data-item-id]');
+
     const destinationList =
       targetList === 'ranked' ? rankedItems : unrankedItems;
 
@@ -136,6 +139,26 @@ const Ranker: FunctionComponent<Props> = ({ user }) => {
         ...destinationList.value.slice(insertIndex),
       ];
     }
+
+    queueMicrotask(() => {
+      // Eg mouse click
+      if (!focusedElement) return;
+
+      if (focusedElement.isConnected) {
+        focusedElement.focus();
+        return;
+      }
+
+      // Otherwise, throw focus to the first button in the moved item.
+      if (!parentItem) return;
+      // Get a new ref, as it may not be the same === element.
+      const newItem = containerRef.current?.querySelector(
+        `[data-item-id="${item.id}"]`
+      );
+      if (!newItem) return;
+      const button = newItem.querySelector('button');
+      if (button) button.focus();
+    });
 
     postRankings();
     doFlip(containerRef.current!);
@@ -250,7 +273,6 @@ const Ranker: FunctionComponent<Props> = ({ user }) => {
             if (handle === null) return false;
           }
         }
-
 
         const itemId = Number(item.dataset.itemId);
         const itemData = itemsById.get(itemId);
@@ -402,7 +424,7 @@ const Ranker: FunctionComponent<Props> = ({ user }) => {
       ) : (
         <ol class={styles.rankList} key="ranked-items">
           {rankedItems.value.map((item, index, arr) => (
-            <>
+            <Fragment key={item.id}>
               {draggingItem.value &&
                 index === 0 &&
                 item.id !== draggingItem.value.id && (
@@ -462,7 +484,7 @@ const Ranker: FunctionComponent<Props> = ({ user }) => {
                     data-target-before-id={arr[index + 1]?.id ?? ''}
                   />
                 )}
-            </>
+            </Fragment>
           ))}
         </ol>
       )}
@@ -483,7 +505,7 @@ const Ranker: FunctionComponent<Props> = ({ user }) => {
       ) : (
         <ol class={styles.rankList} key="unranked-items">
           {unrankedItems.value.map((item, index, arr) => (
-            <>
+            <Fragment key={item.id}>
               {draggingItem.value &&
                 index === 0 &&
                 item.id !== draggingItem.value.id && (
@@ -521,7 +543,7 @@ const Ranker: FunctionComponent<Props> = ({ user }) => {
                     data-target-before-id={arr[index + 1]?.id ?? ''}
                   />
                 )}
-            </>
+            </Fragment>
           ))}
         </ol>
       )}
