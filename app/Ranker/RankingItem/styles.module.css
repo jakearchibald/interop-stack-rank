@@ -27,35 +27,31 @@
 .upButton,
 .downButton,
 .addButton {
-  padding: 0.5em 0.9em;
+  padding: 0.4em 0.7em;
+  background-color: #007bff;
+
+  svg {
+    display: block;
+    width: 1.1rem;
+    fill: white;
+  }
 }
 
 .upButton {
-  background-color: #007bff;
   color: white;
 }
 
 .downButton {
-  background-color: #007bff;
-  color: white;
-}
-
-.removeButton {
-  background-color: #6c757d;
-  color: white;
+  rotate: 180deg;
 }
 
 .addButton {
-  padding: 5px 15px;
   background-color: #28a745;
-  color: white;
-  border: none;
-  cursor: pointer;
 }
 
 .buttons {
   display: grid;
   grid-auto-flow: column;
-  gap: var(--padding);
+  gap: 0.4em;
   padding: var(--padding) 0;
 }
