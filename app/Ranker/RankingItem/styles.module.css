@@ -1,6 +1,6 @@
 .dragHandle {
   cursor: grab;
-  padding: 0 0.6rem;
+  padding: 0 0.9rem;
   border-radius: 3px;
   font-size: 12px;
   user-select: none;
@@ -8,10 +8,11 @@
   align-self: stretch;
   display: grid;
   align-items: center;
+  background-color: #d3f1fd;
 
   svg {
-    fill: #0000002e;
-    width: 0.7rem;
+    fill: #009fff73;
+    width: 0.8rem;
   }
 }
 
