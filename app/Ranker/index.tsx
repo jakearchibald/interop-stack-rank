@@ -146,7 +146,7 @@ const Ranker: FunctionComponent<Props> = ({ user, onUnauthenticated }) => {
       if (!focusedElement) return;
 
       if (focusedElement.isConnected) {
-        focusedElement.focus();
+        focusedElement.focus({ preventScroll: true });
         return;
       }
 
@@ -158,7 +158,7 @@ const Ranker: FunctionComponent<Props> = ({ user, onUnauthenticated }) => {
       );
       if (!newItem) return;
       const button = newItem.querySelector('button');
-      if (button) button.focus();
+      if (button) button.focus({ preventScroll: true });
     });
 
     postRankings();
