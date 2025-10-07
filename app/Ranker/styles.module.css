@@ -12,6 +12,11 @@
   color: #333;
   align-items: center;
   gap: 1em;
+  text-align: center;
+
+  & .nowrap {
+    white-space: nowrap;
+  }
 
   &::before,
   &::after {

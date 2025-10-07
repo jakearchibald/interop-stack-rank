@@ -420,7 +420,10 @@ const Ranker: FunctionComponent<Props> = ({ user, onUnauthenticated }) => {
   return (
     <div ref={containerRef} class={styles.rankingContainer}>
       <h2 class={styles.sectionTitle}>
-        Ranked proposals (top = most important)
+        <span>
+          Ranked proposals{' '}
+          <span class={styles.nowrap}>(top = most important)</span>
+        </span>
       </h2>
       {rankedItems.value.length === 0 ? (
         <div class={styles.noItems} key="no-items">
