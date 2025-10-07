@@ -52,6 +52,8 @@
   max-width: 750px;
   box-sizing: border-box;
   min-height: 3.5em;
+  border-radius: 0.4rem;
+  overflow: clip;
 
   @media (width <= 750px) {
     border-radius: 0;

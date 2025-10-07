@@ -1,7 +1,6 @@
 .dragHandle {
   cursor: grab;
   padding: 0 0.9rem;
-  border-radius: 3px;
   font-size: 12px;
   user-select: none;
   touch-action: none;
