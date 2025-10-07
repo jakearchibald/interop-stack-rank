@@ -1,0 +1,41 @@
+.toasts {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100dvw;
+  height: 100dvh;
+  pointer-events: none;
+  overflow: clip;
+}
+
+@property --display {
+  syntax: 'none | block';
+  inherits: false;
+  initial-value: none;
+}
+
+.toast {
+  pointer-events: auto;
+  position: absolute;
+  --offset: 1rem;
+  bottom: var(--offset);
+  right: var(--offset);
+  background: #333;
+  color: white;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 7px rgb(0 0 0 / 50%);
+  padding: 0.5rem 1rem;
+  translate: 0 calc(var(--offset) + 100%);
+  transition: translate 150ms ease-in;
+  max-width: min(27em, calc(100dvw - 2 * var(--offset)));
+  box-sizing: border-box;
+
+  &.show {
+    translate: 0 0;
+    transition: translate 150ms ease-out;
+
+    @starting-style {
+      translate: 0 calc(var(--offset) + 100%);
+    }
+  }
+}

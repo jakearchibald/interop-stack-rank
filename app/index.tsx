@@ -5,14 +5,19 @@ import type { User } from '../shared/user-data';
 import { lazyCompute } from './lazyCompute';
 import SiteShell from './SiteShell';
 import GithubLoginButton from './GithubLoginButton';
+import Toasts from './Toasts';
+import { pushToastMessage } from './Toasts/useToastData';
 
 const Ranker = lazy(() => import('./Ranker'));
-
-const user = lazyCompute(async () => {
+const userDataPromise = (async () => {
   const response = await fetch('/api/user-data');
   const data = (await response.json()) as { userData: User | null };
   return data.userData;
-});
+})();
+
+const user = lazyCompute(() => userDataPromise);
+
+pushToastMessage({ type: 'loading', until: userDataPromise });
 
 const AppInner: FunctionalComponent = () => {
   if (!user.value) {
@@ -65,17 +70,12 @@ const AppInner: FunctionalComponent = () => {
 
 function App() {
   return (
-    <Suspense
-      fallback={
-        <SiteShell>
-          <div class={styles.loadingMessage}>
-            <p>Loading…</p>
-          </div>
-        </SiteShell>
-      }
-    >
-      <AppInner />
-    </Suspense>
+    <>
+      <Suspense fallback={<SiteShell />}>
+        <AppInner />
+      </Suspense>
+      <Toasts />
+    </>
   );
 }
 

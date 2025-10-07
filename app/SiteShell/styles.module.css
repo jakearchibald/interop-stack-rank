@@ -2,10 +2,11 @@
   display: grid;
   grid-template-columns: 1fr auto;
   background: #fff;
-  padding: var(--viewport-padding);
   align-items: center;
+  padding-right:  var(--viewport-padding-inline);
 
   h1 {
+    padding: var(--viewport-padding);
     margin: 0;
     font-size: 24px;
   }
@@ -16,10 +17,6 @@
   padding-bottom: 0;
   max-width: 600px;
   margin: 0 auto;
-}
-
-.title {
-  margin-bottom: 30px;
 }
 
 .siteFooter {

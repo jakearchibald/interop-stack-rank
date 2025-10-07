@@ -85,7 +85,3 @@ a:focus-visible {
   margin: 3rem auto;
   width: fit-content;
 }
-
-.loadingMessage {
-  text-align: center;
-}

@@ -9,6 +9,7 @@ import { itemsById, useRankingSignals } from './useRankingSignals';
 import { useSignal } from '@preact/signals';
 import RankingItem from './RankingItem';
 import { classes } from '../utils/classes';
+import { pushToastMessage } from '../Toasts/useToastData';
 
 function getUnscaledPosition(rect: DOMRect, scale: number) {
   const centerX = rect.x + rect.width / 2;
@@ -184,49 +185,55 @@ const Ranker: FunctionComponent<Props> = ({ user, onUnauthenticated }) => {
 
   const fetchControllerRef = useRef<AbortController | null>(null);
 
-  const postRankings = async () => {
+  const postRankings = () => {
     if (fetchControllerRef.current) {
       fetchControllerRef.current.abort();
     }
     const controller = new AbortController();
     fetchControllerRef.current = controller;
 
-    const rankingBody = JSON.stringify(
-      rankedItems.value.map((item) => item.id)
-    );
-    localStorage.setItem('unsavedRanking', rankingBody);
-    localStorage.setItem(
-      'unranked',
-      JSON.stringify(unrankedItems.value.map((item) => item.id))
-    );
+    const postPromise = (async () => {
+      const rankingBody = JSON.stringify(
+        rankedItems.value.map((item) => item.id)
+      );
+      localStorage.setItem('unsavedRanking', rankingBody);
+      localStorage.setItem(
+        'unranked',
+        JSON.stringify(unrankedItems.value.map((item) => item.id))
+      );
 
-    try {
-      const response = await fetch('/api/save-ranking', {
-        method: 'POST',
-        body: rankingBody,
-        headers: { 'Content-Type': 'application/json' },
-        signal: controller.signal,
-      });
+      try {
+        const response = await fetch('/api/save-ranking', {
+          method: 'POST',
+          body: rankingBody,
+          headers: { 'Content-Type': 'application/json' },
+          signal: controller.signal,
+        });
 
-      if (response.ok) {
-        localStorage.removeItem('unsavedRanking');
-      } else {
-        if (response.status === 401) {
-          onUnauthenticated();
+        if (response.ok) {
+          localStorage.removeItem('unsavedRanking');
+        } else {
+          if (response.status === 401) {
+            onUnauthenticated();
+          }
+          console.error('Failed to save rankings:', response.statusText);
         }
-        console.error('Failed to save rankings:', response.statusText);
+      } catch (error: unknown) {
+        if (error instanceof Error && error.name === 'AbortError') {
+          // Fetch was aborted, likely due to a new request being made
+          return;
+        }
+        console.error('Error saving rankings:', error);
+
+        if (error instanceof Error) {
+          throw Error(
+            `Error saving rankings: ${error.message} (data saved locally)`
+          );
+        }
       }
-    } catch (error: unknown) {
-      if (error instanceof Error && error.name === 'AbortError') {
-        // Fetch was aborted, likely due to a new request being made
-        return;
-      }
-      console.error('Error saving rankings:', error);
-    } finally {
-      if (fetchControllerRef.current === controller) {
-        fetchControllerRef.current = null;
-      }
-    }
+    })();
+
+    pushToastMessage({ type: 'saving', until: postPromise });
   };
 
   useEffect(() => {
