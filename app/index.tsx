@@ -53,6 +53,7 @@ const AppInner: FunctionalComponent = () => {
             class={styles.avatar}
             src={userAvatar}
             alt={user.value.displayName}
+            data-id={user.value.githubId}
           />
           <a
             href="/auth/logout"
