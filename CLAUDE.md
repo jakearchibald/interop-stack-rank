@@ -84,4 +84,4 @@ Ranking should be possible with drag and drop, but also via buttons. Dragging sh
 
 The results will be stored via cloudflare durable objects, using SQL as a backend.
 
-The web app will require login via github or Google. A user's stack is associated with their account, hopefully in a way that treats login via github and google as the same user.
+The web app will require login via github. A user's stack is associated with their account.
