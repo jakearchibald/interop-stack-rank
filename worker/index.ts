@@ -37,7 +37,14 @@ export default {
       );
     }
 
-    return module.default(request, env, ctx);
+    try {
+      return await module.default(request, env, ctx);
+    } catch (err) {
+      if (err instanceof Response) {
+        return err;
+      }
+      return new Response('Internal Server Error', { status: 500 });
+    }
   },
 } satisfies ExportedHandler<Env>;
 

@@ -64,6 +64,20 @@ export async function getSessionUser(
   }
 }
 
+export async function clearAllSessions(env: Env): Promise<void> {
+  const keys: string[] = [];
+  let cursor: string | undefined = undefined;
+
+  while (true) {
+    const items = await env.SESSIONS.list({ cursor });
+    keys.push(...items.keys.map((item) => item.name));
+    if (items.list_complete) break;
+    cursor = items.cursor as string;
+  }
+
+  await Promise.all(keys.map((id) => env.SESSIONS.delete(id)));
+}
+
 export function requireAuth(
   user: SessionUser | null
 ): asserts user is SessionUser {

@@ -116,4 +116,8 @@ export class UserData extends DurableObject<Env> {
 
     return result;
   }
+
+  clearAllData() {
+    this.#sql.exec('DELETE FROM users');
+  }
 }
