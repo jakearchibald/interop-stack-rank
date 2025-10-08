@@ -25,7 +25,6 @@ export function useToastData() {
   let released = false;
 
   useEffect(() => {
-    console.log('Toast effect');
     const reader = messageStream.getReader();
 
     (async () => {
@@ -98,7 +97,6 @@ export function useToastData() {
     })();
 
     return () => {
-      console.log('Toast cleanup');
       released = true;
       reader.releaseLock();
     };
