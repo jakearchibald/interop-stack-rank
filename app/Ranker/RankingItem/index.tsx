@@ -35,14 +35,20 @@ const RankingItem: FunctionComponent<Props> = ({
         class={styles.dragHandle}
         dangerouslySetInnerHTML={{ __html: handleSVG }}
       ></div>
-      <span class={styles.itemName}>
+      <div class={styles.itemName}>
         <a
           href={`https://github.com/web-platform-tests/interop/issues/${item.id}`}
           target="_blank"
           rel="noopener noreferrer"
           dangerouslySetInnerHTML={{ __html: item.titleHTML }}
         />
-      </span>
+        {item.subtitleHTML && (
+          <p
+            class={styles.subtitle}
+            dangerouslySetInnerHTML={{ __html: item.subtitleHTML }}
+          />
+        )}
+      </div>
       <div class={styles.buttons}>
         {showUpButton && (
           <button

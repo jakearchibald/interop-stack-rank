@@ -3,7 +3,7 @@ import { useMemo } from 'preact/hooks';
 
 import type { RankingItem } from '.';
 import type { User } from '../../shared/user-data';
-import allItems from '../data.json';
+import allItems from './data.json';
 
 export const itemsById = new Map<number, RankingItem>();
 for (const item of allItems) itemsById.set(item.id, item);
