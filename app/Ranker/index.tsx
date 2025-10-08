@@ -352,7 +352,7 @@ const Ranker: FunctionComponent<Props> = ({ user, onUnauthenticated }) => {
         }
 
         const element = document.elementFromPoint(
-          innerHeight / 2,
+          innerWidth / 2,
           pointerEvent.clientY
         );
 
