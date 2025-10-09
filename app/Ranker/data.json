@@ -1,10 +1,5 @@
 [
   {
-    "id": 1199,
-    "titleHTML": "HTML <code>&lt;link rel=&quot;alternate stylesheet&quot;&gt;</code>",
-    "subtitleHTML": "Offers an alternative style option to users."
-  },
-  {
     "id": 1198,
     "titleHTML": "HTML <code>&lt;link rel=&quot;expect&quot;&gt;</code>",
     "subtitleHTML": "Hints to the browser to block rendering until a particular element is connected to the document and fully parsed."
