@@ -16,4 +16,6 @@ Only your ranked items are stored on the server. The order of unranked items is 
 
 We intend to share the individual rankings with the Interop team for analysis, but without the associated Github data (ids, name, username, avatar URL).
 
+Given that this is an experiment, and isn't the only data source that will be considered as part of choosing Interop proposals, we may not publish a summary of the data publicly.
+
 </details>
