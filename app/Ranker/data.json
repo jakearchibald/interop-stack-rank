@@ -292,7 +292,7 @@
   },
   {
     "id": 1109,
-    "titleHTML": "Chaining pseudo-element to <code>::details-content</code>",
+    "titleHTML": "Chaining pseudo-elements to <code>::details-content</code>",
     "subtitleHTML": "Such as <code>::details-content::before</code>."
   },
   {
@@ -389,7 +389,7 @@
   {
     "id": 1079,
     "titleHTML": "<code>navigator.connection</code> API",
-    "subtitleHTML": "provides information about the network connection and fires events when the connection type changes."
+    "subtitleHTML": "Provides information about the network connection and fires events when the connection type changes."
   },
   {
     "id": 1078,
@@ -447,7 +447,7 @@
   {
     "id": 1062,
     "titleHTML": "CSS <code>text-box</code> and related longhand properties",
-    "subtitleHTML": "sets the spacing above and below text based on a font&#39;s typographic features."
+    "subtitleHTML": "Sets the spacing above and below text based on a font&#39;s typographic features."
   },
   {
     "id": 1061,
