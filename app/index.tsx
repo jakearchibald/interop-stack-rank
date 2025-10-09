@@ -52,7 +52,7 @@ const AppInner: FunctionalComponent = () => {
           <img
             class={styles.avatar}
             src={userAvatar}
-            alt={user.value.displayName}
+            alt={`${user.value.displayName} (${user.value.githubUsername})`}
             data-id={user.value.githubId}
           />
           <a
