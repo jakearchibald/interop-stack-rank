@@ -5,7 +5,7 @@
 
 .sectionTitle {
   display: grid;
-  grid-template-columns: 1fr auto 1fr;
+  grid-template-columns: minmax(20px, 1fr) auto minmax(20px, 1fr);
   margin: 2.5rem var(--viewport-padding) 1.5rem;
   font-size: 1.2rem;
   font-weight: normal;
