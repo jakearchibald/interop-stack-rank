@@ -194,9 +194,9 @@ const Ranker: FunctionComponent<Props> = ({ user, onUnauthenticated }) => {
     fetchControllerRef.current = controller;
 
     const postPromise = (async () => {
-      const rankingBody = JSON.stringify(
-        rankedItems.value.map((item) => item.id)
-      );
+      const rankingBody = JSON.stringify({
+        ranking: rankedItems.value.map((item) => item.id),
+      });
       localStorage.setItem('unsavedRanking', rankingBody);
       localStorage.setItem(
         'unranked',

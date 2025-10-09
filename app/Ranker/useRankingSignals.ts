@@ -37,7 +37,10 @@ export function useRankingSignals(user: User): {
 
     if (lsUnsaved) {
       try {
-        rankingIds = JSON.parse(lsUnsaved);
+        const unsavedData = JSON.parse(lsUnsaved);
+        if (unsavedData && Array.isArray(unsavedData.ranking)) {
+          rankingIds = unsavedData.ranking;
+        }
       } catch {
         // Ignore JSON parse errors
       }
