@@ -86,8 +86,14 @@ export function requireAuth(
   }
 }
 
-const admins = new Set([93594, 294864]);
-const dataAccess = new Set([...admins, 498917]);
+const admins = new Set([
+  93594, // Jake
+  294864, // James
+]);
+const dataAccess = new Set([
+  ...admins,
+  498917, // Philip
+]);
 
 export function requireAdmin(
   user: SessionUser | null
