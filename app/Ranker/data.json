@@ -359,7 +359,7 @@
   },
   {
     "id": 1084,
-    "titleHTML": "Improve reliability of viewport-related units and APIs"
+    "titleHTML": "Improve reliability of viewport-related units (<code>lvh</code>, <code>dhv</code>, <code>svh</code>) and APIs"
   },
   {
     "id": 1083,
