@@ -4,7 +4,9 @@ const route: ExportedHandler<Env>['fetch'] = async (request, env, ctx) => {
   const github = new GitHub(
     env.GITHUB_CLIENT_ID,
     env.GITHUB_CLIENT_SECRET,
-    null
+    import.meta.env.PROD
+      ? 'https://interop-rank.jakearchibald.com/auth/github/callback'
+      : null
   );
 
   const state = generateState();
