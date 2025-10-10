@@ -18,8 +18,38 @@ const route: ExportedHandler<Env>['fetch'] = async (request, env) => {
   const cookies = parse(request.headers.get('Cookie') || '');
   const storedState = cookies.oauth_state;
 
-  if (!code || !state || state !== storedState) {
-    return new Response('Invalid OAuth callback', { status: 400 });
+  if (!code) {
+    console.error('Invalid OAuth callback - missing code', {
+      code,
+      state,
+      storedState,
+    });
+    return new Response('Invalid OAuth callback - missing code', {
+      status: 400,
+    });
+  }
+
+  if (!state) {
+    console.error('Invalid OAuth callback - missing state', {
+      code,
+      state,
+      storedState,
+    });
+    return new Response('Invalid OAuth callback - missing state', {
+      status: 400,
+    });
+  }
+
+  if (state !== storedState) {
+    console.error('Invalid OAuth callback - state & stored state mismatch', {
+      code,
+      state,
+      storedState,
+    });
+    return new Response(
+      'Invalid OAuth callback - state & stored state mismatch',
+      { status: 400 }
+    );
   }
 
   const github = new GitHub(
