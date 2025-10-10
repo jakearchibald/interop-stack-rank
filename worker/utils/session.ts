@@ -87,7 +87,7 @@ export function requireAuth(
 }
 
 const admins = new Set([93594, 294864]);
-const dataAccess = new Set([...admins]);
+const dataAccess = new Set([...admins, 498917]);
 
 export function requireAdmin(
   user: SessionUser | null
@@ -112,4 +112,3 @@ export function requireDataAccess(
     throw new Response('Forbidden', { status: 403 });
   }
 }
-
