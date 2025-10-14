@@ -90,35 +90,4 @@ export function requireAuth(
   }
 }
 
-const admins = new Set([
-  93594, // Jake
-  294864, // James
-]);
-const dataAccess = new Set([
-  ...admins,
-  498917, // Philip
-]);
 
-export function requireAdmin(
-  user: SessionUser | null
-): asserts user is SessionUser {
-  if (!user) {
-    throw new Response('Unauthorized', { status: 401 });
-  }
-
-  if (!admins.has(user.githubId)) {
-    throw new Response('Forbidden', { status: 403 });
-  }
-}
-
-export function requireDataAccess(
-  user: SessionUser | null
-): asserts user is SessionUser {
-  if (!user) {
-    throw new Response('Unauthorized', { status: 401 });
-  }
-
-  if (!dataAccess.has(user.githubId)) {
-    throw new Response('Forbidden', { status: 403 });
-  }
-}

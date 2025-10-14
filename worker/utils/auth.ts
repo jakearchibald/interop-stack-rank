@@ -1,3 +1,5 @@
+import { type SessionUser } from './session';
+
 export interface User {
   id: string;
   provider: 'github' | 'google';
@@ -7,27 +9,36 @@ export interface User {
   picture?: string;
 }
 
-export function getUserFromRequest(request: Request): User | null {
-  const cookies = request.headers.get('Cookie') || '';
-  const sessionCookie = cookies.split(';')
-    .find(cookie => cookie.trim().startsWith('session='))
-    ?.split('=')[1];
-  
-  if (!sessionCookie) {
-    return null;
-  }
-  
-  try {
-    return JSON.parse(atob(sessionCookie));
-  } catch {
-    return null;
-  }
-}
+const admins = new Set([
+  93594, // Jake
+  294864, // James
+]);
 
-export function requireAuth(request: Request): User {
-  const user = getUserFromRequest(request);
+const dataAccess = new Set([
+  ...admins,
+  498917, // Philip
+]);
+
+export function requireDataAccess(
+  user: SessionUser | null
+): asserts user is SessionUser {
   if (!user) {
     throw new Response('Unauthorized', { status: 401 });
   }
-  return user;
+
+  if (!dataAccess.has(user.githubId)) {
+    throw new Response('Forbidden', { status: 403 });
+  }
+}
+
+export function requireAdmin(
+  user: SessionUser | null
+): asserts user is SessionUser {
+  if (!user) {
+    throw new Response('Unauthorized', { status: 401 });
+  }
+
+  if (!admins.has(user.githubId)) {
+    throw new Response('Forbidden', { status: 403 });
+  }
 }

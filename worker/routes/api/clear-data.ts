@@ -1,8 +1,5 @@
-import {
-  clearAllSessions,
-  getSessionUser,
-  requireAdmin,
-} from '../../utils/session';
+import { clearAllSessions, getSessionUser } from '../../utils/session';
+import { requireAdmin } from '../../utils/auth';
 
 const route: ExportedHandler<Env>['fetch'] = async (request, env) => {
   if (request.method !== 'POST') {

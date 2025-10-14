@@ -1,4 +1,5 @@
-import { getSessionUser, requireDataAccess } from '../../utils/session';
+import { getSessionUser } from '../../utils/session';
+import { requireDataAccess } from '../../utils/auth';
 
 const route: ExportedHandler<Env>['fetch'] = async (request, env) => {
   const user = await getSessionUser(request, env);
