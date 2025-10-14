@@ -1,13 +1,9 @@
-import { render, type FunctionalComponent } from 'preact';
-import type { User } from '../../shared/user-data';
+import { render } from 'preact';
 import AppShell from '../AppShell';
-
-const ResultsPage: FunctionalComponent<{ user: User }> = ({ user }) => {
-  return <p>Results page</p>;
-};
+import Results from './Results';
 
 function App() {
-  return <AppShell loggedInContent={(user) => <ResultsPage user={user} />} />;
+  return <AppShell loggedInContent={() => <Results />} />;
 }
 
 render(<App />, document.getElementById('app')!);

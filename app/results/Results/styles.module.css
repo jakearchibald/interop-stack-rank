@@ -1,0 +1,9 @@
+.container {
+  margin: 0 1.5rem;
+}
+
+.resultsList {
+  & > li {
+    margin-bottom: 1rem;
+  }
+}
