@@ -14,9 +14,10 @@ const route: ExportedHandler<Env>['fetch'] = async (request, env) => {
   const code = url.searchParams.get('code');
   const state = url.searchParams.get('state');
 
-  // Get stored state from cookie
+  // Get stored state and redirect path from cookies
   const cookies = parse(request.headers.get('Cookie') || '');
   const storedState = cookies.oauth_state;
+  const redirectPath = cookies.oauth_redirect || '/';
 
   if (!code) {
     console.error('Invalid OAuth callback - missing code', {
@@ -85,7 +86,8 @@ const route: ExportedHandler<Env>['fetch'] = async (request, env) => {
       }),
     ]);
 
-    return createSessionResponse(sessionId, url.origin);
+    const redirectUrl = new URL(redirectPath, url.origin).toString();
+    return createSessionResponse(sessionId, redirectUrl);
   } catch (error) {
     console.error('GitHub OAuth error:', error);
     return new Response('Authentication failed', { status: 500 });

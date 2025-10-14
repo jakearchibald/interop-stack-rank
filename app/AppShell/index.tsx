@@ -49,6 +49,10 @@ const AppInner: FunctionalComponent<AppInnerProps> = ({
 
   const resolvedContent = loggedInContent(user.value!);
 
+  const currentPath = location.pathname + location.search;
+  const logoutURL = new URL('/auth/logout', location.origin);
+  logoutURL.searchParams.set('redirect', currentPath);
+
   return (
     <SiteShell
       userDetails={
@@ -60,7 +64,7 @@ const AppInner: FunctionalComponent<AppInnerProps> = ({
             data-id={user.value.githubId}
           />
           <a
-            href="/auth/logout"
+            href={logoutURL.toString()}
             class={`${styles.button} ${styles.logoutButton}`}
           >
             Logout

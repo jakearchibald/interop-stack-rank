@@ -32,6 +32,10 @@ export function createSessionResponse(
     'Set-Cookie',
     `oauth_state=; Path=/; HttpOnly; SameSite=Lax; Max-Age=0`
   );
+  responseHeaders.append(
+    'Set-Cookie',
+    `oauth_redirect=; Path=/; HttpOnly; SameSite=Lax; Max-Age=0`
+  );
 
   const response = new Response('', {
     status: 302,

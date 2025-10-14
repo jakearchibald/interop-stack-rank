@@ -9,9 +9,12 @@ interface Props {
 }
 
 const GithubLoginButton: FunctionalComponent<Props> = ({ children, size }) => {
+  const currentPath = location.pathname + location.search;
+  const loginUrl = `/auth/github?redirect=${encodeURIComponent(currentPath)}`;
+
   return (
     <a
-      href="/auth/github"
+      href={loginUrl}
       class={classes({
         [sharedStyles.button]: true,
         [styles.githubButton]: true,

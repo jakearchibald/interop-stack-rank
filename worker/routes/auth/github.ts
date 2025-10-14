@@ -1,4 +1,5 @@
 import { GitHub, generateState } from 'arctic';
+import { assertOrigin } from '../../utils/url';
 
 const route: ExportedHandler<Env>['fetch'] = async (request, env, ctx) => {
   const github = new GitHub(
@@ -12,13 +13,29 @@ const route: ExportedHandler<Env>['fetch'] = async (request, env, ctx) => {
   const state = generateState();
   const url = await github.createAuthorizationURL(state, []);
 
-  // Store state for validation in callback
+  // Get redirect parameter from query string
+  const requestUrl = new URL(request.url);
+  const redirectPath = requestUrl.searchParams.get('redirect') || '/';
+
+  assertOrigin(redirectPath, requestUrl.origin);
+
+  // Store state and redirect path for validation in callback
+  const responseHeaders = new Headers();
+  responseHeaders.append('Location', url.toString());
+  responseHeaders.append(
+    'Set-Cookie',
+    `oauth_state=${state}; Path=/; HttpOnly; SameSite=Lax; Max-Age=600`
+  );
+  responseHeaders.append(
+    'Set-Cookie',
+    `oauth_redirect=${encodeURIComponent(
+      redirectPath
+    )}; Path=/; HttpOnly; SameSite=Lax; Max-Age=600`
+  );
+
   const response = new Response('', {
     status: 302,
-    headers: {
-      location: url.toString(),
-      'Set-Cookie': `oauth_state=${state}; Path=/; HttpOnly; SameSite=Lax; Max-Age=600`,
-    },
+    headers: responseHeaders,
   });
 
   return response;
