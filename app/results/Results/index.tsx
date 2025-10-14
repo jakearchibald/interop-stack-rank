@@ -45,7 +45,9 @@ const ResultsList: FunctionalComponent<{
       <ol class={styles.resultsList}>
         {results.map(([id, wins]) => (
           <li key={id}>
-            <span
+            <a
+              href={`https://github.com/web-platform-tests/interop/issues/${id}`}
+              target="_blank"
               dangerouslySetInnerHTML={{
                 __html: itemsById.get(Number(id))!.titleHTML,
               }}
