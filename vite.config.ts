@@ -11,4 +11,16 @@ export default defineConfig({
       experimental: { headersAndRedirectsDevModeSupport: true },
     }),
   ],
+  environments: {
+    client: {
+      build: {
+        rollupOptions: {
+          input: {
+            index: 'index.html',
+            results: 'results/index.html',
+          },
+        },
+      },
+    },
+  },
 });

@@ -1,7 +1,6 @@
 import type { ComponentChildren, FunctionalComponent } from 'preact';
 import styles from './styles.module.css';
-import Explainer from './Explainer';
-import githubLogo from '../icons/github.svg?raw';
+import githubLogo from '../../icons/github.svg?raw';
 
 interface Props {
   userDetails?: ComponentChildren;
@@ -14,12 +13,7 @@ const SiteShell: FunctionalComponent<Props> = ({ children, userDetails }) => {
         <h1>Interop Feature Ranking</h1>
         <div>{userDetails}</div>
       </div>
-      <div>
-        <div class={styles.container}>
-          <Explainer />
-        </div>
-        {children}
-      </div>
+      <div>{children}</div>
       <div class={styles.siteFooter}>
         <p>
           Made with ❤️ by the{' '}

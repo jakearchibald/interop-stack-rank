@@ -85,3 +85,10 @@ a:focus-visible {
   margin: 3rem auto;
   width: fit-content;
 }
+
+.explainerContainer {
+  padding: var(--viewport-padding);
+  padding-bottom: 0;
+  max-width: 600px;
+  margin: 0 auto;
+}
