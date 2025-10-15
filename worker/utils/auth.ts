@@ -20,6 +20,8 @@ const dataAccess = new Set([
   244772, // Simon
   1152698, // Patrick
   118266, // Keith
+  332653, // jrmuizel
+  9219935, // smaug---
 ]);
 
 export function requireDataAccess(
