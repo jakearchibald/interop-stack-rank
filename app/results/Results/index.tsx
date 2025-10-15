@@ -41,6 +41,7 @@ const ResultsList: FunctionalComponent<{
 
   return (
     <div class={styles.container}>
+      <p>This data is only visible to you as you're on an allow-list.</p>
       <p>Number of rankings: {rankings.length}.</p>
       <ol class={styles.resultsList}>
         {results.map(([id, wins]) => (
