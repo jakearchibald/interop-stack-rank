@@ -177,7 +177,7 @@
   },
   {
     "id": 1142,
-    "titleHTML": "<code>NotRestoredReasons</code> in the Perforance API",
+    "titleHTML": "<code>NotRestoredReasons</code> in the Performance API",
     "subtitleHTML": "Provides report data containing reasons why the current document was blocked from using the back/forward cache."
   },
   {
