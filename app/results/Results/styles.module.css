@@ -29,6 +29,18 @@
     border-bottom: 2px solid #f1f1f1;
     font-size: 0.8rem;
     vertical-align: bottom;
+
+    &.selected {
+      background: #d3f1fd;
+    }
+
+    & a {
+      text-decoration: none;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
   }
 
   & tbody tr {
@@ -37,13 +49,5 @@
 
   & td {
     padding: 0.5rem 1rem;
-  }
-
-  & th a {
-    text-decoration: none;
-
-    &:hover {
-      text-decoration: underline;
-    }
   }
 }

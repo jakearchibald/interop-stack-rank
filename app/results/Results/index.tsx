@@ -6,6 +6,7 @@ import type { RankingItem } from '../../Ranker';
 import { useMemo } from 'preact/hooks';
 import { schulze } from './schulze';
 import styles from './styles.module.css';
+import { classes } from '../../utils/classes';
 
 type SortKey =
   | 'schulzeWins'
@@ -192,7 +193,11 @@ const ResultsList: FunctionalComponent<{
           <tr>
             <th>Pos</th>
             <th>Issue</th>
-            <th>
+            <th
+              class={classes({
+                [styles.selected]: sortKey.value === 'schulzeWins',
+              })}
+            >
               <a
                 href="?sort=schulzeWins"
                 onClick={handleSortClick('schulzeWins')}
@@ -200,7 +205,11 @@ const ResultsList: FunctionalComponent<{
                 Schulze Wins
               </a>
             </th>
-            <th>
+            <th
+              class={classes({
+                [styles.selected]: sortKey.value === 'topChoiceCount',
+              })}
+            >
               <a
                 href="?sort=topChoiceCount"
                 onClick={handleSortClick('topChoiceCount')}
@@ -208,7 +217,12 @@ const ResultsList: FunctionalComponent<{
                 Top Choice Count
               </a>
             </th>
-            <th>
+            <th
+              class={classes({
+                [styles.selected]:
+                  sortKey.value === 'smallRankingTopChoiceCount',
+              })}
+            >
               <a
                 href="?sort=smallRankingTopChoiceCount"
                 onClick={handleSortClick('smallRankingTopChoiceCount')}
@@ -217,7 +231,11 @@ const ResultsList: FunctionalComponent<{
               </a>{' '}
               (in rankings of {smallRankingLimit} or fewer)
             </th>
-            <th>
+            <th
+              class={classes({
+                [styles.selected]: sortKey.value === 'top3ChoiceCount',
+              })}
+            >
               <a
                 href="?sort=top3ChoiceCount"
                 onClick={handleSortClick('top3ChoiceCount')}
@@ -225,12 +243,20 @@ const ResultsList: FunctionalComponent<{
                 Top 3 Count
               </a>
             </th>
-            <th>
+            <th
+              class={classes({
+                [styles.selected]: sortKey.value === 'rankCount',
+              })}
+            >
               <a href="?sort=rankCount" onClick={handleSortClick('rankCount')}>
                 Rank Count
               </a>
             </th>
-            <th>
+            <th
+              class={classes({
+                [styles.selected]: sortKey.value === 'averageRank',
+              })}
+            >
               <a
                 href="?sort=averageRank"
                 onClick={handleSortClick('averageRank')}
