@@ -14,7 +14,7 @@ type SortKey =
   | 'averageRank'
   | 'smallRankingTopChoiceCount';
 
-import tmpDataURL from './tmp-data.json?url';
+// import tmpDataURL from './tmp-data.json?url';
 
 export const itemsById = new Map<number, RankingItem>();
 for (const item of allItems) itemsById.set(item.id, item);
@@ -22,8 +22,8 @@ for (const item of allItems) itemsById.set(item.id, item);
 const candidates = [...itemsById.keys()];
 
 const rankingDataPromise = (async () => {
-  // const response = await fetch('/api/ranking-data-anon');
-  const response = await fetch(tmpDataURL);
+  const response = await fetch('/api/ranking-data-anon');
+  // const response = await fetch(tmpDataURL);
   if (response.status === 403) {
     return { error: 'Unauthorized' };
   }
