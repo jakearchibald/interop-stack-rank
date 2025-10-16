@@ -13,6 +13,7 @@
   border-collapse: separate;
   border-spacing: 0 1px;
   position: relative;
+  margin-bottom: 2rem;
 
   & thead {
     position: sticky;
