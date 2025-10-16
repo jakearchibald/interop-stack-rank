@@ -38,7 +38,10 @@ const rankingDataPromise = (async () => {
   const response = await fetch(dataFetchURL);
   // const response = await fetch(tmpDataURL);
   if (response.status === 403) {
-    return { error: 'Unauthorized' };
+    return { error: 'Unauthorized & no key' };
+  }
+  if (response.status === 401) {
+    return { error: 'Not authorized & no key' };
   }
   const data = (await response.json()) as number[][];
   return { data };
@@ -296,7 +299,11 @@ const ResultsList: FunctionalComponent<{
 
 const Results: FunctionalComponent = () => {
   if (rankingData.value.error) {
-    return <p>Error loading results: {rankingData.value.error}</p>;
+    return (
+      <div class={styles.container}>
+        <p>Error loading results: {rankingData.value.error}</p>
+      </div>
+    );
   }
   return <ResultsList rankings={rankingData.value.data!} />;
 };
