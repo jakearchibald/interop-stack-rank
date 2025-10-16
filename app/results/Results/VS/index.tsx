@@ -105,7 +105,7 @@ const VS: FunctionalComponent<VsProps> = ({ rankings }) => {
       <h2>Head-to-Head Comparison</h2>
       <div class={styles.selectors}>
         <div class={styles.selectorGroup}>
-          <label htmlFor="item1-input">Item 1:</label>
+          <label htmlFor="item1-input">Proposal 1:</label>
           <input
             id="item1-input"
             type="text"
@@ -131,7 +131,7 @@ const VS: FunctionalComponent<VsProps> = ({ rankings }) => {
         <div class={styles.versus}>vs</div>
 
         <div class={styles.selectorGroup}>
-          <label htmlFor="item2-input">Item 2:</label>
+          <label htmlFor="item2-input">Proposal 2:</label>
           <input
             id="item2-input"
             type="text"
