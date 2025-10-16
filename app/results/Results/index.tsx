@@ -22,7 +22,14 @@ for (const item of allItems) itemsById.set(item.id, item);
 const candidates = [...itemsById.keys()];
 
 const rankingDataPromise = (async () => {
-  const response = await fetch('/api/ranking-data-anon');
+  const currentURL = new URL(location.href);
+  const fetchURL = new URL('/api/ranking-data-anon', currentURL);
+
+  if (currentURL.searchParams.get('key')) {
+    fetchURL.searchParams.set('key', currentURL.searchParams.get('key')!);
+  }
+
+  const response = await fetch(fetchURL);
   // const response = await fetch(tmpDataURL);
   if (response.status === 403) {
     return { error: 'Unauthorized' };
@@ -144,7 +151,6 @@ const ResultsList: FunctionalComponent<{
 
   return (
     <div class={styles.container}>
-      <p>This data is only visible to you as you're on an allow-list.</p>
       <p>Number of rankings: {rankings.length}.</p>
       <table class={styles.resultsTable}>
         <thead>

@@ -19,7 +19,7 @@ const user = lazyCompute(() => userDataPromise);
 pushToastMessage({ type: 'loading', until: userDataPromise });
 
 interface AppInnerProps {
-  loggedInContent: (user: User) => ComponentChildren;
+  loggedInContent?: (user: User) => ComponentChildren;
 }
 
 const AppInner: FunctionalComponent<AppInnerProps> = ({
@@ -47,7 +47,7 @@ const AppInner: FunctionalComponent<AppInnerProps> = ({
     return url.toString();
   }, [user.value!.avatarSrc]);
 
-  const resolvedContent = loggedInContent(user.value!);
+  const resolvedContent = loggedInContent ? loggedInContent(user.value!) : null;
 
   const currentPath = location.pathname + location.search;
   const logoutURL = new URL('/auth/logout', location.origin);
@@ -79,17 +79,17 @@ const AppInner: FunctionalComponent<AppInnerProps> = ({
 };
 
 interface AppShellProps {
-  loggedInContent: (user: User) => ComponentChildren;
+  loggedInContent?: (user: User) => ComponentChildren;
 }
 
 const AppShell: FunctionalComponent<AppShellProps> = ({
-  loggedInContent: content,
+  loggedInContent,
   children,
 }) => {
   return (
     <>
       <Suspense fallback={<SiteShell>{children}</SiteShell>}>
-        <AppInner loggedInContent={content}>{children}</AppInner>
+        <AppInner loggedInContent={loggedInContent}>{children}</AppInner>
       </Suspense>
       <Toasts />
     </>
