@@ -164,9 +164,25 @@ const ResultsList: FunctionalComponent<{
     };
   };
 
+  const rankingSizeStats = useMemo(() => {
+    const sizes = rankings.map((r) => r.length);
+    const max = Math.max(...sizes);
+    const mean = sizes.reduce((a, b) => a + b, 0) / sizes.length;
+    const sorted = [...sizes].sort((a, b) => a - b);
+    const median =
+      sorted.length % 2 === 0
+        ? (sorted[sorted.length / 2 - 1] + sorted[sorted.length / 2]) / 2
+        : sorted[Math.floor(sorted.length / 2)];
+    return { max, mean, median };
+  }, [rankings]);
+
   return (
     <div class={styles.container}>
       <p>Number of rankings: {rankings.length}.</p>
+      <p>
+        Ranking sizes: max = {rankingSizeStats.max}, mean ={' '}
+        {rankingSizeStats.mean.toFixed(2)}, median = {rankingSizeStats.median}.
+      </p>
       <p>
         <a href={dataFetchURL}>Raw JSON data</a> - An array of each ranking,
         where the numbers are Interop GitHub issue IDs.
