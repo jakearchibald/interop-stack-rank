@@ -21,7 +21,7 @@ for (const item of allItems) itemsById.set(item.id, item);
 
 const candidates = [...itemsById.keys()];
 
-const rankingDataPromise = (async () => {
+const dataFetchURL = (() => {
   const currentURL = new URL(location.href);
   const fetchURL = new URL('/api/ranking-data-anon', currentURL);
 
@@ -29,7 +29,11 @@ const rankingDataPromise = (async () => {
     fetchURL.searchParams.set('key', currentURL.searchParams.get('key')!);
   }
 
-  const response = await fetch(fetchURL);
+  return fetchURL.pathname + fetchURL.search;
+})();
+
+const rankingDataPromise = (async () => {
+  const response = await fetch(dataFetchURL);
   // const response = await fetch(tmpDataURL);
   if (response.status === 403) {
     return { error: 'Unauthorized' };
@@ -152,6 +156,10 @@ const ResultsList: FunctionalComponent<{
   return (
     <div class={styles.container}>
       <p>Number of rankings: {rankings.length}.</p>
+      <p>
+        <a href={dataFetchURL}>Raw JSON data</a> - An array of each ranking,
+        where the numbers are Interop GitHub issue IDs.
+      </p>
       <table class={styles.resultsTable}>
         <thead>
           <tr>
