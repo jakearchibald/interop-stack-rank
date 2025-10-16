@@ -7,9 +7,14 @@ import { useMemo } from 'preact/hooks';
 import { schulze } from './schulze';
 import styles from './styles.module.css';
 
-type SortKey = 'schulzeWins' | 'topChoiceCount' | 'rankCount' | 'averageRank';
+type SortKey =
+  | 'schulzeWins'
+  | 'topChoiceCount'
+  | 'rankCount'
+  | 'averageRank'
+  | 'smallRankingTopChoiceCount';
 
-// import tmpDataURL from './tmp-data.json?url';
+import tmpDataURL from './tmp-data.json?url';
 
 export const itemsById = new Map<number, RankingItem>();
 for (const item of allItems) itemsById.set(item.id, item);
@@ -17,8 +22,8 @@ for (const item of allItems) itemsById.set(item.id, item);
 const candidates = [...itemsById.keys()];
 
 const rankingDataPromise = (async () => {
-  const response = await fetch('/api/ranking-data-anon');
-  // const response = await fetch(tmpDataURL);
+  // const response = await fetch('/api/ranking-data-anon');
+  const response = await fetch(tmpDataURL);
   if (response.status === 403) {
     return { error: 'Unauthorized' };
   }
@@ -27,6 +32,7 @@ const rankingDataPromise = (async () => {
 })();
 
 const rankingData = lazyCompute(() => rankingDataPromise);
+const smallRankingLimit = 4;
 
 interface ResultData {
   id: number;
@@ -34,6 +40,7 @@ interface ResultData {
   topChoiceCount: number;
   rankCount: number;
   averageRank: number;
+  smallRankingTopChoiceCount: number;
 }
 
 const ResultsList: FunctionalComponent<{
@@ -52,6 +59,7 @@ const ResultsList: FunctionalComponent<{
 
     // Calculate stats for each ID
     const topChoiceCounts = new Map<number, number>();
+    const smallRankingTopChoiceCount = new Map<number, number>();
     const rankCounts = new Map<number, number>();
     const rankSums = new Map<number, number>();
     const validRankCounts = new Map<number, number>(); // For averageRank calculation (excluding single-item rankings)
@@ -60,6 +68,13 @@ const ResultsList: FunctionalComponent<{
       // Count top choice (first item in ranking)
       const topChoice = ranking[0];
       topChoiceCounts.set(topChoice, (topChoiceCounts.get(topChoice) || 0) + 1);
+
+      if (ranking.length <= smallRankingLimit) {
+        smallRankingTopChoiceCount.set(
+          topChoice,
+          (smallRankingTopChoiceCount.get(topChoice) || 0) + 1
+        );
+      }
 
       // For each ID in this ranking
       for (const [i, id] of ranking.entries()) {
@@ -82,9 +97,10 @@ const ResultsList: FunctionalComponent<{
         id,
         schulzeWins,
         topChoiceCount: topChoiceCounts.get(id) || 0,
+        smallRankingTopChoiceCount: smallRankingTopChoiceCount.get(id) || 0,
         rankCount: rankCounts.get(id) || 0,
         averageRank: validCount > 0 ? (rankSums.get(id) || 0) / validCount : 0,
-      };
+      } satisfies ResultData;
     });
 
     return results;
@@ -105,6 +121,11 @@ const ResultsList: FunctionalComponent<{
         break;
       case 'averageRank':
         sorted.sort((a, b) => a.averageRank - b.averageRank);
+        break;
+      case 'smallRankingTopChoiceCount':
+        sorted.sort(
+          (a, b) => b.smallRankingTopChoiceCount - a.smallRankingTopChoiceCount
+        );
         break;
     }
 
@@ -147,6 +168,15 @@ const ResultsList: FunctionalComponent<{
               </a>
             </th>
             <th>
+              <a
+                href="?sort=smallRankingTopChoiceCount"
+                onClick={handleSortClick('smallRankingTopChoiceCount')}
+              >
+                Top Choice Count
+              </a>{' '}
+              (in rankings of {smallRankingLimit} or fewer)
+            </th>
+            <th>
               <a href="?sort=rankCount" onClick={handleSortClick('rankCount')}>
                 Rank Count
               </a>
@@ -177,6 +207,7 @@ const ResultsList: FunctionalComponent<{
               </td>
               <td>{result.schulzeWins}</td>
               <td>{result.topChoiceCount}</td>
+              <td>{result.smallRankingTopChoiceCount}</td>
               <td>{result.rankCount}</td>
               <td>{result.averageRank.toFixed(3)}</td>
             </tr>
