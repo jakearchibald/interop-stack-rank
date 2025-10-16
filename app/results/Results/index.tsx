@@ -1,12 +1,12 @@
 import type { FunctionalComponent } from 'preact';
 import { useSignal } from '@preact/signals';
 import { lazyCompute } from '../../lazyCompute';
-import allItems from '../../Ranker/data.json';
-import type { RankingItem } from '../../Ranker';
 import { useMemo } from 'preact/hooks';
 import { schulze } from './schulze';
 import styles from './styles.module.css';
 import { classes } from '../../utils/classes';
+import VS from './VS';
+import { itemsById } from './data';
 
 type SortKey =
   | 'schulzeWins'
@@ -17,9 +17,6 @@ type SortKey =
   | 'smallRankingTopChoiceCount';
 
 // import tmpDataURL from './tmp-data.json?url';
-
-export const itemsById = new Map<number, RankingItem>();
-for (const item of allItems) itemsById.set(item.id, item);
 
 const candidates = [...itemsById.keys()];
 
@@ -182,6 +179,8 @@ const ResultsList: FunctionalComponent<{
 
   return (
     <div class={styles.container}>
+      <VS rankings={rankings} />
+      <h2>Overall Results</h2>
       <p>Number of rankings: {rankings.length}.</p>
       <p>
         Ranking sizes: max = {rankingSizeStats.max}, mean ={' '}

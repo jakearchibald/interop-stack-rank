@@ -1,0 +1,85 @@
+.container {
+  margin: 2rem 0;
+}
+
+.selectors {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+
+.selectorGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  flex: 1;
+  min-width: 200px;
+}
+
+.selectorGroup label {
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.selectorGroup input {
+  padding: 0.5rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background: white;
+}
+
+.versus {
+  font-weight: bold;
+  font-size: 1.5rem;
+  color: var(--color-text-secondary, #666);
+  margin-top: 1.5rem;
+}
+
+.results {
+  margin-top: 1.5rem;
+}
+
+.results h3 {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  font-size: 1.2rem;
+}
+
+.results > p {
+  margin-bottom: 1rem;
+}
+
+.winStats {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.stat {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem;
+  background: white;
+  border-radius: 4px;
+  border-left: 4px solid var(--color-primary, #0066cc);
+}
+
+.stat .label {
+  font-weight: 500;
+}
+
+.stat .value {
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+.noComparison {
+  font-style: italic;
+  color: var(--color-text-secondary, #666);
+  margin-top: 1rem;
+}
