@@ -3,7 +3,7 @@ import AppShell from '../AppShell';
 import Results from './Results';
 
 function App() {
-  return <AppShell loggedInContent={() => <Results />} />;
+  return <AppShell><Results /></AppShell>;
 }
 
 render(<App />, document.getElementById('app')!);
