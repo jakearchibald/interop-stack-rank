@@ -7,3 +7,31 @@
     margin-bottom: 1rem;
   }
 }
+
+.resultsTable {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 1px;
+
+  & thead th {
+    text-align: left;
+    padding: 0.5rem 1rem;
+    background: white;
+  }
+
+  & tbody tr {
+    background: white;
+  }
+
+  & td {
+    padding: 0.5rem 1rem;
+  }
+
+  & th a {
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}

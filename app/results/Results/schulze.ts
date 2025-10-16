@@ -66,10 +66,7 @@ export function schulze(candidates: number[], rankings: number[][]) {
     }
   }
 
-  const candidateWins = candidates.map(
+  return candidates.map(
     (candidate, index) => [candidate, wins[index]] as const
   );
-  candidateWins.sort((a, b) => b[1] - a[1]);
-
-  return candidateWins;
 }

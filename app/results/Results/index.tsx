@@ -1,10 +1,13 @@
 import type { FunctionalComponent } from 'preact';
+import { useSignal } from '@preact/signals';
 import { lazyCompute } from '../../lazyCompute';
 import allItems from '../../Ranker/data.json';
 import type { RankingItem } from '../../Ranker';
 import { useMemo } from 'preact/hooks';
 import { schulze } from './schulze';
 import styles from './styles.module.css';
+
+type SortKey = 'schulzeWins' | 'topChoiceCount' | 'rankCount' | 'averageRank';
 
 // import tmpDataURL from './tmp-data.json?url';
 
@@ -25,38 +28,161 @@ const rankingDataPromise = (async () => {
 
 const rankingData = lazyCompute(() => rankingDataPromise);
 
+interface ResultData {
+  id: number;
+  schulzeWins: number;
+  topChoiceCount: number;
+  rankCount: number;
+  averageRank: number;
+}
+
 const ResultsList: FunctionalComponent<{
   rankings: number[][];
 }> = ({ rankings }) => {
-  const results = useMemo(() => schulze(candidates, rankings), [rankings]);
-  const rankedCount = useMemo(() => {
-    const rankedCount = new Map<number, number>();
+  const initialSortKey = useMemo(() => {
+    // Get current sort from URL
+    const params = new URLSearchParams(window.location.search);
+    return (params.get('sort') || 'schulzeWins') as SortKey;
+  }, []);
+
+  const sortKey = useSignal<SortKey>(initialSortKey);
+
+  const results: ResultData[] = useMemo(() => {
+    const schulzeResults = schulze(candidates, rankings);
+
+    // Calculate stats for each ID
+    const topChoiceCounts = new Map<number, number>();
+    const rankCounts = new Map<number, number>();
+    const rankSums = new Map<number, number>();
+    const validRankCounts = new Map<number, number>(); // For averageRank calculation (excluding single-item rankings)
+
     for (const ranking of rankings) {
-      for (const rank of ranking) {
-        rankedCount.set(rank, (rankedCount.get(rank) || 0) + 1);
+      // Count top choice (first item in ranking)
+      const topChoice = ranking[0];
+      topChoiceCounts.set(topChoice, (topChoiceCounts.get(topChoice) || 0) + 1);
+
+      // For each ID in this ranking
+      for (const [i, id] of ranking.entries()) {
+        // Count how many rankings this ID appears in
+        rankCounts.set(id, (rankCounts.get(id) || 0) + 1);
+
+        // Calculate normalized position for average (0 = first, 1 = last)
+        // Only include rankings with more than 1 item
+        if (ranking.length > 1) {
+          const normalizedPosition = i / (ranking.length - 1);
+          rankSums.set(id, (rankSums.get(id) || 0) + normalizedPosition);
+          validRankCounts.set(id, (validRankCounts.get(id) || 0) + 1);
+        }
       }
     }
-    return rankedCount;
+
+    const results: ResultData[] = schulzeResults.map(([id, schulzeWins]) => {
+      const validCount = validRankCounts.get(id) || 0;
+      return {
+        id,
+        schulzeWins,
+        topChoiceCount: topChoiceCounts.get(id) || 0,
+        rankCount: rankCounts.get(id) || 0,
+        averageRank: validCount > 0 ? (rankSums.get(id) || 0) / validCount : 0,
+      };
+    });
+
+    return results;
   }, [rankings]);
+
+  const sortedResults = useMemo(() => {
+    const sorted = [...results];
+
+    switch (sortKey.value) {
+      case 'schulzeWins':
+        sorted.sort((a, b) => b.schulzeWins - a.schulzeWins);
+        break;
+      case 'topChoiceCount':
+        sorted.sort((a, b) => b.topChoiceCount - a.topChoiceCount);
+        break;
+      case 'rankCount':
+        sorted.sort((a, b) => b.rankCount - a.rankCount);
+        break;
+      case 'averageRank':
+        sorted.sort((a, b) => a.averageRank - b.averageRank);
+        break;
+    }
+
+    return sorted;
+  }, [results, sortKey.value]);
+
+  const handleSortClick = (key: SortKey) => {
+    return (e: Event) => {
+      e.preventDefault();
+      const url = new URL(location.href);
+      url.searchParams.set('sort', key);
+      history.replaceState({}, '', url);
+      sortKey.value = key;
+    };
+  };
 
   return (
     <div class={styles.container}>
       <p>This data is only visible to you as you're on an allow-list.</p>
       <p>Number of rankings: {rankings.length}.</p>
-      <ol class={styles.resultsList}>
-        {results.map(([id, wins]) => (
-          <li key={id}>
-            <a
-              href={`https://github.com/web-platform-tests/interop/issues/${id}`}
-              target="_blank"
-              dangerouslySetInnerHTML={{
-                __html: itemsById.get(Number(id))!.titleHTML,
-              }}
-            />
-            : {wins} wins. {rankedCount.get(Number(id)) || 0} times ranked.
-          </li>
-        ))}
-      </ol>
+      <table class={styles.resultsTable}>
+        <thead>
+          <tr>
+            <th>Pos</th>
+            <th>Issue</th>
+            <th>
+              <a
+                href="?sort=schulzeWins"
+                onClick={handleSortClick('schulzeWins')}
+              >
+                Schulze Wins
+              </a>
+            </th>
+            <th>
+              <a
+                href="?sort=topChoiceCount"
+                onClick={handleSortClick('topChoiceCount')}
+              >
+                Top Choice Count
+              </a>
+            </th>
+            <th>
+              <a href="?sort=rankCount" onClick={handleSortClick('rankCount')}>
+                Rank Count
+              </a>
+            </th>
+            <th>
+              <a
+                href="?sort=averageRank"
+                onClick={handleSortClick('averageRank')}
+              >
+                Average Rank
+              </a>{' '}
+              (0=top, 1=bottom)
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          {sortedResults.map((result, index) => (
+            <tr key={result.id}>
+              <td>{index + 1}</td>
+              <td>
+                <a
+                  href={`https://github.com/web-platform-tests/interop/issues/${result.id}`}
+                  target="_blank"
+                  dangerouslySetInnerHTML={{
+                    __html: itemsById.get(result.id)!.titleHTML,
+                  }}
+                />
+              </td>
+              <td>{result.schulzeWins}</td>
+              <td>{result.topChoiceCount}</td>
+              <td>{result.rankCount}</td>
+              <td>{result.averageRank.toFixed(3)}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 };
