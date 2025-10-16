@@ -10,6 +10,7 @@ import styles from './styles.module.css';
 type SortKey =
   | 'schulzeWins'
   | 'topChoiceCount'
+  | 'top3ChoiceCount'
   | 'rankCount'
   | 'averageRank'
   | 'smallRankingTopChoiceCount';
@@ -49,6 +50,7 @@ interface ResultData {
   id: number;
   schulzeWins: number;
   topChoiceCount: number;
+  top3ChoiceCount: number;
   rankCount: number;
   averageRank: number;
   smallRankingTopChoiceCount: number;
@@ -70,6 +72,7 @@ const ResultsList: FunctionalComponent<{
 
     // Calculate stats for each ID
     const topChoiceCounts = new Map<number, number>();
+    const top3ChoiceCounts = new Map<number, number>();
     const smallRankingTopChoiceCount = new Map<number, number>();
     const rankCounts = new Map<number, number>();
     const rankSums = new Map<number, number>();
@@ -89,6 +92,10 @@ const ResultsList: FunctionalComponent<{
 
       // For each ID in this ranking
       for (const [i, id] of ranking.entries()) {
+        if (i < 3) {
+          top3ChoiceCounts.set(id, (top3ChoiceCounts.get(id) || 0) + 1);
+        }
+
         // Count how many rankings this ID appears in
         rankCounts.set(id, (rankCounts.get(id) || 0) + 1);
 
@@ -108,6 +115,7 @@ const ResultsList: FunctionalComponent<{
         id,
         schulzeWins,
         topChoiceCount: topChoiceCounts.get(id) || 0,
+        top3ChoiceCount: top3ChoiceCounts.get(id) || 0,
         smallRankingTopChoiceCount: smallRankingTopChoiceCount.get(id) || 0,
         rankCount: rankCounts.get(id) || 0,
         averageRank: validCount > 0 ? (rankSums.get(id) || 0) / validCount : 0,
@@ -126,6 +134,9 @@ const ResultsList: FunctionalComponent<{
         break;
       case 'topChoiceCount':
         sorted.sort((a, b) => b.topChoiceCount - a.topChoiceCount);
+        break;
+      case 'top3ChoiceCount':
+        sorted.sort((a, b) => b.top3ChoiceCount - a.top3ChoiceCount);
         break;
       case 'rankCount':
         sorted.sort((a, b) => b.rankCount - a.rankCount);
@@ -191,6 +202,14 @@ const ResultsList: FunctionalComponent<{
               (in rankings of {smallRankingLimit} or fewer)
             </th>
             <th>
+              <a
+                href="?sort=top3ChoiceCount"
+                onClick={handleSortClick('top3ChoiceCount')}
+              >
+                Top 3 Count
+              </a>
+            </th>
+            <th>
               <a href="?sort=rankCount" onClick={handleSortClick('rankCount')}>
                 Rank Count
               </a>
@@ -222,6 +241,7 @@ const ResultsList: FunctionalComponent<{
               <td>{result.schulzeWins}</td>
               <td>{result.topChoiceCount}</td>
               <td>{result.smallRankingTopChoiceCount}</td>
+              <td>{result.top3ChoiceCount}</td>
               <td>{result.rankCount}</td>
               <td>{result.averageRank.toFixed(3)}</td>
             </tr>
