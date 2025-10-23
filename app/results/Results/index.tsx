@@ -183,19 +183,23 @@ const ResultsList: FunctionalComponent<{
   const onDownloadCSV = () => {
     const table = tableRef.current!;
     const csvGenerator = generateCsv({
-      columnHeaders: [...table.querySelectorAll('thead th')]
-        .slice(1)
-        .map((th, i) => ({
+      columnHeaders: [
+        { key: 'issue', displayLabel: 'Issue' },
+        ...[...table.querySelectorAll('thead th')].slice(1).map((th, i) => ({
           key: `col${i}`,
           displayLabel: th.textContent || '',
         })),
+      ],
     });
 
-    const data = [...table.querySelectorAll('tbody tr')].map((row) => {
+    const data = [...table.querySelectorAll('tbody tr')].map((row, i) => {
       const cells = [...row.querySelectorAll('td')].slice(1);
-      return Object.fromEntries(
-        cells.map((cell, i) => [`col${i}`, cell.textContent || ''])
-      );
+      return {
+        issue: sortedResults[i].id,
+        ...Object.fromEntries(
+          cells.map((cell, i) => [`col${i}`, cell.textContent || ''])
+        ),
+      };
     });
 
     const csv = csvGenerator(data);
@@ -225,7 +229,7 @@ const ResultsList: FunctionalComponent<{
         <thead>
           <tr>
             <th>Pos</th>
-            <th>Issue</th>
+            <th>Title</th>
             <th
               class={classes({
                 [styles.selected]: sortKey.value === 'schulzeWins',
