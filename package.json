@@ -16,6 +16,7 @@
     "@preact/preset-vite": "^2.10.2",
     "@preact/signals": "^2.3.2",
     "@types/node": "^24.7.0",
+    "export-to-csv": "^1.4.0",
     "marked": "^16.3.0",
     "pointer-tracker": "^2.5.3",
     "preact": "^10.27.2",
@@ -24,7 +25,7 @@
     "vite": "^7.1.9",
     "wrangler": "^4.42.0"
   },
-  "packageManager": "pnpm@10.17.0",
+  "packageManager": "pnpm@10.19.0",
   "dependencies": {
     "arctic": "^3.7.0",
     "cookie": "^1.0.2"

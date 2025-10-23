@@ -177,6 +177,8 @@ const VS: FunctionalComponent<VsProps> = ({ rankings }) => {
             {comparisonResult.bothRankedCount}
           </p>
 
+          <p>In rankings where both appear:</p>
+
           {comparisonResult.bothRankedCount > 0 && (
             <div class={styles.winStats}>
               <div class={styles.stat}>

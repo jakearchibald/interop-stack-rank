@@ -27,6 +27,9 @@ importers:
       '@types/node':
         specifier: ^24.7.0
         version: 24.7.0
+      export-to-csv:
+        specifier: ^1.4.0
+        version: 1.4.0
       marked:
         specifier: ^16.3.0
         version: 16.3.0
@@ -1069,6 +1072,10 @@ packages:
   exit-hook@2.2.1:
     resolution: {integrity: sha512-eNTPlAD67BmP31LDINZ3U7HSF8l57TxOY2PmBJ1shpCvpnxBF93mWCE8YHBnXs8qiUZJc9WDcWIeC3a2HIAMfw==}
     engines: {node: '>=6'}
+
+  export-to-csv@1.4.0:
+    resolution: {integrity: sha512-6CX17Cu+rC2Fi2CyZ4CkgVG3hLl6BFsdAxfXiZkmDFIDY4mRx2y2spdeH6dqPHI9rP+AsHEfGeKz84Uuw7+Pmg==}
+    engines: {node: ^v12.20.0 || >=v14.13.0}
 
   exsolve@1.0.7:
     resolution: {integrity: sha512-VO5fQUzZtI6C+vx4w/4BWJpg3s/5l+6pRQEHzFRM8WFi4XffSP1Z+4qi7GbjWbvRQEbdIco5mIMq+zX4rPuLrw==}
@@ -2414,6 +2421,8 @@ snapshots:
   estree-walker@2.0.2: {}
 
   exit-hook@2.2.1: {}
+
+  export-to-csv@1.4.0: {}
 
   exsolve@1.0.7: {}
 

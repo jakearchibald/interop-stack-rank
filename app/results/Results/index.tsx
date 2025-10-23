@@ -1,12 +1,13 @@
 import type { FunctionalComponent } from 'preact';
 import { useSignal } from '@preact/signals';
 import { lazyCompute } from '../../lazyCompute';
-import { useMemo } from 'preact/hooks';
+import { useMemo, useRef } from 'preact/hooks';
 import { schulze } from './schulze';
 import styles from './styles.module.css';
 import { classes } from '../../utils/classes';
 import VS from './VS';
 import { itemsById } from './data';
+import { generateCsv } from 'export-to-csv';
 
 type SortKey =
   | 'schulzeWins'
@@ -67,6 +68,8 @@ const ResultsList: FunctionalComponent<{
   }, []);
 
   const sortKey = useSignal<SortKey>(initialSortKey);
+
+  const tableRef = useRef<HTMLTableElement>(null);
 
   const results: ResultData[] = useMemo(() => {
     const schulzeResults = schulze(candidates, rankings);
@@ -177,6 +180,34 @@ const ResultsList: FunctionalComponent<{
     return { max, mean, median };
   }, [rankings]);
 
+  const onDownloadCSV = () => {
+    const table = tableRef.current!;
+    const csvGenerator = generateCsv({
+      columnHeaders: [...table.querySelectorAll('thead th')]
+        .slice(1)
+        .map((th, i) => ({
+          key: `col${i}`,
+          displayLabel: th.textContent || '',
+        })),
+    });
+
+    const data = [...table.querySelectorAll('tbody tr')].map((row) => {
+      const cells = [...row.querySelectorAll('td')].slice(1);
+      return Object.fromEntries(
+        cells.map((cell, i) => [`col${i}`, cell.textContent || ''])
+      );
+    });
+
+    const csv = csvGenerator(data);
+    const blob = new Blob([String(csv)], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = 'results.csv';
+    link.click();
+    URL.revokeObjectURL(url);
+  };
+
   return (
     <div class={styles.container}>
       <VS rankings={rankings} />
@@ -190,7 +221,7 @@ const ResultsList: FunctionalComponent<{
         <a href={dataFetchURL}>Raw JSON data</a> - An array of each ranking,
         where the numbers are Interop GitHub issue IDs.
       </p>
-      <table class={styles.resultsTable}>
+      <table class={styles.resultsTable} ref={tableRef}>
         <thead>
           <tr>
             <th>Pos</th>
@@ -292,6 +323,9 @@ const ResultsList: FunctionalComponent<{
           ))}
         </tbody>
       </table>
+      <p class={styles.downloadButton}>
+        <button onClick={onDownloadCSV}>Download table as CSV</button>
+      </p>
     </div>
   );
 };
