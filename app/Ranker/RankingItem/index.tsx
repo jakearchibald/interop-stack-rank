@@ -13,6 +13,7 @@ interface Props {
   showUpButton?: boolean;
   showDownButton?: boolean;
   showAddButton?: boolean;
+  showDragHandle?: boolean;
   animId?: string | null;
   onMoveUp?: () => void;
   onMoveDown?: () => void;
@@ -24,6 +25,7 @@ const RankingItem: FunctionComponent<Props> = ({
   showUpButton = false,
   showDownButton = false,
   showAddButton = false,
+  showDragHandle = false,
   onMoveUp,
   onMoveDown,
   onAdd,
@@ -31,10 +33,14 @@ const RankingItem: FunctionComponent<Props> = ({
 }) => {
   return (
     <div class={parentStyles.item} data-item-id={item.id} data-anim-id={animId}>
-      <div
-        class={styles.dragHandle}
-        dangerouslySetInnerHTML={{ __html: handleSVG }}
-      ></div>
+      {showDragHandle ? (
+        <div
+          class={styles.dragHandle}
+          dangerouslySetInnerHTML={{ __html: handleSVG }}
+        />
+      ) : (
+        <div />
+      )}
       <div class={styles.itemName}>
         <a
           href={`https://github.com/web-platform-tests/interop/issues/${item.id}`}

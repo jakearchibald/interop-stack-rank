@@ -105,9 +105,14 @@ export interface RankingItem {
 interface Props {
   user: User;
   onUnauthenticated: () => void;
+  readOnly?: boolean;
 }
 
-const Ranker: FunctionComponent<Props> = ({ user, onUnauthenticated }) => {
+const Ranker: FunctionComponent<Props> = ({
+  user,
+  onUnauthenticated,
+  readOnly,
+}) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const { rankedItems, unrankedItems } = useRankingSignals(user);
 
@@ -190,6 +195,9 @@ const Ranker: FunctionComponent<Props> = ({ user, onUnauthenticated }) => {
     if (fetchControllerRef.current) {
       fetchControllerRef.current.abort();
     }
+
+    if (readOnly) return;
+
     const controller = new AbortController();
     fetchControllerRef.current = controller;
 
@@ -250,7 +258,7 @@ const Ranker: FunctionComponent<Props> = ({ user, onUnauthenticated }) => {
   const draggingItemRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (!containerRef.current) return;
+    if (!containerRef.current || readOnly) return;
     let activeDropZone: HTMLElement | null = null;
 
     const pointerTracker = new PointerTracker(containerRef.current, {
@@ -416,7 +424,7 @@ const Ranker: FunctionComponent<Props> = ({ user, onUnauthenticated }) => {
     return () => {
       pointerTracker.stop();
     };
-  }, []);
+  }, [readOnly]);
 
   return (
     <div ref={containerRef} class={styles.rankingContainer}>
@@ -458,8 +466,8 @@ const Ranker: FunctionComponent<Props> = ({ user, onUnauthenticated }) => {
               >
                 <RankingItem
                   item={item}
-                  showUpButton={true}
-                  showDownButton={true}
+                  showUpButton={false}
+                  showDownButton={false}
                   animId={
                     draggingItem.value?.id === item.id
                       ? null
@@ -539,7 +547,7 @@ const Ranker: FunctionComponent<Props> = ({ user, onUnauthenticated }) => {
               >
                 <RankingItem
                   item={item}
-                  showAddButton={true}
+                  showAddButton={false}
                   onAdd={() => insertBeforeId(item, 'ranked', null)}
                   animId={
                     draggingItem.value?.id === item.id

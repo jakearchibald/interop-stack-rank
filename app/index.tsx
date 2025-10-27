@@ -13,7 +13,9 @@ const IndexContent: FunctionalComponent<{ user: User }> = ({ user }) => {
     location.reload();
   };
 
-  return <Ranker user={user} onUnauthenticated={onUnauthenticated} />;
+  return (
+    <Ranker readOnly={true} user={user} onUnauthenticated={onUnauthenticated} />
+  );
 };
 
 function App() {

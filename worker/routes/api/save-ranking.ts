@@ -1,7 +1,10 @@
 import { getSessionUser } from '../../utils/session';
-import { requireAdmin } from '../../utils/auth';
+import { endpointClosed, requireAdmin } from '../../utils/auth';
 
 const route: ExportedHandler<Env>['fetch'] = async (request, env) => {
+  endpointClosed();
+  return;
+
   if (request.method !== 'POST') {
     return Response.json({ error: 'Method not allowed' }, { status: 405 });
   }

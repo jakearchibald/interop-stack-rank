@@ -48,3 +48,7 @@ export function requireAdmin(
     throw new Response('Forbidden', { status: 403 });
   }
 }
+
+export function endpointClosed(): never {
+  throw new Response('Polling is closed', { status: 410 });
+}
