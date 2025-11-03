@@ -466,8 +466,8 @@ const Ranker: FunctionComponent<Props> = ({
               >
                 <RankingItem
                   item={item}
-                  showUpButton={false}
-                  showDownButton={false}
+                  showUpButton={readOnly ? false : true}
+                  showDownButton={readOnly ? false : true}
                   animId={
                     draggingItem.value?.id === item.id
                       ? null
@@ -547,7 +547,7 @@ const Ranker: FunctionComponent<Props> = ({
               >
                 <RankingItem
                   item={item}
-                  showAddButton={false}
+                  showAddButton={readOnly ? false : true}
                   onAdd={() => insertBeforeId(item, 'ranked', null)}
                   animId={
                     draggingItem.value?.id === item.id

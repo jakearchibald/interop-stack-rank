@@ -4,6 +4,7 @@ import type { User } from '../shared/user-data';
 import AppShell from './AppShell';
 import Explainer from './Explainer';
 import styles from './styles.module.css';
+import { readOnly } from '../shared/config';
 
 const Ranker = lazy(() => import('./Ranker'));
 
@@ -14,7 +15,11 @@ const IndexContent: FunctionalComponent<{ user: User }> = ({ user }) => {
   };
 
   return (
-    <Ranker readOnly={true} user={user} onUnauthenticated={onUnauthenticated} />
+    <Ranker
+      readOnly={readOnly}
+      user={user}
+      onUnauthenticated={onUnauthenticated}
+    />
   );
 };
 
