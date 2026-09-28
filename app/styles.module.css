@@ -55,6 +55,24 @@ a:focus-visible {
   border-radius: 2px;
 }
 
+code {
+  font-family: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas,
+    'DejaVu Sans Mono', monospace;
+  font-size: 0.9em;
+  letter-spacing: -0.02em;
+  /* Stop the monospace font's metrics from growing the line box */
+  line-height: 1;
+  padding: 0.1em 0.3em;
+  border-radius: 0.25em;
+  background: light-dark(rgb(0 0 0 / 6%), rgb(255 255 255 / 10%));
+  box-decoration-break: clone;
+  /*
+    lib/fetch-issues.js removes line break opportunities within code, to avoid
+    wrapping. This allows it to wrap if it really must.
+  */
+  overflow-wrap: break-word;
+}
+
 .button {
   padding: 0.9em 1.3em;
   border: none;

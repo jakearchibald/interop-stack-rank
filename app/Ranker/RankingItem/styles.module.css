@@ -23,13 +23,6 @@
   flex: 1;
   padding: var(--padding) 0;
   overflow-wrap: anywhere;
-
-  code {
-    font-family: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo,
-      Consolas, 'DejaVu Sans Mono', monospace;
-    font-size: 0.9em;
-    letter-spacing: -0.02em;
-  }
 }
 
 .upButton,
