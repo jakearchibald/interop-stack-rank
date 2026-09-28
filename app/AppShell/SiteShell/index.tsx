@@ -1,5 +1,5 @@
 import type { ComponentChildren, FunctionalComponent } from 'preact';
-import styles from './styles.module.css';
+import * as styles from './styles.module.css';
 import githubLogo from '../../icons/github.svg?raw';
 
 interface Props {

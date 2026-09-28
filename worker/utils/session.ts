@@ -1,4 +1,4 @@
-import { parse } from 'cookie';
+import { parseCookie } from 'cookie';
 
 export interface SessionUser {
   githubId: number;
@@ -49,7 +49,7 @@ export async function getSessionUser(
   request: Request,
   env: Env
 ): Promise<SessionUser | null> {
-  const cookies = parse(request.headers.get('Cookie') || '');
+  const cookies = parseCookie(request.headers.get('Cookie') || '');
   const sessionId = cookies.session;
 
   if (!sessionId) {

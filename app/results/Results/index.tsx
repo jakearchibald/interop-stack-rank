@@ -3,7 +3,7 @@ import { useSignal } from '@preact/signals';
 import { lazyCompute } from '../../lazyCompute';
 import { useMemo, useRef } from 'preact/hooks';
 import { schulze } from './schulze';
-import styles from './styles.module.css';
+import * as styles from './styles.module.css';
 import { classes } from '../../utils/classes';
 import VS from './VS';
 import { itemsById } from './data';

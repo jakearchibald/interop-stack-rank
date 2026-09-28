@@ -3,7 +3,7 @@ import { lazy } from 'preact/compat';
 import type { User } from '../shared/user-data';
 import AppShell from './AppShell';
 import Explainer from './Explainer';
-import styles from './styles.module.css';
+import * as styles from './styles.module.css';
 import { readOnly } from '../shared/config';
 
 const Ranker = lazy(() => import('./Ranker'));

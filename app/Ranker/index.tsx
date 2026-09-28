@@ -2,8 +2,8 @@ import { Fragment, type FunctionComponent } from 'preact';
 import { useEffect, useRef } from 'preact/hooks';
 import PointerTracker from '../utils/PointerTracker';
 
-import styles from './styles.module.css';
-import itemStyles from './RankingItem/styles.module.css';
+import * as styles from './styles.module.css';
+import * as itemStyles from './RankingItem/styles.module.css';
 import type { User } from '../../shared/user-data';
 import { itemsById, useRankingSignals } from './useRankingSignals';
 import { useSignal } from '@preact/signals';

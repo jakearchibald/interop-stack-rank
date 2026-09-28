@@ -4,3 +4,5 @@ node_modules/
 public/index.html
 dist
 .dev.vars
+# generated types
+*.module.css.d.ts

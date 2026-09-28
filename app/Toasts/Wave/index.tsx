@@ -1,6 +1,6 @@
 import type { FunctionalComponent } from 'preact';
 import { useEffect, useRef } from 'preact/hooks';
-import styles from './styles.module.css';
+import * as styles from './styles.module.css';
 
 interface Props {
   msg: string;

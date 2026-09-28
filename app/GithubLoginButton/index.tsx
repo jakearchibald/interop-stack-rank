@@ -1,6 +1,6 @@
 import type { FunctionalComponent } from 'preact';
-import sharedStyles from '../styles.module.css';
-import styles from './styles.module.css';
+import * as sharedStyles from '../styles.module.css';
+import * as styles from './styles.module.css';
 import githubLogo from '../icons/github.svg?raw';
 import { classes } from '../utils/classes';
 

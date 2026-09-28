@@ -2,7 +2,7 @@ import type { FunctionalComponent } from 'preact';
 import { useSignal } from '@preact/signals';
 import { useMemo } from 'preact/hooks';
 import { itemsById } from '../data';
-import styles from './styles.module.css';
+import * as styles from './styles.module.css';
 
 interface VsProps {
   rankings: number[][];

@@ -1,9 +1,9 @@
 import { type FunctionComponent } from 'preact';
 import type { RankingItem as RankingItemType } from '../index';
-import styles from './styles.module.css';
-import utilStyles from '../../utils.module.css';
-import parentStyles from '../styles.module.css';
-import rootStyles from '../../styles.module.css';
+import * as styles from './styles.module.css';
+import * as utilStyles from '../../utils.module.css';
+import * as parentStyles from '../styles.module.css';
+import * as rootStyles from '../../styles.module.css';
 import arrowSVG from '../../icons/arrow.svg?raw';
 import handleSVG from '../../icons/handle.svg?raw';
 import addSVG from '../../icons/add.svg?raw';
