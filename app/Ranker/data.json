@@ -1,688 +1,503 @@
 [
   {
-    "id": 1198,
-    "titleHTML": "HTML <code>&lt;link rel=&quot;expect&quot;&gt;</code>",
-    "subtitleHTML": "Hints to the browser to block rendering until a particular element is connected to the document and fully parsed."
+    "id": 1471,
+    "titleHTML": "Streaming HTML insertion",
+    "subtitleHTML": "Methods such as <code>streamHTML()</code> and <code>streamAppendHTML()</code> return writable streams that incrementally insert HTML into an existing tree."
   },
   {
-    "id": 1197,
-    "titleHTML": "HTML <code>&lt;link rel=&quot;prefetch&quot;&gt;</code>",
-    "subtitleHTML": "Hints to the browser that the user is likely to need a resource, so the browser should preemptively fetch and cache it."
+    "id": 1470,
+    "titleHTML": "HTML <code>&lt;iframe&nbsp;allow=&quot;cross-&#8288;origin-&#8288;isolated&quot;&gt;</code>",
+    "subtitleHTML": "Allows cross-origin isolated features, such as <code>SharedArrayBuffer</code>, within iframes."
   },
   {
-    "id": 1188,
-    "titleHTML": "WebRTC <code>RTCRtpScriptTransform</code> and transferability of <code>RTCDataChannels</code>"
+    "id": 1469,
+    "titleHTML": "Targeted SVG improvements",
+    "subtitleHTML": "SVG filters, <code>context-&#8288;fill</code>/<code>context-&#8288;stroke</code>, <code>&lt;use&gt;</code> without a fragment, and path data APIs."
   },
   {
-    "id": 1187,
-    "titleHTML": "Improve interoperability of CSS <code>appearance</code>, CSS <code>zoom</code>, error events when a worker is blocked via CSP, <code>Performance.observe</code>, CSS <code>list-style-position</code>, CSS <code>overscroll-behavior</code> on the root, <code>document.caretPositionFromPoint()</code>",
-    "subtitleHTML": "These are small things which have caused compat issues in the wild."
+    "id": 1468,
+    "titleHTML": "Pause media in hidden iframes",
+    "subtitleHTML": "The <code>media-&#8288;playback-&#8288;while-&#8288;not-&#8288;visible</code> permission policy pauses audible media in iframes that are hidden."
   },
   {
-    "id": 1186,
-    "titleHTML": "Improve interoperability of <code>URLPattern</code>"
+    "id": 1467,
+    "titleHTML": "Brotli support in <code>CompressionStream</code> and <code>DecompressionStream</code>"
   },
   {
-    "id": 1185,
-    "titleHTML": "Improve interoperability of WebAssembly"
+    "id": 1466,
+    "titleHTML": "JavaScript CSS module imports",
+    "subtitleHTML": "<code>import&nbsp;…&nbsp;with&nbsp;{&nbsp;type:&nbsp;&quot;css&quot;&nbsp;}</code> to load CSS resources as constructable stylesheets."
   },
   {
-    "id": 1184,
-    "titleHTML": "Improve interoperability of the view transition API"
+    "id": 1465,
+    "titleHTML": "Trusted Types",
+    "subtitleHTML": "Ensures input has been passed through a transformation function before being passed to an API that might execute that input."
   },
   {
-    "id": 1183,
-    "titleHTML": "Improve interoperability of CSS <code>text-decoration</code>"
+    "id": 1462,
+    "titleHTML": "Contact Picker API",
+    "subtitleHTML": "<code>navigator.contacts</code> allows users to share selected entries from their contact list."
   },
   {
-    "id": 1182,
-    "titleHTML": "Improve interoperability of the HTML <code>&lt;details&gt;</code> element"
+    "id": 1460,
+    "titleHTML": "CSS <code>sibling-&#8288;count()</code> and <code>sibling-&#8288;index()</code> functions",
+    "subtitleHTML": "Allow styling based on an element&#39;s position among its siblings."
   },
   {
-    "id": 1181,
-    "titleHTML": "Improve interoperability of storage access API"
+    "id": 1459,
+    "titleHTML": "Progressive rendering of JPEG XL and AVIF images",
+    "subtitleHTML": "Displays a preview version of the image while the rest downloads."
   },
   {
-    "id": 1180,
-    "titleHTML": "Improve interoperability of pointer and mouse events"
+    "id": 1457,
+    "titleHTML": "CSS anchor positioning with transforms and animations",
+    "subtitleHTML": "Anchor-positioned elements track transforms on their anchors, and changes to the calculated <code>anchor()</code> triggers transitions."
   },
   {
-    "id": 1179,
-    "titleHTML": "Improve interoperability of CSS <code>backdrop-filter</code>"
+    "id": 1453,
+    "titleHTML": "CSS <code>inherit()</code> function",
+    "subtitleHTML": "Like <code>var()</code>, but uses the parent element&#39;s value of the custom property."
   },
   {
-    "id": 1178,
-    "titleHTML": "Improve interoperability of the navigation API"
+    "id": 1452,
+    "titleHTML": "CSS <code>ident()</code> function",
+    "subtitleHTML": "Builds an identifier from strings, integers, and other identifiers, such as <code>view-&#8288;transition-&#8288;name:&nbsp;ident(&quot;item-&#8288;&quot;&nbsp;sibling-&#8288;index())</code>."
   },
   {
-    "id": 1177,
-    "titleHTML": "JavaScript JSON imports via <code>import … with { type: &quot;json&quot; }</code>"
+    "id": 1450,
+    "titleHTML": "CSS <code>baseline-&#8288;source</code> property",
+    "subtitleHTML": "Controls which baseline is used to align multi-line inline-level boxes with surrounding text."
   },
   {
-    "id": 1176,
-    "titleHTML": "Improve interoperability of CSS grid, subgrid, and flexbox"
+    "id": 1449,
+    "titleHTML": "CSS <code>filter(image,&nbsp;...filters)</code>",
+    "subtitleHTML": "Takes an image and a filter, and returns a new image."
   },
   {
-    "id": 1175,
-    "titleHTML": "CSS <code>overflow-inline</code>, <code>overflow-block</code>, and <code>writing-mode</code> properties"
-  },
-  {
-    "id": 1174,
-    "titleHTML": "CSS <code>@scope</code>",
-    "subtitleHTML": "Sets the scope for a group of rules."
-  },
-  {
-    "id": 1173,
-    "titleHTML": "<code>LargestContentfulPaint</code> entries in the Performance API",
-    "subtitleHTML": "Measures the time it takes for the largest image or text to appear."
-  },
-  {
-    "id": 1172,
-    "titleHTML": "CSS anchor positioning",
-    "subtitleHTML": "Places an element based on the position of another element."
-  },
-  {
-    "id": 1168,
-    "titleHTML": "CSS <code>box-shadow</code> longhands",
-    "subtitleHTML": "Such as <code>box-shadow-color</code> and <code>box-shadow-offset</code>."
-  },
-  {
-    "id": 1167,
-    "titleHTML": "CSS <code>display-p3-linear</code> colorspace"
-  },
-  {
-    "id": 1166,
-    "titleHTML": "CSS <code>color-mix()</code> without specifying a colorspace",
-    "subtitleHTML": "Defaulting to <code>oklab</code>."
-  },
-  {
-    "id": 1165,
-    "titleHTML": "CSS <code>contrast-color()</code> function",
-    "subtitleHTML": "Picks a color that has guaranteed contrast against a specified foreground or background color."
-  },
-  {
-    "id": 1164,
-    "titleHTML": "CSS <code>background-clip: border-area</code>",
-    "subtitleHTML": "Draws the background underneath only the border of an element."
-  },
-  {
-    "id": 1163,
-    "titleHTML": "JSON source text access",
-    "subtitleHTML": "To serialize and parse JSON in a lossless way,<code> JSON.stringify()</code> handles <code>rawJSON</code> values and <code>JSON.parse()</code>&#39;s reviver callback takes a source context parameter."
-  },
-  {
-    "id": 1162,
-    "titleHTML": "Payment Handler API",
-    "subtitleHTML": "A standardized set of functionality for web applications to directly handle payments, rather than having to be redirected to a separate site for payment handling."
-  },
-  {
-    "id": 1161,
+    "id": 1447,
     "titleHTML": "WebVTT",
     "subtitleHTML": "WebVTT files are loaded using the <code>&lt;track&gt;</code> element, and the <code>VTTCue</code> API can be used to create or update cues dynamically."
   },
   {
-    "id": 1160,
-    "titleHTML": "CSS <code>filter(image, ...filters)</code>",
-    "subtitleHTML": "Takes an image and a filter, and returns a new image."
+    "id": 1446,
+    "titleHTML": "CSS <code>@counter-&#8288;style</code>",
+    "subtitleHTML": "Defines custom counter styles for list items, such as a sequence of symbols instead of numbers."
   },
   {
-    "id": 1157,
-    "titleHTML": "Fully support fetch/range"
+    "id": 1445,
+    "titleHTML": "CSS grid lanes (masonry)",
+    "subtitleHTML": "<code>display:&nbsp;grid-&#8288;lanes</code> creates a layout where items are tightly packed into parallel lanes."
   },
   {
-    "id": 1156,
-    "titleHTML": "Improve support for request/response body formdata and mime-type"
+    "id": 1444,
+    "titleHTML": "CSS <code>margin-&#8288;trim</code>",
+    "subtitleHTML": "Removes the margins of child elements when they meet the edges of the container."
   },
   {
-    "id": 1155,
-    "titleHTML": "HTML <code>autocorrect</code> attribute",
-    "subtitleHTML": "Controls whether to automatically correct spelling or punctuation errors for user input."
+    "id": 1443,
+    "titleHTML": "Responsive iframes",
+    "subtitleHTML": "The <code>frame-&#8288;sizing</code> CSS property sizes an <code>&lt;iframe&gt;</code> to its content, avoiding scrolling within the iframe."
   },
   {
-    "id": 1154,
-    "titleHTML": "CSS <code>paint()</code> API",
-    "subtitleHTML": "Creates a custom image, drawn using a paint worklet, for an element&#39;s background or border."
+    "id": 1441,
+    "titleHTML": "Preserve history state after cross-document navigation",
+    "subtitleHTML": "Some browsers discard <code>history.state</code> after cross-document navigations, but keep it for same-document navigations."
   },
   {
-    "id": 1152,
-    "titleHTML": "Custom elements that extend built-in elements via the <code>is</code> attribute"
+    "id": 1440,
+    "titleHTML": "Viewport Segments API",
+    "subtitleHTML": "Adapt layouts to devices where the display is split, such as foldables."
   },
   {
-    "id": 1151,
-    "titleHTML": "IndexedDB <code>getAllRecords()</code> and direction option for <code>getAll()</code>/<code>getAllKeys()</code>",
-    "subtitleHTML": "Enables certain read patterns to be significantly faster when compared to the existing alternative of iteration with cursors."
+    "id": 1439,
+    "titleHTML": "Device Posture API",
+    "subtitleHTML": "Reflects the posture of a device, such as whether a foldable device is folded, in both CSS and script."
   },
   {
-    "id": 1150,
-    "titleHTML": "CSS <code>object-view-box</code>",
-    "subtitleHTML": "Crops and zooms to an inset area of an image."
+    "id": 1438,
+    "titleHTML": "CSS <code>scroll-&#8288;snap-&#8288;type:&nbsp;pair</code>",
+    "subtitleHTML": "Snap to the same element in both axes."
   },
   {
-    "id": 1149,
-    "titleHTML": "CSS Custom Highlight API",
-    "subtitleHTML": "Style arbitrary text ranges, without adding extra elements to the DOM."
+    "id": 1436,
+    "titleHTML": "Single-axis scroll containers",
+    "subtitleHTML": "Such as <code>overflow:&nbsp;scroll&nbsp;clip</code>, which allows <code>position:&nbsp;sticky</code> to work relative to different scroll containers per axis."
   },
   {
-    "id": 1147,
-    "titleHTML": "WASM <code>Memory64</code>",
-    "subtitleHTML": "Adds support for WebAssembly memories larger than 4GB for memory-intensive applications."
+    "id": 1435,
+    "titleHTML": "Promises from programmatic scroll methods",
+    "subtitleHTML": "<code>scroll()</code>, <code>scrollTo()</code>, <code>scrollBy()</code>, and <code>scrollIntoView()</code> return promises that resolve when scrolling completes."
   },
   {
-    "id": 1146,
-    "titleHTML": "Improve browser interoperability of CSS flexbox sizing"
+    "id": 1434,
+    "titleHTML": "CSS <code>@supports&nbsp;at-&#8288;rule()</code>",
+    "subtitleHTML": "Checks if a CSS at-rule is supported."
   },
   {
-    "id": 1143,
-    "titleHTML": "Align behavior of incumbent globals in Promises"
+    "id": 1433,
+    "titleHTML": "CSS scroll-triggered animations",
+    "subtitleHTML": "<code>timeline-&#8288;trigger</code> and <code>animation-&#8288;trigger</code> play, pause, or reverse animations when the user scrolls to a particular point."
   },
   {
-    "id": 1142,
-    "titleHTML": "<code>NotRestoredReasons</code> in the Performance API",
-    "subtitleHTML": "Provides report data containing reasons why the current document was blocked from using the back/forward cache."
+    "id": 1432,
+    "titleHTML": "CSS <code>symbols()</code> function",
+    "subtitleHTML": "Defines a counter style inline, such as in <code>list-&#8288;style</code>, without needing <code>@counter-&#8288;style</code>."
   },
   {
-    "id": 1140,
-    "titleHTML": "Improve interoperability of MathML rendering"
+    "id": 1430,
+    "titleHTML": "Web app installation via <code>&lt;install&gt;</code> and <code>navigator.install()</code>",
+    "subtitleHTML": "Prompts the user to install a progressive web app."
   },
   {
-    "id": 1138,
-    "titleHTML": "Trusted Types",
-    "subtitleHTML": "Allows you to lock down insecure parts of the DOM API and prevent client-side cross-site scripting (XSS) attacks."
+    "id": 1429,
+    "titleHTML": "JavaScript self-profiling API",
+    "subtitleHTML": "The <code>Profiler</code> API records data about the execution of a page, which you can send to a server for later analysis."
   },
   {
-    "id": 1137,
-    "titleHTML": "View transition types",
-    "subtitleHTML": "Specify the type when starting a transition, and react to that using the <code>:active-view-transition-type()</code> pseudo-class."
+    "id": 1428,
+    "titleHTML": "Media Session <code>togglecamera</code>, <code>togglemicrophone</code>, and <code>voiceactivity</code> actions",
+    "subtitleHTML": "Provides awareness of media actions on platform UI and hardware, such as muting from a picture-in-picture window."
   },
   {
-    "id": 1136,
-    "titleHTML": "CSS <code>text-wrap: pretty</code>",
-    "subtitleHTML": "Prioritizes better layout over speed when text is broken into multiple lines."
+    "id": 1427,
+    "titleHTML": "Improve interoperability of pointer events on touch devices"
   },
   {
-    "id": 1134,
-    "titleHTML": "Resolve CSS scroll snap differences across browsers"
+    "id": 1424,
+    "titleHTML": "<code>Connection-&#8288;Allowlist</code> header",
+    "subtitleHTML": "Limits which origins a page may connect to using fetch and other APIs."
   },
   {
-    "id": 1131,
-    "titleHTML": "CSS <code>::scroll-marker</code> and <code>::scroll-marker-group</code> pseudo-elements",
-    "subtitleHTML": "Create and style markers that are visually represented within the scrollbar track of a container."
+    "id": 1419,
+    "titleHTML": "Element-scoped view transitions",
+    "subtitleHTML": "<code>element.startViewTransition()</code> starts a view transition that only affects that element&#39;s subtree, allowing multiple transitions to run concurrently."
   },
   {
-    "id": 1130,
-    "titleHTML": "CSS <code>reading-flow</code> property",
-    "subtitleHTML": "Sets the order in which flex or grid elements are rendered to speech or reached via focus navigation."
+    "id": 1418,
+    "titleHTML": "CSS <code>polygon()</code> vertex rounding",
+    "subtitleHTML": "Such as <code>polygon(round&nbsp;20px,&nbsp;…)</code> to round the corners of a polygon."
   },
   {
-    "id": 1129,
-    "titleHTML": "HTML <code>popover=&quot;hint&quot;</code>",
-    "subtitleHTML": "Creates a popover that is subordinate to popovers with a popover=&quot;auto&quot; attribute. You can use this to create tooltips that don&#39;t dismiss auto popovers."
-  },
-  {
-    "id": 1127,
-    "titleHTML": "Unify behavior of Promises in detached documents"
-  },
-  {
-    "id": 1126,
-    "titleHTML": "Timing of scroll events relative to animation events"
-  },
-  {
-    "id": 1125,
-    "titleHTML": "Interoperable rendering of HTML <code>&lt;fieldset&gt;</code> / <code>&lt;legend&gt;</code>",
-    "subtitleHTML": "Including how particular CSS properties impact appearance on those elements."
-  },
-  {
-    "id": 1124,
-    "titleHTML": "CSS <code>::before</code> and <code>::after</code> on replaced elements",
-    "subtitleHTML": "Such as <code>&lt;input&gt;</code>, <code>&lt;img&gt;</code>, and <code>&lt;video&gt;</code>."
-  },
-  {
-    "id": 1123,
-    "titleHTML": "Improve compatibility of pointer events on touch devices"
-  },
-  {
-    "id": 1122,
-    "titleHTML": "<code>MediaStreamTrackProcessor</code> and <code>VideoTrackGenerator</code> APIs",
-    "subtitleHTML": "Enables real-time processing of video streams."
-  },
-  {
-    "id": 1121,
-    "titleHTML": "WebTransport API",
-    "subtitleHTML": "Enables transmitting data between a client and a server, using the HTTP/3 protocol."
-  },
-  {
-    "id": 1120,
-    "titleHTML": "Scheduler API",
-    "subtitleHTML": "Helps chunk up main-thread work relative to other tasks."
-  },
-  {
-    "id": 1119,
-    "titleHTML": "Web Neural Network API (WebNN)",
-    "subtitleHTML": "Constructs and executes computational graphs of neural networks by making use of the various machine learning capabilities and hardware accelerators available on the device."
-  },
-  {
-    "id": 1114,
-    "titleHTML": "<code>&lt;img sizes=&quot;auto&quot; loading=&quot;lazy&quot;&gt;</code>, and similar on <code>&lt;source&gt;</code>",
-    "subtitleHTML": "Avoids needing to specify <code>sizes</code> in cases where the image has already received layout by CSS."
-  },
-  {
-    "id": 1113,
-    "titleHTML": "Navigation API <code>precommitHandler</code>",
-    "subtitleHTML": "Allows deferring the URL change until some point during a same-document navigation."
-  },
-  {
-    "id": 1112,
-    "titleHTML": "Allow CSS transitioning/animating <code>display</code> between <code>none</code> and other values",
-    "subtitleHTML": "Useful for delaying <code>display: none</code> until an exit animation completes."
-  },
-  {
-    "id": 1111,
-    "titleHTML": "HTML <code>closedby</code> attribute on <code>&lt;dialog&gt;</code>",
-    "subtitleHTML": "Sets which user actions close a dialog. For example, closedby=&quot;any&quot; allows the dialog to be closed by clicking outside of it."
-  },
-  {
-    "id": 1110,
-    "titleHTML": "Cross-document CSS view transitions",
-    "subtitleHTML": "<code>@view-transition</code> sets whether a document opts-in to transitions between documents in a multi-page application."
-  },
-  {
-    "id": 1109,
-    "titleHTML": "Chaining pseudo-elements to <code>::details-content</code>",
-    "subtitleHTML": "Such as <code>::details-content::before</code>."
-  },
-  {
-    "id": 1108,
-    "titleHTML": "<code>scrollend</code> event",
-    "subtitleHTML": "Fires when an element or document has finished scrolling."
-  },
-  {
-    "id": 1107,
-    "titleHTML": "CSS Scroll snap events",
-    "subtitleHTML": "<code>scrollsnapchanging</code> and <code>scrollsnapchange</code> events fire when a scroll gesture changes the selected scroll snap target."
-  },
-  {
-    "id": 1105,
-    "titleHTML": "JavaScript top-level <code>await</code>",
-    "subtitleHTML": "Largely supported, but some implementations have race conditions in simple cases that cause modules to fail to load."
-  },
-  {
-    "id": 1104,
-    "titleHTML": "Improve support for CSS <code>filter()</code> within SVG"
-  },
-  {
-    "id": 1103,
-    "titleHTML": "CSS <code>@supports</code> for at-rules, nesting, and other CSS syntax"
-  },
-  {
-    "id": 1102,
-    "titleHTML": "CSS Gap decorations",
-    "subtitleHTML": "<code>column-rule</code> and <code>row-rule</code> display decorative lines between columns and rows of a flex, grid, or multi-column layout."
-  },
-  {
-    "id": 1101,
-    "titleHTML": "Improve WebRTC test pass-rate"
-  },
-  {
-    "id": 1098,
-    "titleHTML": "Federated credential management (FedCM)",
-    "subtitleHTML": "<code>IdentityCredential</code> API delegates authentication to a third-party identity provider, instead of using third-party cookies."
-  },
-  {
-    "id": 1097,
-    "titleHTML": "Partitioned cookies",
-    "subtitleHTML": "Allows opting a cookie into partitioned storage, with a separate cookie jar per top-level site."
-  },
-  {
-    "id": 1094,
+    "id": 1417,
     "titleHTML": "WebDriver BiDi",
     "subtitleHTML": "A new protocol for browser automation, extending &#39;classic&#39; WebDriver by introducing bidirectional communication."
   },
   {
-    "id": 1093,
-    "titleHTML": "JSPI (JavaScript Promise Integration) for WASM",
-    "subtitleHTML": "Allows code compiled to WASM to be written as-if synchronous, but awaits a Promise outside of WASM."
+    "id": 1416,
+    "titleHTML": "<code>setHTML()</code> and related methods",
+    "subtitleHTML": "Such as <code>beforeHTML()</code>, <code>appendHTML()</code>, and <code>replaceWithHTML()</code>, which insert sanitized HTML into an existing tree."
   },
   {
-    "id": 1090,
-    "titleHTML": "CSS container scroll-state queries",
-    "subtitleHTML": "The <code>@container scroll-state(...)</code> at-rule applies styles based on the sticky positioning, snapped, and scrollable state of the container."
+    "id": 1415,
+    "titleHTML": "WebRTC SFrame encryption",
+    "subtitleHTML": "Native end-to-end encryption in WebRTC, without exposing keys to JavaScript."
   },
   {
-    "id": 1089,
-    "titleHTML": "Force scroll containers without focusable children to be focusable",
-    "subtitleHTML": "Otherwise, content within the container is unreachable to keyboard users."
+    "id": 1414,
+    "titleHTML": "<code>MediaStreamTrackProcessor</code> and <code>VideoTrackGenerator</code> APIs",
+    "subtitleHTML": "Simplifies real-time processing of video streams."
   },
   {
-    "id": 1088,
-    "titleHTML": "CSS Typed OM",
-    "subtitleHTML": "<code>CSSStyleValue</code> and its subclasses represent CSS values as distinct types instead of only strings."
+    "id": 1413,
+    "titleHTML": "Scheduler API",
+    "subtitleHTML": "Helps chunk up main-thread work relative to other tasks."
   },
   {
-    "id": 1084,
-    "titleHTML": "Improve reliability of viewport-related units (<code>lvh</code>, <code>dhv</code>, <code>svh</code>) and APIs"
+    "id": 1412,
+    "titleHTML": "HTML <code>headingoffset</code> and <code>headingreset</code> attributes",
+    "subtitleHTML": "Offsets the heading level of descendant <code>&lt;h1&gt;</code>–<code>&lt;h6&gt;</code> elements. Includes the CSS <code>:heading()</code> pseudo-class."
   },
   {
-    "id": 1083,
-    "titleHTML": "Web Share API",
-    "subtitleHTML": "Invokes the device&#39;s native sharing mechanism and passes text, links, files, and other content to share targets."
+    "id": 1411,
+    "titleHTML": "Lazy-loaded images should not be completed by out-of-band loads",
+    "subtitleHTML": "Background loads of a lazy image&#39;s URL shouldn&#39;t leak into its <code>complete</code> state or metadata."
   },
   {
-    "id": 1082,
-    "titleHTML": "Permissions Policy",
-    "subtitleHTML": "Similar to Content Security Policy but controls features instead of security behavior."
+    "id": 1410,
+    "titleHTML": "CSS <code>align-&#8288;content</code> for centering in buttons and inputs",
+    "subtitleHTML": "Allows overriding the vertical alignment of text in form controls."
   },
   {
-    "id": 1081,
-    "titleHTML": "Speculation Rules API",
-    "subtitleHTML": "Hints to the browser to proactively download pages in the background so they appear instantly when the user navigates to them."
+    "id": 1409,
+    "titleHTML": "Keyboard lock in <code>requestFullscreen()</code>",
+    "subtitleHTML": "Allows fullscreen pages, such as games, to prevent the Escape key from exiting fullscreen, and to handle other reserved shortcuts."
   },
   {
-    "id": 1080,
-    "titleHTML": "<code>trackVisibility</code> in <code>IntersectionObserver</code>",
-    "subtitleHTML": "Enables tracking the visibility of an element, to detect if it may be obscured by other content or visual effects."
+    "id": 1406,
+    "titleHTML": "CSS <code>::scroll-&#8288;marker</code> and <code>::scroll-&#8288;marker-&#8288;group</code> pseudo-elements",
+    "subtitleHTML": "Generates navigation markers for scroll containers, for things like carousels, tabs, and tables of contents."
   },
   {
-    "id": 1079,
-    "titleHTML": "<code>navigator.connection</code> API",
-    "subtitleHTML": "Provides information about the network connection and fires events when the connection type changes."
+    "id": 1405,
+    "titleHTML": "HTML <code>&lt;input&nbsp;type=&quot;week&quot;&gt;</code>"
   },
   {
-    "id": 1078,
-    "titleHTML": "Improve resource timing support"
+    "id": 1404,
+    "titleHTML": "Web app manifest <code>share_target</code>",
+    "subtitleHTML": "Allows an installed web app to appear in the device&#39;s share dialog as a target for shared content."
   },
   {
-    "id": 1077,
-    "titleHTML": "CSS <code>attr()</code> usage in all properties",
-    "subtitleHTML": "Previously only supported in the <code>content</code> property."
+    "id": 1403,
+    "titleHTML": "CSS <code>random-&#8288;item()</code> function",
+    "subtitleHTML": "Picks a random item from a list of values."
   },
   {
-    "id": 1072,
-    "titleHTML": "Allow fetching requests with <code>ReadableStream</code> bodies",
-    "subtitleHTML": "Allows sending data before the entire body is available, and sending large bodies without buffering them in memory."
+    "id": 1401,
+    "titleHTML": "<code>OpaqueRange</code> for form controls",
+    "subtitleHTML": "A live range of text within <code>&lt;textarea&gt;</code> and <code>&lt;input&gt;</code>, for things like custom highlights and positioning popovers next to text."
   },
   {
-    "id": 1071,
-    "titleHTML": "Signature-based Subresource Integrity (SbSRI) ",
-    "subtitleHTML": "Allows subresources to be validated against publisher-provided digital signatures."
+    "id": 1400,
+    "titleHTML": "<code>103&nbsp;Early&nbsp;Hints</code> preloading",
+    "subtitleHTML": "Browsers start preconnecting and preloading resources while the server is still generating the page, with consistent resource timing entries."
   },
   {
-    "id": 1070,
-    "titleHTML": "HTML <code>blocking=&quot;render&quot;</code> attribute on <code>&lt;link&gt;</code>, <code>&lt;script&gt;</code> and <code>&lt;style&gt;</code>",
-    "subtitleHTML": "Blocks rendering until the external script or stylesheet has been loaded."
+    "id": 1399,
+    "titleHTML": "Multiple import maps",
+    "subtitleHTML": "Allows multiple import maps in a single document, and allows modules to load before unrelated import maps."
   },
   {
-    "id": 1069,
-    "titleHTML": "<code>fetchLater()</code> API",
-    "subtitleHTML": "Requests a deferred fetch sent at an unknown time. The browser chooses a reliable time to send the request, ideally when the document is unloaded, and ignores the response."
-  },
-  {
-    "id": 1068,
-    "titleHTML": "Async iterable <code>ReadableStream</code>s",
-    "subtitleHTML": "Allows you to use <code>for await … of</code> loops to iterate through a stream&#39;s incoming data."
-  },
-  {
-    "id": 1067,
-    "titleHTML": "<code>PerformanceLongAnimationFrameTiming</code> entries in the Performance API",
-    "subtitleHTML": "Provides information about rendering updates that take longer than 50 milliseconds."
-  },
-  {
-    "id": 1066,
-    "titleHTML": "CSS <code>element()</code> function",
-    "subtitleHTML": "Creates a live-updating image from an HTML element that can be used as an image or background image."
-  },
-  {
-    "id": 1064,
-    "titleHTML": "<code>SharedWorker</code>",
-    "subtitleHTML": "A web worker that can be shared by multiple pages/workers."
-  },
-  {
-    "id": 1063,
-    "titleHTML": "HTML switch input via <code>&lt;input type=&quot;checkbox&quot; switch&gt;</code>"
-  },
-  {
-    "id": 1062,
-    "titleHTML": "CSS <code>text-box</code> and related longhand properties",
-    "subtitleHTML": "Sets the spacing above and below text based on a font&#39;s typographic features."
-  },
-  {
-    "id": 1061,
-    "titleHTML": "CSS stroked text",
-    "subtitleHTML": "Support for <code>stroke-width</code>, <code>stroke-color</code>, <code>stroke-align</code> and <code>fill-color</code>."
-  },
-  {
-    "id": 1058,
-    "titleHTML": "CSS <code>light-dark()</code> and <code>prefers-color-scheme</code> support in external SVG resources",
-    "subtitleHTML": "Allows external SVG resources to adapt to light and dark mode preferences."
-  },
-  {
-    "id": 1057,
-    "titleHTML": "<code>LayoutShift</code> entries in the Performance API",
-    "subtitleHTML": "Measures the layout stability of web pages based on movements of the elements on the page."
-  },
-  {
-    "id": 1056,
-    "titleHTML": "JavaScript CSS constructable stylesheet imports",
-    "subtitleHTML": "<code>import … with { type: &quot;css&quot; }</code> to load CSS resources as constructable stylesheets."
-  },
-  {
-    "id": 1051,
-    "titleHTML": "CSS <code>stretch</code> value for <code>width</code> and <code>height</code> properties",
-    "subtitleHTML": "Expands a box as needed to fit its contents until the maximum size is reached, without preserving the content&#39;s preferred aspect ratio."
-  },
-  {
-    "id": 1050,
-    "titleHTML": "CSS <code>ui-serif</code>, <code>ui-sans-serif</code>, <code>ui-monospace</code>, and <code>ui-rounded</code> font families",
-    "subtitleHTML": "Selects the device-default user interface fonts for text."
-  },
-  {
-    "id": 1049,
-    "titleHTML": "Alpha channel support in color inputs via <code>&lt;input type=&quot;color&quot; alpha&gt;</code>"
-  },
-  {
-    "id": 1048,
-    "titleHTML": "CSS <code>corner-shape</code> property",
-    "subtitleHTML": "Alternative shapes for <code>border-radius</code>, such as squircles and bevels."
-  },
-  {
-    "id": 1047,
-    "titleHTML": "Improve reliability of the Notification API"
-  },
-  {
-    "id": 1046,
-    "titleHTML": "CSS <code>shape()</code> function",
-    "subtitleHTML": "Similar to <code>path()</code>, but allow a variety of responsive units and CSS functions."
-  },
-  {
-    "id": 1045,
-    "titleHTML": "Reference entire files with SVG <code>&lt;use&gt;</code>",
-    "subtitleHTML": "Avoids needing to specify an ID on the root <code>&lt;svg&gt;</code> element."
-  },
-  {
-    "id": 1044,
-    "titleHTML": "CSS <code>wrap-inside: avoid</code>",
-    "subtitleHTML": "Encourage spans of text to avoid breaks unless necessary."
-  },
-  {
-    "id": 1043,
-    "titleHTML": "CSS <code>hanging-punctuation</code> property",
-    "subtitleHTML": "Puts punctuation characters outside of the box to align the text with the rest of the document."
-  },
-  {
-    "id": 1042,
-    "titleHTML": "CSS <code>hyphenate-limit-chars</code>, <code>hyphenate-limit-lines</code>, <code>hyphenate-limit-last</code> and <code>hyphenate-limit-zone</code> properties"
-  },
-  {
-    "id": 1039,
-    "titleHTML": "CSS <code>break-after</code> and <code>break-before</code> properties",
-    "subtitleHTML": "Control breaks in paged media and CSS columns."
-  },
-  {
-    "id": 1038,
-    "titleHTML": "Synthesis for <code>font-variant-position</code>",
-    "subtitleHTML": "If the font doesn&#39;t support <code>super</code>/<code>sub</code>, browsers should synthesize the effect."
-  },
-  {
-    "id": 1037,
-    "titleHTML": "CSS <code>justify-items</code> and <code>justify-self</code> outside of flexbox/grid"
-  },
-  {
-    "id": 1036,
-    "titleHTML": "CSS <code>@custom-media</code>",
-    "subtitleHTML": "Alias media queries to reusable identifiers."
-  },
-  {
-    "id": 1034,
-    "titleHTML": "DOM <code>moveBefore()</code>",
-    "subtitleHTML": "Relocates a node while preserving its state like focus, animation, or move an iframe without reloading its content."
-  },
-  {
-    "id": 1033,
-    "titleHTML": "CSS scroll-driven animations",
-    "subtitleHTML": "<code>animation-timeline</code>, <code>scroll-timeline</code>, and <code>view-timeline</code> CSS properties advance animations based on the user&#39;s scroll position."
-  },
-  {
-    "id": 1032,
-    "titleHTML": "CSS <code>@container style()</code>",
-    "subtitleHTML": "Apply styles based on the values of custom properties of a container."
-  },
-  {
-    "id": 1031,
-    "titleHTML": "CSS <code>overlay</code> property",
-    "subtitleHTML": "When used as an <code>allow-discrete</code> CSS transition, prevents a top layer element, such as a popover or a <code>&lt;dialog&gt;</code>, from leaving top layer before it has finished animating."
-  },
-  {
-    "id": 1030,
-    "titleHTML": "CSS <code>interactivity: inert</code>",
-    "subtitleHTML": "Makes an element and its descendants inert, like the <code>inert</code> HTML attribute."
-  },
-  {
-    "id": 1029,
-    "titleHTML": "CSS <code>line-clamp</code> property",
-    "subtitleHTML": "Limits the text in a block container to a certain number of lines."
-  },
-  {
-    "id": 1028,
-    "titleHTML": "CSS <code>accent-color</code> property",
-    "subtitleHTML": "Sets a color for checkboxes, radio buttons, and other form controls."
-  },
-  {
-    "id": 1027,
-    "titleHTML": "Scoped custom element registries",
-    "subtitleHTML": "Allows elements/roots to use different custom element registries, so the same custom element names can point to different definitions."
-  },
-  {
-    "id": 1026,
-    "titleHTML": "Improve CSS <code>background-clip: text</code> implementations",
-    "subtitleHTML": "Widely supported, but frustrating bugs persist."
-  },
-  {
-    "id": 1025,
-    "titleHTML": "CSS <code>:open</code> pseudo-class",
-    "subtitleHTML": "Matches open states on things like <code>&lt;details&gt;</code>, <code>&lt;dialog&gt;</code>, and <code>&lt;select&gt;</code>."
-  },
-  {
-    "id": 1024,
-    "titleHTML": "CSS <code>sibling-count()</code> and <code>sibling-index()</code> functions",
-    "subtitleHTML": "Allow styling based on an element&#39;s position among its siblings."
-  },
-  {
-    "id": 1022,
-    "titleHTML": "JavaScript <code>Temporal</code>",
-    "subtitleHTML": "A modern and extensive date/time API to replace <code>Date</code>."
-  },
-  {
-    "id": 1021,
-    "titleHTML": "WebXR API",
-    "subtitleHTML": "<code>navigator.xr</code> allows interacting with the browser&#39;s virtual reality or augmented reality system."
-  },
-  {
-    "id": 1020,
-    "titleHTML": "Resolve text rendering &#39;smoothing&#39; inconsistencies on macOS",
-    "subtitleHTML": "Explore and create a standard version of <code>-webkit-font-smoothing</code>."
-  },
-  {
-    "id": 1019,
-    "titleHTML": "WebGPU API",
-    "subtitleHTML": "<code>navigator.gpu</code> allows operations such as rendering and computation on dedicated graphics hardware."
-  },
-  {
-    "id": 1018,
-    "titleHTML": "Consistent print layout width",
-    "subtitleHTML": "Consistently base printed layout width on the page size rather than the viewport size."
-  },
-  {
-    "id": 1016,
-    "titleHTML": "Virtual keyboard API",
-    "subtitleHTML": "<code>navigator.virtualKeyboard</code> lets you react to and control on-screen virtual keyboards."
-  },
-  {
-    "id": 1012,
-    "titleHTML": "XSL transformations (XSLT) version 3",
-    "subtitleHTML": "For declaratively transforming XML to other formats."
-  },
-  {
-    "id": 1011,
-    "titleHTML": "HTML reference targets",
-    "subtitleHTML": "A declarative way to forward IDrefs (such as <code>for</code> and <code>aria-labelledby</code>) to an element inside a shadow root."
-  },
-  {
-    "id": 1008,
-    "titleHTML": "CSS <code>interpolate-size</code> property and <code>calc-size()</code> function",
-    "subtitleHTML": "Allows animating to <code>height: auto</code> and other intrinsic sizing keywords."
-  },
-  {
-    "id": 1007,
-    "titleHTML": "Invoker commands",
-    "subtitleHTML": "Declarative commands on <code>&lt;button&gt;</code> via the <code>command</code> and <code>commandfor</code> attributes."
-  },
-  {
-    "id": 1006,
-    "titleHTML": "CSS <code>margin-trim</code>",
-    "subtitleHTML": "Removes the margins of child elements when they meet the edges of the container."
-  },
-  {
-    "id": 1005,
+    "id": 1398,
     "titleHTML": "<code>requestIdleCallback</code>",
     "subtitleHTML": "Queues a function that runs in idle browser time, either at the end of a frame or when the user is inactive."
   },
   {
-    "id": 1004,
-    "titleHTML": "CSS <code>field-sizing: content</code>",
-    "subtitleHTML": "Allows form controls such as <code>&lt;textarea&gt;</code> to be sized based on their content."
+    "id": 1397,
+    "titleHTML": "<code>NotRestoredReasons</code> in the Performance API",
+    "subtitleHTML": "Provides report data containing reasons why the current document was blocked from using the back/forward cache."
   },
   {
-    "id": 1003,
-    "titleHTML": "Media element pseudo-classes",
-    "subtitleHTML": "Such as <code>:playing</code>, <code>:paused</code>, <code>:seeking</code>, <code>:buffering</code>, <code>:stalled</code>, <code>:muted</code>, and <code>:volume-locked</code>."
+    "id": 1396,
+    "titleHTML": "Timing of cross-origin redirects in the Performance API",
+    "subtitleHTML": "Consistent navigation timing and resource timing entries for cross-origin redirects."
   },
   {
-    "id": 1002,
-    "titleHTML": "Web NFC API"
+    "id": 1395,
+    "titleHTML": "CSS <code>:host(:has(…))</code>",
+    "subtitleHTML": "Selects a shadow host based on its light DOM descendants."
   },
   {
-    "id": 1001,
-    "titleHTML": "Web Bluetooth API"
+    "id": 1394,
+    "titleHTML": "CSS color gamut mapping",
+    "subtitleHTML": "Displays out-of-gamut colors (such as from <code>oklch()</code>) closer to the intended color, rather than clipping RGB channels."
   },
   {
-    "id": 1000,
-    "titleHTML": "CSS <code>user-select</code> without a vendor prefix"
-  },
-  {
-    "id": 999,
-    "titleHTML": "OpenID4VC"
-  },
-  {
-    "id": 996,
-    "titleHTML": "CSS linked parameters",
-    "subtitleHTML": "Allows passing custom properties into external SVG resources."
-  },
-  {
-    "id": 995,
+    "id": 1393,
     "titleHTML": "Customizable/stylable <code>&lt;select&gt;</code>",
-    "subtitleHTML": "<em>Not</em> including <code>&lt;select multiple&gt;</code>."
+    "subtitleHTML": "Customize the button, selected option, picker, and options with CSS."
   },
   {
-    "id": 994,
-    "titleHTML": "JPEG XL image format"
+    "id": 1391,
+    "titleHTML": "CSS <code>box-&#8288;decoration-&#8288;break</code> without a vendor prefix",
+    "subtitleHTML": "Sets whether borders and backgrounds wrap each fragment of a box split across lines, columns, or pages."
+  },
+  {
+    "id": 1390,
+    "titleHTML": "Improve <code>createImageBitmap()</code> resizing and cropping",
+    "subtitleHTML": "Better image resizing, cropping, and thumbnailing when creating an <code>ImageBitmap</code>."
+  },
+  {
+    "id": 1387,
+    "titleHTML": "<code>ariaNotify()</code>",
+    "subtitleHTML": "Requests that assistive technology, such as a screen reader, announces a message to the user."
+  },
+  {
+    "id": 1386,
+    "titleHTML": "JavaScript modules in more contexts",
+    "subtitleHTML": "Such as <code>&lt;script&nbsp;type=&quot;module&quot;&gt;</code> in XHTML and SVG documents, and module background scripts in web extensions."
+  },
+  {
+    "id": 1385,
+    "titleHTML": "CSS <code>object-&#8288;view-&#8288;box</code> property",
+    "subtitleHTML": "Crops and zooms to an inset area of an image."
+  },
+  {
+    "id": 1384,
+    "titleHTML": "Allow CSS transitioning/animating <code>display</code> and <code>content-&#8288;visibility</code>",
+    "subtitleHTML": "Useful for delaying <code>display:&nbsp;none</code> until an exit animation completes."
+  },
+  {
+    "id": 1382,
+    "titleHTML": "Extended lifetime <code>SharedWorker</code>s",
+    "subtitleHTML": "Gives shared workers extra time to finish work after all pages using them have closed."
+  },
+  {
+    "id": 1381,
+    "titleHTML": "JavaScript <code>Temporal</code>",
+    "subtitleHTML": "A modern and extensive date/time API to replace <code>Date</code>."
+  },
+  {
+    "id": 1379,
+    "titleHTML": "CSS <code>line-&#8288;clamp</code> property",
+    "subtitleHTML": "Limits the text in a block container to a certain number of lines. Also allows custom end text if content overflow occurs."
+  },
+  {
+    "id": 1378,
+    "titleHTML": "Improve interoperability of the WebCodecs API",
+    "subtitleHTML": "Low-level access to individual video frames and chunks of audio samples."
+  },
+  {
+    "id": 1374,
+    "titleHTML": "CSS gap decorations",
+    "subtitleHTML": "<code>column-&#8288;rule</code> and <code>row-&#8288;rule</code> display decorative lines between columns and rows of a flex, grid, or multi-column layout."
+  },
+  {
+    "id": 1373,
+    "titleHTML": "CSS <code>interpolate-&#8288;size</code> property and <code>calc-&#8288;size()</code> function",
+    "subtitleHTML": "Allows animating to <code>height:&nbsp;auto</code> and other intrinsic sizing keywords."
+  },
+  {
+    "id": 1372,
+    "titleHTML": "<code>PerformanceLongAnimationFrameTiming</code> entries in the Performance API",
+    "subtitleHTML": "Provides information about rendering updates that take longer than 50 milliseconds."
+  },
+  {
+    "id": 1371,
+    "titleHTML": "CSS <code>border-&#8288;shape</code> property",
+    "subtitleHTML": "Sets the geometry of the border box to a fully custom shape, changing the shape of borders, outlines, and shadows."
+  },
+  {
+    "id": 1368,
+    "titleHTML": "CSS <code>corner-&#8288;shape</code> property",
+    "subtitleHTML": "Alternative shapes for <code>border-&#8288;radius</code>, such as squircles and bevels."
+  },
+  {
+    "id": 1366,
+    "titleHTML": "Out-of-order streaming with <code>&lt;template&nbsp;for&gt;</code>",
+    "subtitleHTML": "Replaces content at a named range or insertion point, allowing partial updates to be streamed into the document out of order."
+  },
+  {
+    "id": 1365,
+    "titleHTML": "HTML <code>headingoffset</code> and <code>headingreset</code> attributes",
+    "subtitleHTML": "Offsets the heading level of descendant <code>&lt;h1&gt;</code>–<code>&lt;h6&gt;</code> elements. Includes the CSS <code>:heading()</code> pseudo-class."
+  },
+  {
+    "id": 1364,
+    "titleHTML": "CSS container scroll-state queries",
+    "subtitleHTML": "The <code>@container&nbsp;scroll-&#8288;state(...)</code> at-rule applies styles based on the sticky positioning, snapped, and scrollable state of the container."
+  },
+  {
+    "id": 1363,
+    "titleHTML": "CSS anchored container queries",
+    "subtitleHTML": "<code>@container&nbsp;anchored(fallback:&nbsp;…)</code> applies styles based on which position fallback an anchor-positioned element is using."
+  },
+  {
+    "id": 1361,
+    "titleHTML": "CSS <code>AccentColor</code> system color reflects <code>accent-&#8288;color</code>",
+    "subtitleHTML": "Provides a consistent way to style custom form controls to match native ones."
+  },
+  {
+    "id": 1360,
+    "titleHTML": "CSS <code>justify-&#8288;items</code> and <code>justify-&#8288;self</code> in block layout"
+  },
+  {
+    "id": 1358,
+    "titleHTML": "Interest invokers",
+    "subtitleHTML": "The <code>interestfor</code> attribute triggers actions on a target element when the user shows interest, such as via hover, focus, or long-press."
+  },
+  {
+    "id": 1357,
+    "titleHTML": "CSS <code>@function</code>",
+    "subtitleHTML": "Defines custom functions that take arguments and return a CSS value."
+  },
+  {
+    "id": 1356,
+    "titleHTML": "CSS <code>:has-&#8288;slotted</code> pseudo-class",
+    "subtitleHTML": "Matches <code>&lt;slot&gt;</code> elements that have slotted content, rather than showing fallback content."
+  },
+  {
+    "id": 1355,
+    "titleHTML": "DOM <code>moveBefore()</code>",
+    "subtitleHTML": "Relocates a node while preserving its state like focus, animation, or move an iframe without reloading its content."
+  },
+  {
+    "id": 1354,
+    "titleHTML": "CSS <code>random()</code> function",
+    "subtitleHTML": "Chooses a random numeric value within a specified range."
+  },
+  {
+    "id": 1353,
+    "titleHTML": "CSS <code>text-&#8288;size-&#8288;adjust</code> property",
+    "subtitleHTML": "Disables or modifies the browser&#39;s default text size adjustment on small screens."
+  },
+  {
+    "id": 1352,
+    "titleHTML": "<code>LayoutShift</code> entries in the Performance API",
+    "subtitleHTML": "Measures the layout stability of web pages based on movements of the elements on the page. Used to calculate cumulative layout shift (CLS)."
+  },
+  {
+    "id": 1351,
+    "titleHTML": "CSS anchor positioning across shadow roots",
+    "subtitleHTML": "Allows elements in shadow trees to reference anchor names defined in &quot;higher&quot; trees."
+  },
+  {
+    "id": 1350,
+    "titleHTML": "CSS <code>flex-&#8288;wrap:&nbsp;balance</code>",
+    "subtitleHTML": "Distributes items in a multi-line flex container so each line has about the same number of items."
+  },
+  {
+    "id": 1349,
+    "titleHTML": "CSS <code>reading-&#8288;flow</code> and <code>reading-&#8288;order</code> properties",
+    "subtitleHTML": "Sets the order in which flex or grid elements are rendered to speech or reached via focus navigation."
+  },
+  {
+    "id": 1348,
+    "titleHTML": "HTML <code>focusgroup</code> attribute",
+    "subtitleHTML": "Combines descendant elements into a single tab stop, with arrow-key navigation between them."
+  },
+  {
+    "id": 1347,
+    "titleHTML": "<code>CSSPseudoElement</code> API",
+    "subtitleHTML": "Represents pseudo-elements in JavaScript, allowing things like detecting clicks on a <code>::backdrop</code>."
+  },
+  {
+    "id": 1346,
+    "titleHTML": "CSS linked parameters",
+    "subtitleHTML": "Allows passing custom properties into external SVG resources, such as colors."
+  },
+  {
+    "id": 1345,
+    "titleHTML": "CSS scroll snap events",
+    "subtitleHTML": "<code>scrollsnapchanging</code> and <code>scrollsnapchange</code> events fire when a scroll gesture changes the selected scroll snap target."
+  },
+  {
+    "id": 1344,
+    "titleHTML": "CSS <code>var()</code> in size container queries",
+    "subtitleHTML": "Such as <code>@container&nbsp;(width&nbsp;&gt;=&nbsp;var(-&#8288;-&#8288;min-&#8288;width))</code>."
+  },
+  {
+    "id": 1343,
+    "titleHTML": "CSS <code>if()</code> function",
+    "subtitleHTML": "An inline conditional value that returns a value based on a set of conditions."
+  },
+  {
+    "id": 1342,
+    "titleHTML": "Deprecate customized built-in elements (via the <code>is</code> attribute)",
+    "subtitleHTML": "Remove the feature from the spec and the browsers that implement it."
+  },
+  {
+    "id": 1336,
+    "titleHTML": "Sanitizer API",
+    "subtitleHTML": "Customizes the sanitization of HTML inserted into the DOM, to prevent cross-site scripting attacks."
+  },
+  {
+    "id": 1335,
+    "titleHTML": "Speculation Rules API",
+    "subtitleHTML": "Hints to the browser to proactively download pages in the background so they appear instantly when the user navigates to them."
+  },
+  {
+    "id": 1334,
+    "titleHTML": "Correct handling of powerless and missing color components",
+    "subtitleHTML": "Fixes <code>none</code> and powerless components in <code>color-&#8288;mix()</code>, relative color syntax, and gradients."
+  },
+  {
+    "id": 1333,
+    "titleHTML": "Shadow DOM <code>referenceTarget</code>",
+    "subtitleHTML": "Forwards IDrefs (such as <code>for</code> and <code>aria-&#8288;labelledby</code>) to an element inside a shadow root."
+  },
+  {
+    "id": 1331,
+    "titleHTML": "WebUSB API",
+    "subtitleHTML": "Exposes USB-compatible devices to web pages."
   }
 ]
