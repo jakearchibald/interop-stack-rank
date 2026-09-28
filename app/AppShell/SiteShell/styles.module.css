@@ -1,7 +1,7 @@
 .siteHeader {
   display: grid;
   grid-template-columns: 1fr auto;
-  background: #fff;
+  background: var(--surface-bg);
   align-items: center;
   padding-right: var(--viewport-padding-inline);
 
@@ -16,7 +16,7 @@
   display: grid;
   grid-template-columns: 1fr auto;
   gap: 2em;
-  background: #fff;
+  background: var(--surface-bg);
   padding: var(--viewport-padding);
   align-items: center;
 
@@ -34,5 +34,6 @@
   & svg {
     display: block;
     width: 1.1em;
+    fill: var(--text-color);
   }
 }

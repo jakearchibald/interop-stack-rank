@@ -20,7 +20,7 @@
   --offset: 1rem;
   bottom: var(--offset);
   right: var(--offset);
-  background: #333;
+  background: light-dark(#333, #444);
   color: white;
   border-radius: 0.5rem;
   box-shadow: 0 4px 7px rgb(0 0 0 / 50%);

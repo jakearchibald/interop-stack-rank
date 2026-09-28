@@ -1,5 +1,5 @@
 .explainer {
-  background: #fff;
+  background: var(--surface-bg);
   display: flow-root;
   padding: 1rem 1rem;
   border-radius: var(--container-rounding);

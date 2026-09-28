@@ -1,5 +1,5 @@
 .githubButton {
-  background-color: #333;
+  background-color: light-dark(#333, #111);
   color: white;
   text-decoration: none;
   padding: 0.9em 1.6em;
@@ -21,7 +21,7 @@
 }
 
 .githubButton:hover {
-  background-color: #555;
+  background-color: light-dark(#555, #000);
 }
 
 .icon {

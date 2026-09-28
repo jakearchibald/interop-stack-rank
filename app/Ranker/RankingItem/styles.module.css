@@ -7,10 +7,10 @@
   align-self: stretch;
   display: grid;
   align-items: center;
-  background-color: #d3f1fd;
+  background-color: var(--highlight-bg);
 
   svg {
-    fill: #009fff73;
+    fill: light-dark(#009fff73, #7fd0ff99);
     width: 0.8rem;
   }
 }
@@ -67,6 +67,6 @@
 
 .subtitle {
   font-size: 0.85rem;
-  color: #757575;
+  color: light-dark(#757575, #bbb);
   margin: 0.3em 0 0;
 }
