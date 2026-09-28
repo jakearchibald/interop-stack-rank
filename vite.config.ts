@@ -24,6 +24,7 @@ export default defineConfig({
           input: {
             index: 'index.html',
             results: 'results/index.html',
+            admin: 'admin/index.html',
           },
         },
       },
