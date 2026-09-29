@@ -8,15 +8,22 @@
   "compatibility_date": "2025-07-08",
   "main": "worker/index.ts",
   "observability": {
-    "enabled": true
+    "enabled": true,
   },
+  "routes": [
+    { "pattern": "interop-rank.jakearchibald.com", "custom_domain": true },
+    {
+      "pattern": "interop.wordle-analyzer.com/*",
+      "zone_name": "jakearchibald.com",
+    },
+  ],
 
   /**
    * Environment Variables
    * https://developers.cloudflare.com/workers/wrangler/configuration/#environment-variables
    */
   "vars": {
-    "GITHUB_CLIENT_ID": "Ov23ctvJ80X4pLdb0cHY"
+    "GITHUB_CLIENT_ID": "Ov23ctvJ80X4pLdb0cHY",
   },
 
   /**
@@ -35,23 +42,23 @@
     {
       "binding": "SESSIONS",
       "preview_id": "sessions-preview",
-      "id": "a1629b159890402dab0d65a95b48217c"
-    }
+      "id": "a1629b159890402dab0d65a95b48217c",
+    },
   ],
   "durable_objects": {
     "bindings": [
       {
         "name": "USER_DATA",
-        "class_name": "UserData"
-      }
-    ]
+        "class_name": "UserData",
+      },
+    ],
   },
   "migrations": [
     {
       "tag": "v1",
-      "new_sqlite_classes": ["UserData"]
-    }
-  ]
+      "new_sqlite_classes": ["UserData"],
+    },
+  ],
 
   /**
    * Environment Variables
