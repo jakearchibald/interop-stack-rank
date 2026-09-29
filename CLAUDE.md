@@ -29,6 +29,8 @@ pnpm preview
 pnpm deploy
 ```
 
+Set `DEV_USER_ID=<github id>` in `.dev.vars` to skip GitHub login in dev (see `getDevUser` in `worker/utils/session.ts`).
+
 ### Cloudflare Workers
 
 ```bash
@@ -38,6 +40,10 @@ pnpm cf-typegen
 # Deploy directly with wrangler
 wrangler deploy
 ```
+
+## Code style
+
+- Optional function parameters go in an options object, even when there's only one: `fn(required, { option })`, not `fn(required, option)`.
 
 ## Architecture
 

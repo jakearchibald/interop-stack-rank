@@ -37,10 +37,40 @@
   margin: 0;
 }
 
+:root:active-view-transition-type(ranker-sorting) {
+  & .tooManyMessage {
+    view-transition-name: too-many-message;
+  }
+
+  & .rankedList {
+    view-transition-name: ranked-list;
+  }
+}
+
+.tooManyMessage {
+  max-width: 680px;
+  margin: 0 auto 1rem;
+  padding: 0.8rem 1rem;
+  box-sizing: border-box;
+  text-align: center;
+  background-color: var(--highlight-bg);
+  border-radius: 0.4rem;
+
+  & p {
+    margin: 0;
+  }
+
+  @media (width <= 680px) {
+    border-radius: 0;
+  }
+}
+
 .item {
   position: relative;
   display: grid;
-  grid-template-columns: auto 1fr 5em;
+  /* minmax allows long unbreakable content (like code) to wrap */
+  /* Min width keeps titles aligned, whether there's one button or two */
+  grid-template-columns: auto minmax(0, 1fr) minmax(5em, auto);
   align-items: center;
   --padding: 0.8rem;
   gap: var(--padding);

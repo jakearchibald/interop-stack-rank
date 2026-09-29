@@ -1,10 +1,11 @@
 import type { FunctionalComponent } from 'preact';
-import { useSignal } from '@preact/signals';
+import { useComputed, useSignal } from '@preact/signals';
 import { lazyCompute } from '../../lazyCompute';
 import { useMemo, useRef } from 'preact/hooks';
 import { schulze } from './schulze';
 import * as styles from './styles.module.css';
 import { classes } from '../../utils/classes';
+import { useLiveSignal } from '../../utils/useLiveSignal';
 import VS from './VS';
 import { itemsById } from './data';
 import { generateCsv } from 'export-to-csv';
@@ -70,8 +71,10 @@ const ResultsList: FunctionalComponent<{
   const sortKey = useSignal<SortKey>(initialSortKey);
 
   const tableRef = useRef<HTMLTableElement>(null);
+  const rankingsSignal = useLiveSignal(rankings);
 
-  const results: ResultData[] = useMemo(() => {
+  const results = useComputed(() => {
+    const rankings = rankingsSignal.value;
     const schulzeResults = schulze(candidates, rankings);
 
     // Calculate stats for each ID
@@ -127,10 +130,10 @@ const ResultsList: FunctionalComponent<{
     });
 
     return results;
-  }, [rankings]);
+  });
 
-  const sortedResults = useMemo(() => {
-    const sorted = [...results];
+  const sortedResults = useComputed(() => {
+    const sorted = [...results.value];
 
     switch (sortKey.value) {
       case 'schulzeWins':
@@ -156,7 +159,7 @@ const ResultsList: FunctionalComponent<{
     }
 
     return sorted;
-  }, [results, sortKey.value]);
+  });
 
   const handleSortClick = (key: SortKey) => {
     return (e: Event) => {
@@ -168,8 +171,8 @@ const ResultsList: FunctionalComponent<{
     };
   };
 
-  const rankingSizeStats = useMemo(() => {
-    const sizes = rankings.map((r) => r.length);
+  const rankingSizeStats = useComputed(() => {
+    const sizes = rankingsSignal.value.map((r) => r.length);
     const max = Math.max(...sizes);
     const mean = sizes.reduce((a, b) => a + b, 0) / sizes.length;
     const sorted = [...sizes].sort((a, b) => a - b);
@@ -178,7 +181,7 @@ const ResultsList: FunctionalComponent<{
         ? (sorted[sorted.length / 2 - 1] + sorted[sorted.length / 2]) / 2
         : sorted[Math.floor(sorted.length / 2)];
     return { max, mean, median };
-  }, [rankings]);
+  });
 
   const onDownloadCSV = () => {
     const table = tableRef.current!;
@@ -195,7 +198,7 @@ const ResultsList: FunctionalComponent<{
     const data = [...table.querySelectorAll('tbody tr')].map((row, i) => {
       const cells = [...row.querySelectorAll('td')].slice(1);
       return {
-        issue: sortedResults[i].id,
+        issue: sortedResults.value[i].id,
         ...Object.fromEntries(
           cells.map((cell, i) => [`col${i}`, cell.textContent || ''])
         ),
@@ -218,8 +221,9 @@ const ResultsList: FunctionalComponent<{
       <h2>Overall Results</h2>
       <p>Number of rankings: {rankings.length}.</p>
       <p>
-        Ranking sizes: max = {rankingSizeStats.max}, mean ={' '}
-        {rankingSizeStats.mean.toFixed(2)}, median = {rankingSizeStats.median}.
+        Ranking sizes: max = {rankingSizeStats.value.max}, mean ={' '}
+        {rankingSizeStats.value.mean.toFixed(2)}, median ={' '}
+        {rankingSizeStats.value.median}.
       </p>
       <p>
         <a href={dataFetchURL}>Raw JSON data</a> - An array of each ranking,
@@ -305,7 +309,7 @@ const ResultsList: FunctionalComponent<{
           </tr>
         </thead>
         <tbody>
-          {sortedResults.map((result, index) => (
+          {sortedResults.value.map((result, index) => (
             <tr key={result.id}>
               <td>{index + 1}</td>
               <td>

@@ -6,10 +6,14 @@ import * as styles from './styles.module.css';
 import * as itemStyles from './RankingItem/styles.module.css';
 import type { User } from '../../shared/user-data';
 import { itemsById, useRankingSignals } from './useRankingSignals';
-import { useSignal } from '@preact/signals';
+import { useComputed, useSignal } from '@preact/signals';
 import RankingItem from './RankingItem';
 import { classes } from '../utils/classes';
 import { pushToastMessage } from '../Toasts/useToastData';
+import PairSorter from './PairSorter';
+import * as pairSorterStyles from './PairSorter/styles.module.css';
+import * as rootStyles from '../styles.module.css';
+import { viewTransitionWithTypes } from '../utils/viewTransition';
 
 function getUnscaledPosition(rect: DOMRect, scale: number) {
   const centerX = rect.x + rect.width / 2;
@@ -22,7 +26,18 @@ function getUnscaledPosition(rect: DOMRect, scale: number) {
   };
 }
 
-function doFlip(container: HTMLElement) {
+interface DoFlipOptions {
+  /**
+   * The anim ID of an element to keep above the others while animating, such
+   * as the item being moved.
+   */
+  raisedAnimId?: string;
+}
+
+function doFlip(
+  container: HTMLElement,
+  { raisedAnimId }: DoFlipOptions = {},
+) {
   // Get current item positions
   const initialStyles: Record<
     string,
@@ -67,7 +82,7 @@ function doFlip(container: HTMLElement) {
           pos.x < -el.offsetWidth ||
           pos.y < -el.offsetHeight ||
           pos.x > viewportWidth ||
-          pos.y > viewportHeight
+          pos.y > viewportHeight,
       );
 
       if (startAndEndOutOfView) continue;
@@ -82,19 +97,26 @@ function doFlip(container: HTMLElement) {
           opacity: initial.opacity,
           scale: initial.scale,
         },
-        { duration: 250, easing: 'ease' }
+        { duration: 250, easing: 'ease' },
       );
 
-      el.animate(
-        {
-          offset: 0,
-          zIndex: initial.zIndex,
-        },
-        { duration: 250, easing: 'step-end' }
-      );
+      if (animId === raisedAnimId) {
+        el.animate({ zIndex: ['1', '1'] }, { duration: 250 });
+      } else {
+        el.animate(
+          {
+            offset: 0,
+            zIndex: initial.zIndex,
+          },
+          { duration: 250, easing: 'step-end' },
+        );
+      }
     }
   });
 }
+
+/** Beyond this, users are nudged to rank fewer items. */
+const recommendedMaxRanked = 15;
 
 export interface RankingItem {
   id: number;
@@ -115,12 +137,19 @@ const Ranker: FunctionComponent<Props> = ({
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const { rankedItems, unrankedItems } = useRankingSignals(user);
+  const sorting = useSignal(false);
+  const tooManyRanked = useComputed(
+    () => rankedItems.value.length > recommendedMaxRanked,
+  );
 
   const insertBeforeId = (
     item: RankingItem,
     targetList: 'ranked' | 'unranked',
-    beforeId: number | null
+    beforeId: number | null,
   ) => {
+    // The sorter works from its own copy of the order, so manual changes end it.
+    sorting.value = false;
+
     const focusedElement = document.activeElement as HTMLElement | null;
     const parentItem = focusedElement?.closest('[data-item-id]');
 
@@ -161,7 +190,7 @@ const Ranker: FunctionComponent<Props> = ({
       if (!parentItem) return;
       // Get a new ref, as it may not be the same === element.
       const newItem = containerRef.current?.querySelector(
-        `[data-item-id="${item.id}"]`
+        `[data-item-id="${item.id}"]`,
       );
       if (!newItem) return;
       const button = newItem.querySelector('button');
@@ -169,12 +198,39 @@ const Ranker: FunctionComponent<Props> = ({
     });
 
     postRankings();
+    doFlip(containerRef.current!, { raisedAnimId: `item-${item.id}` });
+  };
+
+  const applySortedOrder = (items: RankingItem[]) => {
+    rankedItems.value = items;
+    postRankings();
     doFlip(containerRef.current!);
+  };
+
+  const setSortingWithTransition = (value: boolean) =>
+    // The ranked list only gets a view-transition-name during this transition,
+    // as it creates a stacking context, which would stop moved items from
+    // appearing above the unranked list.
+    viewTransitionWithTypes(['ranker-sorting'], () => {
+      sorting.value = value;
+    });
+
+  const closeSorter = async () => {
+    const sorterHadFocus = containerRef.current
+      ?.querySelector(`.${pairSorterStyles.pairSorter}`)
+      ?.contains(document.activeElement);
+
+    await setSortingWithTransition(false);
+
+    if (!sorterHadFocus) return;
+    containerRef.current
+      ?.querySelector<HTMLElement>(`.${pairSorterStyles.startButton}`)
+      ?.focus({ preventScroll: true });
   };
 
   const nudgeItem = (item: RankingItem) => {
     const itemElement = containerRef.current?.querySelector(
-      `[data-item-id="${item.id}"]`
+      `[data-item-id="${item.id}"]`,
     );
 
     if (!itemElement || !(itemElement instanceof HTMLElement)) return;
@@ -185,7 +241,7 @@ const Ranker: FunctionComponent<Props> = ({
         { transform: 'translateY(-15px)' },
         { transform: 'translateY(0)' },
       ],
-      { duration: 300, easing: 'ease' }
+      { duration: 300, easing: 'ease' },
     );
   };
 
@@ -208,7 +264,7 @@ const Ranker: FunctionComponent<Props> = ({
       localStorage.setItem('unsavedRanking', rankingBody);
       localStorage.setItem(
         'unranked',
-        JSON.stringify(unrankedItems.value.map((item) => item.id))
+        JSON.stringify(unrankedItems.value.map((item) => item.id)),
       );
 
       try {
@@ -236,7 +292,7 @@ const Ranker: FunctionComponent<Props> = ({
 
         if (error instanceof Error) {
           throw Error(
-            `Error saving rankings: ${error.message} (data saved locally)`
+            `Error saving rankings: ${error.message} (data saved locally)`,
           );
         }
       }
@@ -252,7 +308,7 @@ const Ranker: FunctionComponent<Props> = ({
   }, []);
 
   const initialDraggingPositionRef = useRef<{ x: number; y: number } | null>(
-    null
+    null,
   );
   const draggingItem = useSignal<RankingItem | null>(null);
   const draggingItemRef = useRef<HTMLDivElement>(null);
@@ -288,7 +344,7 @@ const Ranker: FunctionComponent<Props> = ({
             }
           } else {
             const handle = pointerEvent.target.closest(
-              `.${itemStyles.dragHandle}`
+              `.${itemStyles.dragHandle}`,
             );
             if (handle === null) return false;
           }
@@ -331,7 +387,7 @@ const Ranker: FunctionComponent<Props> = ({
 
         const element = document.elementFromPoint(
           innerWidth / 2,
-          currentPointer.clientY
+          currentPointer.clientY,
         );
 
         if (element !== activeDropZone) {
@@ -362,7 +418,7 @@ const Ranker: FunctionComponent<Props> = ({
 
         const element = document.elementFromPoint(
           innerWidth / 2,
-          pointerEvent.clientY
+          pointerEvent.clientY,
         );
 
         if (
@@ -434,6 +490,31 @@ const Ranker: FunctionComponent<Props> = ({
           <span class={styles.nowrap}>(top = most important)</span>
         </span>
       </h2>
+      {!readOnly &&
+        rankedItems.value.length > 1 &&
+        (sorting.value ? (
+          <PairSorter
+            items={rankedItems.value}
+            onReorder={applySortedOrder}
+            onClose={closeSorter}
+          />
+        ) : (
+          <button
+            class={`${rootStyles.button} ${pairSorterStyles.startButton}`}
+            onClick={() => setSortingWithTransition(true)}
+          >
+            Help me order these
+          </button>
+        ))}
+      {tooManyRanked.value && (
+        <div class={styles.tooManyMessage}>
+          <p>
+            Wow! That's a lot to rank! We recommend ranking{' '}
+            {recommendedMaxRanked} or fewer. Stick to your favorites. Or, ignore
+            us and carry on! We'll still use the data.
+          </p>
+        </div>
+      )}
       {rankedItems.value.length === 0 ? (
         <div class={styles.noItems} key="no-items">
           <p class={styles.emptyMessage}>Move items here to rank them</p>
@@ -445,7 +526,10 @@ const Ranker: FunctionComponent<Props> = ({
           )}
         </div>
       ) : (
-        <ol class={styles.rankList} key="ranked-items">
+        <ol
+          class={`${styles.rankList} ${styles.rankedList}`}
+          key="ranked-items"
+        >
           {rankedItems.value.map((item, index, arr) => (
             <Fragment key={item.id}>
               {draggingItem.value &&
@@ -468,6 +552,14 @@ const Ranker: FunctionComponent<Props> = ({
                   item={item}
                   showUpButton={readOnly ? false : true}
                   showDownButton={readOnly ? false : true}
+                  showRemoveButton={!readOnly && tooManyRanked.value}
+                  onRemove={() =>
+                    insertBeforeId(
+                      item,
+                      'unranked',
+                      unrankedItems.value[0]?.id ?? null,
+                    )
+                  }
                   animId={
                     draggingItem.value?.id === item.id
                       ? null
@@ -485,13 +577,13 @@ const Ranker: FunctionComponent<Props> = ({
                       insertBeforeId(
                         item,
                         'unranked',
-                        unrankedItems.value[0]?.id ?? null
+                        unrankedItems.value[0]?.id ?? null,
                       );
                     } else {
                       insertBeforeId(
                         item,
                         'ranked',
-                        arr[index + 2]?.id ?? null
+                        arr[index + 2]?.id ?? null,
                       );
                     }
                   }}
@@ -513,7 +605,7 @@ const Ranker: FunctionComponent<Props> = ({
       )}
 
       <h2 class={styles.sectionTitle} data-anim-id="unranked-heading">
-        No opinion / disinterested
+        No opinion / less interested
       </h2>
       {unrankedItems.value.length === 0 ? (
         <div class={styles.noItems} key="no-unranked-items">

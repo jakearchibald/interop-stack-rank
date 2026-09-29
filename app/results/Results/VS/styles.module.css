@@ -71,6 +71,8 @@
 
 .stat .label {
   font-weight: 500;
+  /* Allows long unbreakable content (like code) to wrap */
+  min-width: 0;
 }
 
 .stat .value {

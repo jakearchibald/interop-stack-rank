@@ -27,7 +27,8 @@
 
 .upButton,
 .downButton,
-.addButton {
+.addButton,
+.removeButton {
   padding: 0.4em 0.7em;
   background-color: #007bff;
 
@@ -48,6 +49,10 @@
 
 .addButton {
   background-color: #28a745;
+}
+
+.removeButton {
+  background-color: #dc3545;
 }
 
 .buttons {

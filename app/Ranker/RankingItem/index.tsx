@@ -7,17 +7,20 @@ import * as rootStyles from '../../styles.module.css';
 import arrowSVG from '../../icons/arrow.svg?raw';
 import handleSVG from '../../icons/handle.svg?raw';
 import addSVG from '../../icons/add.svg?raw';
+import closeSVG from '../../icons/close.svg?raw';
 
 interface Props {
   item: RankingItemType;
   showUpButton?: boolean;
   showDownButton?: boolean;
   showAddButton?: boolean;
+  showRemoveButton?: boolean;
   showDragHandle?: boolean;
   animId?: string | null;
   onMoveUp?: () => void;
   onMoveDown?: () => void;
   onAdd?: () => void;
+  onRemove?: () => void;
 }
 
 const RankingItem: FunctionComponent<Props> = ({
@@ -25,10 +28,12 @@ const RankingItem: FunctionComponent<Props> = ({
   showUpButton = false,
   showDownButton = false,
   showAddButton = false,
+  showRemoveButton = false,
   showDragHandle = false,
   onMoveUp,
   onMoveDown,
   onAdd,
+  onRemove,
   animId = null,
 }) => {
   return (
@@ -81,6 +86,15 @@ const RankingItem: FunctionComponent<Props> = ({
           >
             <span class={utilStyles.srOnly}>Add to ranking</span>
             <span dangerouslySetInnerHTML={{ __html: addSVG }} />
+          </button>
+        )}
+        {showRemoveButton && (
+          <button
+            class={`${rootStyles.button} ${styles.removeButton}`}
+            onClick={onRemove}
+          >
+            <span class={utilStyles.srOnly}>Remove from ranking</span>
+            <span dangerouslySetInnerHTML={{ __html: closeSVG }} />
           </button>
         )}
       </div>
