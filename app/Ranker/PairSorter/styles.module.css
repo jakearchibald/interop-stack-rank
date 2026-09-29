@@ -1,0 +1,353 @@
+.pairSorter {
+  /* Ensures it's above the ranked list during view transitions */
+  position: relative;
+  z-index: 1;
+  view-transition-name: pair-sorter;
+  display: grid;
+  gap: 0.8rem;
+  width: min(1000px, 100% - 2 * var(--viewport-padding-inline));
+  margin: 0 auto 1.5rem;
+  padding: var(--viewport-padding);
+  box-sizing: border-box;
+  background-color: var(--surface-bg);
+  border: 1px solid var(--surface-border);
+  border-radius: 0.4rem;
+  box-shadow: 0 2px 8px light-dark(rgb(0 0 0 / 15%), rgb(0 0 0 / 70%));
+
+  @media (width <= 680px) {
+    width: 100%;
+    border-radius: 0;
+    border-left: 0;
+    border-right: 0;
+  }
+}
+
+.header {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 0.5em 1em;
+}
+
+.question {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: normal;
+}
+
+.progressText {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--text-color-secondary);
+  font-variant-numeric: tabular-nums;
+}
+
+.progress {
+  appearance: none;
+  display: block;
+  width: 100%;
+  height: 6px;
+  border: none;
+  border-radius: 3px;
+  overflow: clip;
+  background-color: var(--highlight-bg);
+  accent-color: #007bff;
+
+  &::-webkit-progress-bar {
+    background-color: var(--highlight-bg);
+  }
+
+  &::-webkit-progress-value {
+    background-color: #007bff;
+    transition: inline-size 250ms ease;
+  }
+
+  &::-moz-progress-bar {
+    background-color: #007bff;
+  }
+}
+
+.choices {
+  display: grid;
+  /* minmax allows long unbreakable content (like code) to wrap */
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 0.6rem;
+
+  @media (width <= 750px) {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.choice {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-items: start;
+  align-content: start;
+  gap: 0.7rem;
+  padding: 0.8rem;
+  font: inherit;
+  text-align: start;
+  color: inherit;
+  background-color: var(--page-bg);
+  border: 2px solid var(--surface-border);
+  border-radius: 0.4rem;
+  cursor: pointer;
+  overflow-wrap: anywhere;
+
+  &:hover {
+    border-color: #007bff;
+  }
+
+  &:focus-visible {
+    outline: 2px solid #007bff;
+    outline-offset: 2px;
+  }
+
+  &:active {
+    background-color: var(--highlight-bg);
+  }
+
+  @media (any-pointer: fine) {
+    grid-template-columns: auto minmax(0, 1fr);
+  }
+}
+
+.sameChoice {
+  justify-self: center;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.5rem 0.9rem;
+  font: inherit;
+  font-size: 0.9rem;
+  color: inherit;
+  background-color: var(--page-bg);
+  border: 2px solid var(--surface-border);
+  border-radius: 0.4rem;
+  cursor: pointer;
+
+  &:hover {
+    border-color: #007bff;
+  }
+
+  &:focus-visible {
+    outline: 2px solid #007bff;
+    outline-offset: 2px;
+  }
+
+  &:active {
+    background-color: var(--highlight-bg);
+  }
+}
+
+.shortcut {
+  display: none;
+  place-items: center;
+  width: 1.6em;
+  height: 1.6em;
+  font-family: inherit;
+  font-size: 0.85rem;
+  font-weight: bold;
+  color: white;
+  background-color: #007bff;
+  border-radius: 0.3em;
+
+  @media (any-pointer: fine) {
+    display: grid;
+  }
+}
+
+.choiceText {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0.3em;
+}
+
+.choiceTitle {
+  font-weight: 500;
+}
+
+.choiceSubtitle {
+  font-size: 0.85rem;
+  color: light-dark(#757575, #bbb);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5em 1em;
+}
+
+.hint {
+  margin: 0;
+  font-size: 0.8rem;
+  color: var(--text-color-secondary);
+
+  & kbd {
+    font-family: inherit;
+    padding: 0.05em 0.4em;
+    border: 1px solid var(--surface-border);
+    border-bottom-width: 2px;
+    border-radius: 0.25em;
+  }
+}
+
+.keyboardHint {
+  display: none;
+
+  @media (any-pointer: fine) {
+    display: inline;
+  }
+}
+
+.actionButtons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-inline-start: auto;
+}
+
+.doneMessage,
+.promptText {
+  margin: 0;
+}
+
+.promptChoices {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+.dangerButton {
+  color: white;
+  background-color: #dc3545;
+
+  &:hover {
+    background-color: #c82333;
+  }
+}
+
+.primaryButton {
+  color: white;
+  background-color: #007bff;
+
+  &:hover {
+    background-color: #0069d9;
+  }
+}
+
+.secondaryButton {
+  margin-inline-start: auto;
+  color: var(--text-color);
+  background-color: light-dark(#e4e4e4, #444);
+
+  &:hover {
+    background-color: light-dark(#d4d4d4, #555);
+  }
+
+  &[aria-disabled='true'] {
+    cursor: default;
+    opacity: 0.5;
+
+    &:hover {
+      background-color: light-dark(#e4e4e4, #444);
+    }
+  }
+}
+
+.startButton {
+  display: block;
+  margin: 0 auto 1.5rem;
+  color: white;
+  background-color: #007bff;
+  font-size: 0.9rem;
+
+  &:hover {
+    background-color: #0069d9;
+  }
+}
+
+@keyframes pairSorterIn {
+  from {
+    opacity: 0;
+    scale: 0.9;
+  }
+}
+
+@keyframes pairSorterOut {
+  to {
+    opacity: 0;
+    scale: 0.9;
+  }
+}
+
+::view-transition-new(pair-sorter):only-child {
+  animation: pairSorterIn 250ms ease both;
+}
+
+::view-transition-old(pair-sorter):only-child {
+  animation: pairSorterOut 250ms ease both;
+}
+
+/* Choices slide to the left for answers, and to the right for undo */
+:root:active-view-transition-type(pair-sorter-answer) {
+  --choice-shift: 1.5rem;
+}
+
+:root:active-view-transition-type(pair-sorter-undo) {
+  --choice-shift: -1.5rem;
+}
+
+:root:active-view-transition-type(pair-sorter-answer, pair-sorter-undo) {
+  .choice:nth-child(1) {
+    view-transition-name: pair-sorter-choice-1;
+  }
+
+  .choice:nth-child(2) {
+    view-transition-name: pair-sorter-choice-2;
+  }
+
+  /* The ranked list animates itself, so show the live page throughout */
+  &::view-transition-old(root) {
+    display: none;
+  }
+
+  &::view-transition-new(root) {
+    animation: none;
+  }
+
+  &::view-transition-group(pair-sorter),
+  &::view-transition-group(pair-sorter-choice-1),
+  &::view-transition-group(pair-sorter-choice-2),
+  &::view-transition-old(pair-sorter),
+  &::view-transition-new(pair-sorter) {
+    animation-duration: 200ms;
+  }
+
+  &::view-transition-old(pair-sorter-choice-1),
+  &::view-transition-old(pair-sorter-choice-2) {
+    animation: choiceOut 80ms ease-in both;
+  }
+
+  &::view-transition-new(pair-sorter-choice-1),
+  &::view-transition-new(pair-sorter-choice-2) {
+    animation: choiceIn 120ms 80ms ease-out both;
+  }
+}
+
+@keyframes choiceOut {
+  to {
+    opacity: 0;
+    translate: calc(-1 * var(--choice-shift)) 0;
+  }
+}
+
+@keyframes choiceIn {
+  from {
+    opacity: 0;
+    translate: var(--choice-shift) 0;
+  }
+}

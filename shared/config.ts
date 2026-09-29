@@ -1,1 +1,1 @@
-export const readOnly = true;
+export const readOnly = false;

@@ -1,5 +1,5 @@
 import type { FunctionalComponent } from 'preact';
-import styles from './styles.module.css';
+import * as styles from './styles.module.css';
 import { useToastData } from './useToastData';
 import { classes } from '../utils/classes';
 import { useSignal, useSignalEffect } from '@preact/signals';

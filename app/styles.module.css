@@ -2,9 +2,18 @@ html {
   font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
     Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 
-  background: #f1f1f1;
+  color-scheme: light dark;
+  background: var(--page-bg);
+  color: var(--text-color);
 
-  --link-color: #0066cc;
+  --page-bg: light-dark(#f1f1f1, #222);
+  --surface-bg: light-dark(#fff, #333);
+  --surface-border: light-dark(#ddd, #444);
+  --highlight-bg: light-dark(#d3f1fd, #1c4252);
+  --text-color: light-dark(#000, #eee);
+  --text-color-secondary: light-dark(#666, #bbb);
+  --link-color: light-dark(#0066cc, #7ab8ff);
+  --link-hover-color: light-dark(#004499, #a9d1ff);
   --viewport-padding-inline: 0.8rem;
   --viewport-padding-block: 1rem;
 
@@ -37,13 +46,31 @@ a {
 }
 
 a:not(.button):hover {
-  color: #004499;
+  color: var(--link-hover-color);
 }
 
 a:focus-visible {
-  outline: 2px solid #0066cc;
+  outline: 2px solid var(--link-color);
   outline-offset: 2px;
   border-radius: 2px;
+}
+
+code {
+  font-family: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas,
+    'DejaVu Sans Mono', monospace;
+  font-size: 0.9em;
+  letter-spacing: -0.02em;
+  /* Stop the monospace font's metrics from growing the line box */
+  line-height: 1;
+  padding: 0.1em 0.3em;
+  border-radius: 0.25em;
+  background: light-dark(rgb(0 0 0 / 6%), rgb(255 255 255 / 10%));
+  box-decoration-break: clone;
+  /*
+    lib/fetch-issues.js removes line break opportunities within code, to avoid
+    wrapping. This allows it to wrap if it really must.
+  */
+  overflow-wrap: break-word;
 }
 
 .button {

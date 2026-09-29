@@ -23,7 +23,7 @@
    * https://developers.cloudflare.com/workers/wrangler/configuration/#environment-variables
    */
   "vars": {
-    "GITHUB_CLIENT_ID": "Ov23ctvJ80X4pLdb0cHY",
+    "GITHUB_CLIENT_ID": "Iv23li1xvUVh8UgYoImk",
   },
 
   /**

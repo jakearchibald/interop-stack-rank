@@ -1,8 +1,9 @@
 import type { FunctionalComponent } from 'preact';
-import { useSignal } from '@preact/signals';
+import { useComputed, useSignal } from '@preact/signals';
 import { useMemo } from 'preact/hooks';
 import { itemsById } from '../data';
-import styles from './styles.module.css';
+import { useLiveSignal } from '../../../utils/useLiveSignal';
+import * as styles from './styles.module.css';
 
 interface VsProps {
   rankings: number[][];
@@ -21,10 +22,11 @@ const VS: FunctionalComponent<VsProps> = ({ rankings }) => {
   const selectedItem2 = useSignal<number | null>(null);
   const input1Value = useSignal<string>('');
   const input2Value = useSignal<string>('');
+  const rankingsSignal = useLiveSignal(rankings);
 
   const items = useMemo(() => [...itemsById.values()], []);
 
-  const comparisonResult = useMemo<ComparisonResult | null>(() => {
+  const comparisonResult = useComputed<ComparisonResult | null>(() => {
     if (selectedItem1.value === null || selectedItem2.value === null) {
       return null;
     }
@@ -38,7 +40,7 @@ const VS: FunctionalComponent<VsProps> = ({ rankings }) => {
     let item1RankedCount = 0;
     let item2RankedCount = 0;
 
-    for (const ranking of rankings) {
+    for (const ranking of rankingsSignal.value) {
       const index1 = ranking.indexOf(id1);
       const index2 = ranking.indexOf(id2);
 
@@ -70,7 +72,7 @@ const VS: FunctionalComponent<VsProps> = ({ rankings }) => {
       item1WinsCount,
       item2WinsCount,
     };
-  }, [rankings, selectedItem1.value, selectedItem2.value]);
+  });
 
   const handleItem1Change = (e: Event) => {
     const input = e.target as HTMLInputElement;
@@ -143,7 +145,7 @@ const VS: FunctionalComponent<VsProps> = ({ rankings }) => {
         </div>
       </div>
 
-      {comparisonResult && (
+      {comparisonResult.value && (
         <div class={styles.results}>
           <h3>Results</h3>
           <p>
@@ -157,7 +159,7 @@ const VS: FunctionalComponent<VsProps> = ({ rankings }) => {
               )}{' '}
               appears in:
             </strong>{' '}
-            {comparisonResult.item1RankedCount}
+            {comparisonResult.value.item1RankedCount}
           </p>
           <p>
             <strong>
@@ -170,16 +172,16 @@ const VS: FunctionalComponent<VsProps> = ({ rankings }) => {
               )}{' '}
               appears in:
             </strong>{' '}
-            {comparisonResult.item2RankedCount}
+            {comparisonResult.value.item2RankedCount}
           </p>
           <p>
             <strong>Rankings containing both:</strong>{' '}
-            {comparisonResult.bothRankedCount}
+            {comparisonResult.value.bothRankedCount}
           </p>
 
           <p>In rankings where both appear:</p>
 
-          {comparisonResult.bothRankedCount > 0 && (
+          {comparisonResult.value.bothRankedCount > 0 && (
             <div class={styles.winStats}>
               <div class={styles.stat}>
                 <span class={styles.label}>
@@ -193,10 +195,10 @@ const VS: FunctionalComponent<VsProps> = ({ rankings }) => {
                   wins:
                 </span>
                 <span class={styles.value}>
-                  {comparisonResult.item1WinsCount} (
+                  {comparisonResult.value.item1WinsCount} (
                   {(
-                    (comparisonResult.item1WinsCount /
-                      comparisonResult.bothRankedCount) *
+                    (comparisonResult.value.item1WinsCount /
+                      comparisonResult.value.bothRankedCount) *
                     100
                   ).toFixed(1)}
                   %)
@@ -215,10 +217,10 @@ const VS: FunctionalComponent<VsProps> = ({ rankings }) => {
                   wins:
                 </span>
                 <span class={styles.value}>
-                  {comparisonResult.item2WinsCount} (
+                  {comparisonResult.value.item2WinsCount} (
                   {(
-                    (comparisonResult.item2WinsCount /
-                      comparisonResult.bothRankedCount) *
+                    (comparisonResult.value.item2WinsCount /
+                      comparisonResult.value.bothRankedCount) *
                     100
                   ).toFixed(1)}
                   %)
@@ -227,7 +229,7 @@ const VS: FunctionalComponent<VsProps> = ({ rankings }) => {
             </div>
           )}
 
-          {comparisonResult.bothRankedCount === 0 && (
+          {comparisonResult.value.bothRankedCount === 0 && (
             <p class={styles.noComparison}>
               These items do not appear together in any rankings.
             </p>

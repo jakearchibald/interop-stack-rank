@@ -1,6 +1,6 @@
 import { type ComponentChildren, type FunctionalComponent } from 'preact';
 import { Suspense, useMemo } from 'preact/compat';
-import styles from '../styles.module.css';
+import * as styles from '../styles.module.css';
 import type { User } from '../../shared/user-data';
 import { lazyCompute } from '../lazyCompute';
 import SiteShell from './SiteShell';

@@ -1,5 +1,5 @@
-import { GitHub } from 'arctic';
-import { parse } from 'cookie';
+import { parseCookie } from 'cookie';
+import { validateAuthorizationCode } from '../../../utils/github-oauth';
 import { createSession, createSessionResponse } from '../../../utils/session';
 
 interface GitHubUser {
@@ -15,7 +15,7 @@ const route: ExportedHandler<Env>['fetch'] = async (request, env) => {
   const state = url.searchParams.get('state');
 
   // Get stored state and redirect path from cookies
-  const cookies = parse(request.headers.get('Cookie') || '');
+  const cookies = parseCookie(request.headers.get('Cookie') || '');
   const storedState = cookies.oauth_state;
   const redirectPath = cookies.oauth_redirect || '/';
 
@@ -53,18 +53,16 @@ const route: ExportedHandler<Env>['fetch'] = async (request, env) => {
     );
   }
 
-  const github = new GitHub(
-    env.GITHUB_CLIENT_ID,
-    env.GITHUB_CLIENT_SECRET,
-    null
-  );
-
   try {
-    const tokens = await github.validateAuthorizationCode(code);
+    const accessToken = await validateAuthorizationCode(
+      env.GITHUB_CLIENT_ID,
+      env.GITHUB_CLIENT_SECRET,
+      code
+    );
 
     const userResponse = await fetch('https://api.github.com/user', {
       headers: {
-        Authorization: `Bearer ${tokens.accessToken()}`,
+        Authorization: `Bearer ${accessToken}`,
         'User-Agent': 'interop-stack-rank',
       },
     });

@@ -1,5 +1,5 @@
 import type { FunctionalComponent } from 'preact';
-import styles from './styles.module.css';
+import * as styles from './styles.module.css';
 import content from './content.md';
 
 const Explainer: FunctionalComponent = () => {

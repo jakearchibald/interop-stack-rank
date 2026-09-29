@@ -1,0 +1,47 @@
+.container {
+  padding: var(--viewport-padding);
+  max-width: 600px;
+  margin: 0 auto;
+
+  h2 {
+    margin-top: 0;
+    font-size: 1.5rem;
+  }
+}
+
+.actions {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 1rem;
+
+  & > li {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 1rem;
+    align-items: center;
+    background: var(--surface-bg);
+    border-radius: var(--container-rounding);
+    padding: 1rem;
+  }
+
+  & p {
+    margin: 0;
+    color: var(--text-color-secondary);
+  }
+}
+
+.dangerButton {
+  background-color: #dc3545;
+  color: white;
+
+  &:hover {
+    background-color: #c82333;
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: default;
+  }
+}

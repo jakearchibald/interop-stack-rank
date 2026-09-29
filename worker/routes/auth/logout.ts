@@ -1,6 +1,6 @@
 import { assertOrigin } from '../../utils/url';
 
-const route: ExportedHandler<Env>['fetch'] = async (request, env, ctx) => {
+const route: ExportedHandler<Env>['fetch'] = async (request) => {
   const url = new URL(request.url);
   const redirectPath = url.searchParams.get('redirect') || '/';
   const redirectUrl = new URL(redirectPath, url.origin).toString();

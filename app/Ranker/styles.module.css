@@ -9,7 +9,7 @@
   margin: 2.5rem var(--viewport-padding) 1.5rem;
   font-size: 1.2rem;
   font-weight: normal;
-  color: #333;
+  color: light-dark(#333, #ddd);
   align-items: center;
   gap: 1em;
   text-align: center;
@@ -21,12 +21,12 @@
   &::before,
   &::after {
     content: '';
-    border-bottom: 1px solid #ccc;
+    border-bottom: 1px solid light-dark(#ccc, #444);
   }
 }
 
 .emptyMessage {
-  color: #666;
+  color: var(--text-color-secondary);
   text-align: center;
   margin: 2em 0;
 }
@@ -37,18 +37,48 @@
   margin: 0;
 }
 
+:root:active-view-transition-type(ranker-sorting) {
+  & .tooManyMessage {
+    view-transition-name: too-many-message;
+  }
+
+  & .rankedList {
+    view-transition-name: ranked-list;
+  }
+}
+
+.tooManyMessage {
+  max-width: 680px;
+  margin: 0 auto 1rem;
+  padding: 0.8rem 1rem;
+  box-sizing: border-box;
+  text-align: center;
+  background-color: var(--highlight-bg);
+  border-radius: 0.4rem;
+
+  & p {
+    margin: 0;
+  }
+
+  @media (width <= 680px) {
+    border-radius: 0;
+  }
+}
+
 .item {
   position: relative;
   display: grid;
-  grid-template-columns: auto 1fr 5em;
+  /* minmax allows long unbreakable content (like code) to wrap */
+  /* Min width keeps titles aligned, whether there's one button or two */
+  grid-template-columns: auto minmax(0, 1fr) minmax(5em, auto);
   align-items: center;
   --padding: 0.8rem;
   gap: var(--padding);
   padding-right: var(--padding);
   margin: 5px auto;
-  background-color: white;
-  border: 1px solid #ddd;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  background-color: var(--surface-bg);
+  border: 1px solid var(--surface-border);
+  box-shadow: 0 1px 3px light-dark(rgb(0 0 0 / 10%), rgb(0 0 0 / 60%));
   max-width: 680px;
   box-sizing: border-box;
   min-height: 3.5em;
