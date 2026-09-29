@@ -318,12 +318,10 @@ const Ranker: FunctionComponent<Props> = ({
     const pointerTracker = new PointerTracker(containerRef.current, {
       start(pointerEvent) {
         if (pointerTracker.currentPointers.length > 0) return false;
-        if (
-          !(
-            pointerEvent.target instanceof HTMLElement ||
-            pointerEvent.target instanceof SVGElement
-          )
-        ) {
+        if (!(
+          pointerEvent.target instanceof HTMLElement ||
+          pointerEvent.target instanceof SVGElement
+        )) {
           return false;
         }
 
@@ -511,8 +509,9 @@ const Ranker: FunctionComponent<Props> = ({
         <div class={styles.tooManyMessage}>
           <p>
             Wow! That's a lot to rank! We recommend ranking{' '}
-            {recommendedMaxRanked} or fewer. Stick to your favorites. Or, ignore
-            us and carry on! We'll still use the data.
+            {recommendedMaxRanked} or fewer (you've ranked{' '}
+            {rankedItems.value.length}). Stick to your favorites. Or, ignore us
+            and carry on! We'll still use the data.
           </p>
         </div>
       )}
