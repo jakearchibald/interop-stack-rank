@@ -69,8 +69,9 @@
   position: relative;
   display: grid;
   /* minmax allows long unbreakable content (like code) to wrap */
-  /* Min width keeps titles aligned, whether there's one button or two */
-  grid-template-columns: auto minmax(0, 1fr) minmax(5em, auto);
+  /* Min width keeps titles aligned, regardless of the number of buttons */
+  --buttons-min: 5em;
+  grid-template-columns: auto minmax(0, 1fr) minmax(var(--buttons-min), auto);
   align-items: center;
   --padding: 0.8rem;
   gap: var(--padding);
@@ -84,6 +85,10 @@
   min-height: 3.5em;
   border-radius: 0.4rem;
   overflow: clip;
+
+  &.threeButtons {
+    --buttons-min: 8em;
+  }
 
   @media (width <= 680px) {
     border-radius: 0;
@@ -150,7 +155,9 @@
     will-change: transform;
     opacity: 0;
     scale: 0.5 1;
-    transition: opacity 150ms ease, scale 150ms ease;
+    transition:
+      opacity 150ms ease,
+      scale 150ms ease;
   }
 
   &.activeDropZone::after {

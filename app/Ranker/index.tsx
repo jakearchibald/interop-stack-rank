@@ -34,10 +34,7 @@ interface DoFlipOptions {
   raisedAnimId?: string;
 }
 
-function doFlip(
-  container: HTMLElement,
-  { raisedAnimId }: DoFlipOptions = {},
-) {
+function doFlip(container: HTMLElement, { raisedAnimId }: DoFlipOptions = {}) {
   // Get current item positions
   const initialStyles: Record<
     string,
@@ -311,6 +308,7 @@ const Ranker: FunctionComponent<Props> = ({
     null,
   );
   const draggingItem = useSignal<RankingItem | null>(null);
+  const draggingItemHadThreeButtons = useSignal(false);
   const draggingItemRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -356,6 +354,9 @@ const Ranker: FunctionComponent<Props> = ({
 
         pointerEvent.preventDefault();
 
+        draggingItemHadThreeButtons.value = item.classList.contains(
+          styles.threeButtons,
+        );
         draggingItem.value = itemData;
 
         const itemRect = item.getBoundingClientRect();
@@ -553,6 +554,7 @@ const Ranker: FunctionComponent<Props> = ({
                   showUpButton={readOnly ? false : true}
                   showDownButton={readOnly ? false : true}
                   showRemoveButton={!readOnly && tooManyRanked.value}
+                  showDragHandle={!readOnly}
                   onRemove={() =>
                     insertBeforeId(
                       item,
@@ -640,6 +642,7 @@ const Ranker: FunctionComponent<Props> = ({
                 <RankingItem
                   item={item}
                   showAddButton={readOnly ? false : true}
+                  showDragHandle={!readOnly}
                   onAdd={() => insertBeforeId(item, 'ranked', null)}
                   animId={
                     draggingItem.value?.id === item.id
@@ -668,6 +671,8 @@ const Ranker: FunctionComponent<Props> = ({
           <RankingItem
             item={draggingItem.value}
             animId={`item-${draggingItem.value.id}`}
+            showDragHandle={!readOnly}
+            reserveThreeButtonSpace={draggingItemHadThreeButtons.value}
           />
         )}
       </div>

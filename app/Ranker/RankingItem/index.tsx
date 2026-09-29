@@ -4,6 +4,7 @@ import * as styles from './styles.module.css';
 import * as utilStyles from '../../utils.module.css';
 import * as parentStyles from '../styles.module.css';
 import * as rootStyles from '../../styles.module.css';
+import { classes } from '../../utils/classes';
 import arrowSVG from '../../icons/arrow.svg?raw';
 import handleSVG from '../../icons/handle.svg?raw';
 import addSVG from '../../icons/add.svg?raw';
@@ -16,6 +17,11 @@ interface Props {
   showAddButton?: boolean;
   showRemoveButton?: boolean;
   showDragHandle?: boolean;
+  /**
+   * Reserve space for three buttons, even if fewer are shown. Used for the
+   * dragged item, so it matches the item it was dragged from.
+   */
+  reserveThreeButtonSpace?: boolean;
   animId?: string | null;
   onMoveUp?: () => void;
   onMoveDown?: () => void;
@@ -30,14 +36,30 @@ const RankingItem: FunctionComponent<Props> = ({
   showAddButton = false,
   showRemoveButton = false,
   showDragHandle = false,
+  reserveThreeButtonSpace = false,
   onMoveUp,
   onMoveDown,
   onAdd,
   onRemove,
   animId = null,
 }) => {
+  const buttonCount = [
+    showUpButton,
+    showDownButton,
+    showAddButton,
+    showRemoveButton,
+  ].filter(Boolean).length;
+
   return (
-    <div class={parentStyles.item} data-item-id={item.id} data-anim-id={animId}>
+    <div
+      class={classes({
+        [parentStyles.item]: true,
+        [parentStyles.threeButtons]:
+          reserveThreeButtonSpace || buttonCount >= 3,
+      })}
+      data-item-id={item.id}
+      data-anim-id={animId}
+    >
       {showDragHandle ? (
         <div
           class={styles.dragHandle}
