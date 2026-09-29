@@ -11,8 +11,8 @@
   box-sizing: border-box;
   background-color: var(--surface-bg);
   border: 1px solid var(--surface-border);
-  border-radius: 0.4rem;
-  box-shadow: 0 2px 8px light-dark(rgb(0 0 0 / 15%), rgb(0 0 0 / 70%));
+  border-radius: var(--container-rounding);
+  box-shadow: var(--surface-shadow-raised);
 
   @media (width <= 680px) {
     width: 100%;
@@ -32,8 +32,9 @@
 
 .question {
   margin: 0;
-  font-size: 1.1rem;
-  font-weight: normal;
+  font-family: var(--font-headline);
+  font-size: 1.2rem;
+  font-weight: 600;
 }
 
 .progressText {
@@ -50,21 +51,23 @@
   height: 6px;
   border: none;
   border-radius: 3px;
+  background-color: var(--neutral-button-bg);
   overflow: clip;
-  background-color: var(--highlight-bg);
-  accent-color: #007bff;
+  accent-color: var(--accent);
 
   &::-webkit-progress-bar {
-    background-color: var(--highlight-bg);
+    background-color: var(--neutral-button-bg);
   }
 
   &::-webkit-progress-value {
-    background-color: #007bff;
+    background-color: var(--accent);
+    border-radius: 3px;
     transition: inline-size 250ms ease;
   }
 
   &::-moz-progress-bar {
-    background-color: #007bff;
+    background-color: var(--accent);
+    border-radius: 3px;
   }
 }
 
@@ -91,21 +94,26 @@
   color: inherit;
   background-color: var(--page-bg);
   border: 2px solid var(--surface-border);
-  border-radius: 0.4rem;
+  border-radius: var(--item-rounding);
   cursor: pointer;
   overflow-wrap: anywhere;
 
+  transition:
+    border-color 120ms ease,
+    background-color 120ms ease;
+
   &:hover {
-    border-color: #007bff;
+    border-color: var(--accent);
+    background-color: var(--accent-soft);
   }
 
   &:focus-visible {
-    outline: 2px solid #007bff;
-    outline-offset: 2px;
+    outline: none;
+    box-shadow: var(--focus-ring);
   }
 
   &:active {
-    background-color: var(--highlight-bg);
+    background-color: var(--accent-soft-hover);
   }
 
   @media (any-pointer: fine) {
@@ -124,20 +132,25 @@
   color: inherit;
   background-color: var(--page-bg);
   border: 2px solid var(--surface-border);
-  border-radius: 0.4rem;
+  border-radius: var(--item-rounding);
   cursor: pointer;
 
+  transition:
+    border-color 120ms ease,
+    background-color 120ms ease;
+
   &:hover {
-    border-color: #007bff;
+    border-color: var(--accent);
+    background-color: var(--accent-soft);
   }
 
   &:focus-visible {
-    outline: 2px solid #007bff;
-    outline-offset: 2px;
+    outline: none;
+    box-shadow: var(--focus-ring);
   }
 
   &:active {
-    background-color: var(--highlight-bg);
+    background-color: var(--accent-soft-hover);
   }
 }
 
@@ -149,8 +162,8 @@
   font-family: inherit;
   font-size: 0.85rem;
   font-weight: bold;
-  color: white;
-  background-color: #007bff;
+  color: var(--accent-contrast);
+  background-color: var(--accent);
   border-radius: 0.3em;
 
   @media (any-pointer: fine) {
@@ -165,12 +178,13 @@
 }
 
 .choiceTitle {
-  font-weight: 500;
+  font-weight: 600;
+  line-height: 1.35;
 }
 
 .choiceSubtitle {
   font-size: 0.85rem;
-  color: light-dark(#757575, #bbb);
+  color: var(--text-color-secondary);
 }
 
 .actions {
@@ -221,31 +235,32 @@
   gap: 0.6rem;
 }
 
+/* Discards saved answers, but isn't drastic enough to shout about */
 .dangerButton {
-  color: white;
-  background-color: #dc3545;
+  color: var(--danger);
+  background-color: var(--danger-soft);
 
   &:hover {
-    background-color: #c82333;
+    background-color: var(--danger-soft-hover);
   }
 }
 
 .primaryButton {
-  color: white;
-  background-color: #007bff;
+  color: var(--accent-contrast);
+  background-color: var(--accent);
 
   &:hover {
-    background-color: #0069d9;
+    background-color: var(--accent-hover);
   }
 }
 
 .secondaryButton {
   margin-inline-start: auto;
   color: var(--text-color);
-  background-color: light-dark(#e4e4e4, #444);
+  background-color: var(--neutral-button-bg);
 
   &:hover {
-    background-color: light-dark(#d4d4d4, #555);
+    background-color: var(--neutral-button-hover-bg);
   }
 
   &[aria-disabled='true'] {
@@ -253,21 +268,30 @@
     opacity: 0.5;
 
     &:hover {
-      background-color: light-dark(#e4e4e4, #444);
+      background-color: var(--neutral-button-bg);
     }
   }
 }
 
 .startButton {
-  display: block;
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
   margin: 0 auto 1.5rem;
-  color: white;
-  background-color: #007bff;
+  color: var(--accent-contrast);
+  background-color: var(--accent);
   font-size: 0.9rem;
+  box-shadow: var(--surface-shadow);
 
   &:hover {
-    background-color: #0069d9;
+    background-color: var(--accent-hover);
   }
+}
+
+.startIcon svg {
+  display: block;
+  width: 1.2em;
+  fill: currentColor;
 }
 
 @keyframes pairSorterIn {

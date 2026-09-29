@@ -4,8 +4,9 @@
   margin: 0 auto;
 
   h2 {
-    margin-top: 0;
-    font-size: 1.5rem;
+    margin-top: 1rem;
+    font-family: var(--font-headline);
+    font-size: 1.6rem;
   }
 }
 
@@ -22,6 +23,8 @@
     gap: 1rem;
     align-items: center;
     background: var(--surface-bg);
+    border: 1px solid var(--surface-border);
+    box-shadow: var(--surface-shadow);
     border-radius: var(--container-rounding);
     padding: 1rem;
   }
@@ -33,11 +36,11 @@
 }
 
 .dangerButton {
-  background-color: #dc3545;
+  background-color: var(--danger-solid);
   color: white;
 
   &:hover {
-    background-color: #c82333;
+    background-color: var(--danger-solid-hover);
   }
 
   &:disabled {

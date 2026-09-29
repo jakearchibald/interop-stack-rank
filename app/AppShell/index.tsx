@@ -1,5 +1,9 @@
 import { type ComponentChildren, type FunctionalComponent } from 'preact';
 import { Suspense, useMemo } from 'preact/compat';
+import '@fontsource/mozilla-text/400.css';
+import '@fontsource/mozilla-text/500.css';
+import '@fontsource/mozilla-text/600.css';
+import '@fontsource/mozilla-headline/600.css';
 import * as styles from '../styles.module.css';
 import type { User } from '../../shared/user-data';
 import { lazyCompute } from '../lazyCompute';
@@ -65,7 +69,7 @@ const AppInner: FunctionalComponent<AppInnerProps> = ({
           />
           <a
             href={logoutURL.toString()}
-            class={`${styles.button} ${styles.logoutButton}`}
+            class={`${styles.button} ${styles.neutralButton} ${styles.logoutButton}`}
           >
             Logout
           </a>

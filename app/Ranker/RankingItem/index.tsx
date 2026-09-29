@@ -22,6 +22,11 @@ interface Props {
    * dragged item, so it matches the item it was dragged from.
    */
   reserveThreeButtonSpace?: boolean;
+  /**
+   * Reserve space for the rank number, without showing it. Used for the
+   * dragged item, so it matches the ranked item it was dragged from.
+   */
+  reserveRankSpace?: boolean;
   animId?: string | null;
   onMoveUp?: () => void;
   onMoveDown?: () => void;
@@ -37,6 +42,7 @@ const RankingItem: FunctionComponent<Props> = ({
   showRemoveButton = false,
   showDragHandle = false,
   reserveThreeButtonSpace = false,
+  reserveRankSpace = false,
   onMoveUp,
   onMoveDown,
   onAdd,
@@ -56,6 +62,7 @@ const RankingItem: FunctionComponent<Props> = ({
         [parentStyles.item]: true,
         [parentStyles.threeButtons]:
           reserveThreeButtonSpace || buttonCount >= 3,
+        [parentStyles.reserveRankSpace]: reserveRankSpace,
       })}
       data-item-id={item.id}
       data-anim-id={animId}

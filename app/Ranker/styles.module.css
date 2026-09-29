@@ -6,10 +6,11 @@
 .sectionTitle {
   display: grid;
   grid-template-columns: minmax(20px, 1fr) auto minmax(20px, 1fr);
-  margin: 2.5rem var(--viewport-padding) 1.5rem;
+  margin: 2.75rem var(--viewport-padding-inline) 1.25rem;
+  font-family: var(--font-headline);
   font-size: 1.2rem;
-  font-weight: normal;
-  color: light-dark(#333, #ddd);
+  font-weight: 600;
+  color: var(--text-color);
   align-items: center;
   gap: 1em;
   text-align: center;
@@ -18,23 +19,98 @@
     white-space: nowrap;
   }
 
+  & .subtle {
+    font-weight: normal;
+    color: var(--text-color-secondary);
+  }
+
   &::before,
   &::after {
     content: '';
-    border-bottom: 1px solid light-dark(#ccc, #444);
+    border-bottom: 1px solid var(--surface-border);
   }
 }
 
 .emptyMessage {
+  max-width: var(--content-width);
+  box-sizing: border-box;
+  margin: 0 auto;
+  padding: 1.6em 1em;
   color: var(--text-color-secondary);
   text-align: center;
-  margin: 2em 0;
+  border: 2px dashed var(--surface-border);
+  border-radius: var(--item-rounding);
+
+  @media (width <= 680px) {
+    border-radius: 0;
+    border-left: 0;
+    border-right: 0;
+  }
 }
 
 .rankList {
   list-style: none;
   padding: 0;
   margin: 0;
+
+  /*
+    Spacing is padding rather than margin on the item, so margins don't
+    collapse through the zero-height drop targets, which would put them at the
+    edge of the gap rather than the middle.
+  */
+  & > li:not(.dropTarget) {
+    padding-block: 6px;
+  }
+}
+
+/* Number the ranked items, to make it clear the top is the most important */
+.rankedList {
+  counter-reset: rank;
+
+  & > li:not(.dropTarget) {
+    counter-increment: rank;
+  }
+
+  & .item::before {
+    content: counter(rank);
+    justify-self: center;
+    display: grid;
+    place-items: center;
+    min-width: 1.9em;
+    height: 1.9em;
+    padding: 0 0.3em;
+    box-sizing: border-box;
+    border-radius: 1em;
+    font-size: 0.8rem;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    color: var(--text-color-secondary);
+    background: var(--neutral-button-bg);
+  }
+
+  & > li:nth-child(-n + 3 of :not(.dropTarget)) .item::before {
+    color: var(--accent-contrast);
+    background: var(--accent);
+  }
+}
+
+/*
+  Column for the rank number. The dragged item reserves it (without the number)
+  if it came from the ranked list, to avoid a layout shift.
+*/
+.rankedList .item,
+.item.reserveRankSpace {
+  grid-template-columns:
+    auto 1.9em minmax(0, 1fr)
+    minmax(var(--buttons-min), auto);
+
+  &::before {
+    grid-area: 1 / 2;
+  }
+}
+
+.item.reserveRankSpace::before {
+  content: '';
 }
 
 :root:active-view-transition-type(ranker-sorting) {
@@ -53,8 +129,11 @@
   padding: 0.8rem 1rem;
   box-sizing: border-box;
   text-align: center;
+  text-wrap: pretty;
+  line-height: 1.5;
   background-color: var(--highlight-bg);
-  border-radius: 0.4rem;
+  border: 1px solid light-dark(#d3dcff, #33406b);
+  border-radius: var(--item-rounding);
 
   & p {
     margin: 0;
@@ -62,6 +141,8 @@
 
   @media (width <= 680px) {
     border-radius: 0;
+    border-left: 0;
+    border-right: 0;
   }
 }
 
@@ -76,18 +157,27 @@
   --padding: 0.8rem;
   gap: var(--padding);
   padding-right: var(--padding);
-  margin: 5px auto;
+  margin: 0 auto;
   background-color: var(--surface-bg);
   border: 1px solid var(--surface-border);
-  box-shadow: 0 1px 3px light-dark(rgb(0 0 0 / 10%), rgb(0 0 0 / 60%));
-  max-width: 680px;
+  box-shadow: var(--surface-shadow);
+  max-width: var(--content-width);
   box-sizing: border-box;
   min-height: 3.5em;
-  border-radius: 0.4rem;
+  border-radius: var(--item-rounding);
   overflow: clip;
 
   &.threeButtons {
     --buttons-min: 8em;
+  }
+
+  @media (width < 500px) {
+    --padding: 0.6rem;
+    --buttons-min: 2.25rem;
+
+    &.threeButtons {
+      --buttons-min: 2.25rem;
+    }
   }
 
   @media (width <= 680px) {
@@ -109,8 +199,10 @@
     transition: opacity 150ms ease;
     transition-property: opacity, scale;
     margin: 0;
-    opacity: 0.8;
-    scale: 1.05;
+    height: 100%;
+    opacity: 0.9;
+    scale: 1.03;
+    box-shadow: var(--surface-shadow-raised);
     z-index: 1000;
 
     @starting-style {
@@ -126,7 +218,8 @@
 
 .dropTarget {
   position: relative;
-  max-width: 750px;
+  /* Wider than the items, so it's visible either side of the dragged item */
+  max-width: calc(var(--content-width) + 4.5rem);
   margin: 0 auto;
   z-index: 1;
 
@@ -147,11 +240,13 @@
     position: absolute;
 
     inset: auto 0;
-    height: 4px;
+    height: 3px;
     translate: 0 -50%;
     top: 50%;
+    border-radius: 3px;
 
-    background: red;
+    background: var(--accent);
+    box-shadow: 0 0 0 3px light-dark(rgb(59 91 219 / 20%), rgb(124 156 255 / 25%));
     will-change: transform;
     opacity: 0;
     scale: 0.5 1;

@@ -15,6 +15,12 @@ importers:
       '@cloudflare/vite-plugin':
         specifier: ^1.61.0
         version: 1.61.0(@types/node@26.6.3)(vite@8.3.1(@types/node@26.6.3)(esbuild@0.28.1)(less@4.9.1)(sass@1.105.0)(stylus@0.62.0))(wrangler@4.142.0(@types/node@26.6.3))
+      '@fontsource/mozilla-headline':
+        specifier: ^5.3.0
+        version: 5.3.0
+      '@fontsource/mozilla-text':
+        specifier: ^5.3.0
+        version: 5.3.0
       '@preact/preset-vite':
         specifier: ^2.10.6
         version: 2.10.6(@babel/core@7.29.7)(preact@10.29.8)(rollup@4.52.4)(vite@8.3.1(@types/node@26.6.3)(esbuild@0.28.1)(less@4.9.1)(sass@1.105.0)(stylus@0.62.0))
@@ -356,6 +362,12 @@ packages:
     engines: {node: '>=18'}
     cpu: [x64]
     os: [win32]
+
+  '@fontsource/mozilla-headline@5.3.0':
+    resolution: {integrity: sha512-0StOwlIKYEbotyHVNxEPI6HtP71BfXy8QkB6P9SA4i0s67H5u2tCKdatLaRltBJlJFALBJb3s2ak9IeVhNQV0A==}
+
+  '@fontsource/mozilla-text@5.3.0':
+    resolution: {integrity: sha512-pUGKXAUxof7CGoOUBkpezlm20zWn0xQvNcr5cA11uzH5YgLOAj7OxgfyEItt3TdqsT2Q2I4UlyPuR+pjeBdiHQ==}
 
   '@img/colour@1.1.0':
     resolution: {integrity: sha512-Td76q7j57o/tLVdgS746cYARfSyxk8iEfRxewL9h4OMzYhbW4TAcppl0mT4eyqXddh6L/jwoM75mo7ixa/pCeQ==}
@@ -1848,6 +1860,10 @@ snapshots:
 
   '@esbuild/win32-x64@0.28.1':
     optional: true
+
+  '@fontsource/mozilla-headline@5.3.0': {}
+
+  '@fontsource/mozilla-text@5.3.0': {}
 
   '@img/colour@1.1.0': {}
 

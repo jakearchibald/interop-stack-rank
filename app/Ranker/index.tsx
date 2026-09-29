@@ -14,6 +14,7 @@ import PairSorter from './PairSorter';
 import * as pairSorterStyles from './PairSorter/styles.module.css';
 import * as rootStyles from '../styles.module.css';
 import { viewTransitionWithTypes } from '../utils/viewTransition';
+import sortSVG from '../icons/sort.svg?raw';
 
 function getUnscaledPosition(rect: DOMRect, scale: number) {
   const centerX = rect.x + rect.width / 2;
@@ -309,6 +310,7 @@ const Ranker: FunctionComponent<Props> = ({
   );
   const draggingItem = useSignal<RankingItem | null>(null);
   const draggingItemHadThreeButtons = useSignal(false);
+  const draggingItemWasRanked = useSignal(false);
   const draggingItemRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -355,6 +357,8 @@ const Ranker: FunctionComponent<Props> = ({
         draggingItemHadThreeButtons.value = item.classList.contains(
           styles.threeButtons,
         );
+        draggingItemWasRanked.value =
+          item.closest(`.${styles.rankedList}`) !== null;
         draggingItem.value = itemData;
 
         const itemRect = item.getBoundingClientRect();
@@ -363,6 +367,8 @@ const Ranker: FunctionComponent<Props> = ({
         queueMicrotask(() => {
           if (!draggingItemRef.current) return;
           draggingItemRef.current.style.width = `${itemRect.width}px`;
+          // The dragged item doesn't have buttons, which can make it shorter
+          draggingItemRef.current.style.height = `${itemRect.height}px`;
           draggingItemRef.current.style.transform = `translate(${itemRect.x}px, ${itemRect.y}px)`;
         });
 
@@ -486,7 +492,9 @@ const Ranker: FunctionComponent<Props> = ({
       <h2 class={styles.sectionTitle}>
         <span>
           Ranked proposals{' '}
-          <span class={styles.nowrap}>(top = most important)</span>
+          <span class={`${styles.nowrap} ${styles.subtle}`}>
+            (top = most important)
+          </span>
         </span>
       </h2>
       {!readOnly &&
@@ -502,6 +510,10 @@ const Ranker: FunctionComponent<Props> = ({
             class={`${rootStyles.button} ${pairSorterStyles.startButton}`}
             onClick={() => setSortingWithTransition(true)}
           >
+            <span
+              class={pairSorterStyles.startIcon}
+              dangerouslySetInnerHTML={{ __html: sortSVG }}
+            />
             Help me order these
           </button>
         ))}
@@ -672,6 +684,7 @@ const Ranker: FunctionComponent<Props> = ({
             animId={`item-${draggingItem.value.id}`}
             showDragHandle={!readOnly}
             reserveThreeButtonSpace={draggingItemHadThreeButtons.value}
+            reserveRankSpace={draggingItemWasRanked.value}
           />
         )}
       </div>

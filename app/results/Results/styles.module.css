@@ -1,10 +1,12 @@
 .container {
-  margin: 0 1.5rem;
+  margin: 0 var(--viewport-padding-inline);
+  padding-top: 1.5rem;
 
   h2 {
     margin-top: 0;
     margin-bottom: 1.5rem;
-    font-size: 1.5rem;
+    font-family: var(--font-headline);
+    font-size: 1.6rem;
   }
 }
 
@@ -29,18 +31,28 @@
 
   & thead th {
     text-align: left;
-    padding: 0.5rem 1rem;
+    padding: 0.6rem 1rem;
     background: var(--surface-bg);
     font-weight: normal;
-    border-bottom: 2px solid var(--page-bg);
+    color: var(--text-color-secondary);
+    border-bottom: 1px solid var(--surface-border);
     font-size: 0.8rem;
     vertical-align: bottom;
+
+    &:first-child {
+      border-top-left-radius: var(--item-rounding);
+    }
+
+    &:last-child {
+      border-top-right-radius: var(--item-rounding);
+    }
 
     &.selected {
       background: var(--highlight-bg);
     }
 
     & a {
+      font-weight: 600;
       text-decoration: none;
 
       &:hover {
@@ -51,10 +63,15 @@
 
   & tbody tr {
     background: var(--surface-bg);
+
+    &:hover {
+      background: var(--surface-raised-bg);
+    }
   }
 
   & td {
-    padding: 0.5rem 1rem;
+    padding: 0.55rem 1rem;
+    font-variant-numeric: tabular-nums;
   }
 }
 

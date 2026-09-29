@@ -1,17 +1,30 @@
 .dragHandle {
   cursor: grab;
-  padding: 0 0.9rem;
-  font-size: 12px;
+  padding: 0 0.55rem 0 0.7rem;
+
+  @media (width < 500px) {
+    padding: 0 0.3rem 0 0.6rem;
+  }
   user-select: none;
   touch-action: none;
   align-self: stretch;
   display: grid;
   align-items: center;
-  background-color: var(--highlight-bg);
+  transition: background-color 120ms ease;
 
   svg {
-    fill: light-dark(#009fff73, #7fd0ff99);
-    width: 0.8rem;
+    display: block;
+    fill: var(--text-color-tertiary);
+    width: 0.75rem;
+    transition: fill 120ms ease;
+  }
+
+  &:hover {
+    background-color: var(--neutral-button-bg);
+
+    svg {
+      fill: var(--text-color-secondary);
+    }
   }
 }
 
@@ -23,24 +36,42 @@
   flex: 1;
   padding: var(--padding) 0;
   overflow-wrap: anywhere;
+  line-height: 1.4;
+  text-wrap: pretty;
+
+  & > a {
+    font-weight: 500;
+    text-decoration-color: transparent;
+    transition: text-decoration-color 120ms ease;
+
+    &:hover {
+      text-decoration-color: currentColor;
+    }
+  }
 }
 
 .upButton,
 .downButton,
 .addButton,
 .removeButton {
-  padding: 0.4em 0.7em;
-  background-color: #007bff;
+  display: grid;
+  place-items: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  padding: 0;
+  color: var(--text-color-secondary);
+  background-color: var(--neutral-button-bg);
 
   svg {
     display: block;
-    width: 1.1rem;
-    fill: white;
+    width: 1.15rem;
+    fill: currentColor;
   }
-}
 
-.upButton {
-  color: white;
+  &:hover {
+    color: var(--text-color);
+    background-color: var(--neutral-button-hover-bg);
+  }
 }
 
 .downButton {
@@ -48,23 +79,40 @@
 }
 
 .addButton {
-  background-color: #28a745;
+  color: var(--accent);
+  background-color: var(--accent-soft);
+
+  &:hover {
+    color: var(--accent-hover);
+    background-color: var(--accent-soft-hover);
+  }
 }
 
 .removeButton {
-  background-color: #dc3545;
+  color: var(--danger);
+  background-color: var(--danger-soft);
+
+  &:hover {
+    color: var(--danger);
+    background-color: var(--danger-soft-hover);
+  }
 }
 
 .buttons {
   display: grid;
   grid-auto-flow: column;
   justify-content: end;
-  gap: 0.4em;
+  gap: 0.35em;
   padding: var(--padding) 0;
+
+  @media (width < 500px) {
+    grid-auto-flow: row;
+  }
 }
 
 .subtitle {
   font-size: 0.85rem;
-  color: light-dark(#757575, #bbb);
-  margin: 0.3em 0 0;
+  line-height: 1.45;
+  color: var(--text-color-secondary);
+  margin: 0.25em 0 0;
 }

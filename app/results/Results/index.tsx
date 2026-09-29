@@ -4,6 +4,7 @@ import { lazyCompute } from '../../lazyCompute';
 import { useMemo, useRef } from 'preact/hooks';
 import { schulze } from './schulze';
 import * as styles from './styles.module.css';
+import * as rootStyles from '../../styles.module.css';
 import { classes } from '../../utils/classes';
 import { useLiveSignal } from '../../utils/useLiveSignal';
 import VS from './VS';
@@ -332,7 +333,10 @@ const ResultsList: FunctionalComponent<{
         </tbody>
       </table>
       <p class={styles.downloadButton}>
-        <button onClick={onDownloadCSV}>Download table as CSV</button>
+        <button
+          class={`${rootStyles.button} ${rootStyles.neutralButton}`}
+          onClick={onDownloadCSV}
+        >Download table as CSV</button>
       </p>
     </div>
   );

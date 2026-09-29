@@ -1,19 +1,52 @@
 html {
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
-    Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  --font-system: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI',
+    Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  --font-body: 'Mozilla Text', var(--font-system);
+  --font-headline: 'Mozilla Headline', var(--font-system);
+
+  font-family: var(--font-body);
 
   color-scheme: light dark;
   background: var(--page-bg);
   color: var(--text-color);
+  -webkit-font-smoothing: antialiased;
 
-  --page-bg: light-dark(#f1f1f1, #222);
-  --surface-bg: light-dark(#fff, #333);
-  --surface-border: light-dark(#ddd, #444);
-  --highlight-bg: light-dark(#d3f1fd, #1c4252);
-  --text-color: light-dark(#000, #eee);
-  --text-color-secondary: light-dark(#666, #bbb);
-  --link-color: light-dark(#0066cc, #7ab8ff);
-  --link-hover-color: light-dark(#004499, #a9d1ff);
+  --page-bg: light-dark(#f4f5f8, #15161a);
+  --surface-bg: light-dark(#fff, #212329);
+  --surface-raised-bg: light-dark(#f8f9fb, #292c33);
+  --surface-border: light-dark(#e1e3e9, #33363e);
+  --surface-shadow:
+    0 1px 2px light-dark(rgb(20 25 40 / 6%), rgb(0 0 0 / 40%)),
+    0 1px 1px light-dark(rgb(20 25 40 / 4%), rgb(0 0 0 / 20%));
+  --surface-shadow-raised:
+    0 12px 32px light-dark(rgb(20 25 40 / 18%), rgb(0 0 0 / 60%)),
+    0 2px 6px light-dark(rgb(20 25 40 / 10%), rgb(0 0 0 / 40%));
+
+  --text-color: light-dark(#1a1c21, #e9eaee);
+  --text-color-secondary: light-dark(#5b606c, #a3a8b4);
+  --text-color-tertiary: light-dark(#8d929d, #6f7480);
+
+  --accent: light-dark(#3b5bdb, #7c9cff);
+  --accent-hover: light-dark(#2f4bc0, #9bb3ff);
+  --accent-contrast: light-dark(#fff, #0f1530);
+  --accent-soft: light-dark(#edf1ff, #232c4a);
+  --accent-soft-hover: light-dark(#dfe6ff, #2c3860);
+
+  --neutral-button-bg: light-dark(#eef0f4, #30333b);
+  --neutral-button-hover-bg: light-dark(#e2e5eb, #3a3d46);
+
+  --danger: light-dark(#c92a2a, #ff8787);
+  --danger-soft: light-dark(#fff0f0, #3d2226);
+  --danger-soft-hover: light-dark(#ffe3e3, #4a262b);
+  --danger-solid: light-dark(#c92a2a, #d63939);
+  --danger-solid-hover: light-dark(#a61e1e, #e85050);
+
+  --highlight-bg: var(--accent-soft);
+  --link-color: var(--accent);
+  --link-hover-color: var(--accent-hover);
+  --focus-ring: 0 0 0 2px var(--page-bg), 0 0 0 4px var(--accent);
+
+  --content-width: 680px;
   --viewport-padding-inline: 0.8rem;
   --viewport-padding-block: 1rem;
 
@@ -24,11 +57,22 @@ html {
 
   --viewport-padding: var(--viewport-padding-block)
     var(--viewport-padding-inline);
-  --container-rounding: 0.5rem;
+  --container-rounding: 0.75rem;
+  --item-rounding: 0.6rem;
 }
 
 body {
   margin: 0;
+}
+
+/* Only weights up to 600 are loaded */
+strong,
+b,
+th,
+h1,
+h2,
+h3 {
+  font-weight: 600;
 }
 
 :global(#app) {
@@ -64,7 +108,7 @@ code {
   line-height: 1;
   padding: 0.1em 0.3em;
   border-radius: 0.25em;
-  background: light-dark(rgb(0 0 0 / 6%), rgb(255 255 255 / 10%));
+  background: light-dark(rgb(20 25 40 / 6%), rgb(255 255 255 / 8%));
   box-decoration-break: clone;
   /*
     lib/fetch-issues.js removes line break opportunities within code, to avoid
@@ -76,46 +120,61 @@ code {
 .button {
   padding: 0.9em 1.3em;
   border: none;
-  border-radius: 6px;
+  border-radius: 0.5rem;
   cursor: pointer;
-  font-size: 0.8rem;
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 500;
+  line-height: 1.2;
+  transition:
+    background-color 120ms ease,
+    color 120ms ease;
+
+  &:focus-visible {
+    outline: none;
+    box-shadow: var(--focus-ring);
+  }
+}
+
+.neutralButton {
+  color: var(--text-color);
+  background-color: var(--neutral-button-bg);
+
+  &:hover {
+    background-color: var(--neutral-button-hover-bg);
+  }
 }
 
 .userInfo {
   display: grid;
   grid-auto-flow: column;
   align-items: center;
-  gap: 15px;
+  gap: 0.75rem;
   font-size: 14px;
 }
 
 .logoutButton {
-  background-color: #dc3545;
-  color: white;
   text-decoration: none;
-  border-radius: 4px;
-  font-size: 12px;
-  padding: 0.6em 1.1em;
-
-  &:hover {
-    background-color: #c82333;
-  }
+  font-size: 0.8rem;
+  padding: 0.55em 1em;
 }
 
 .avatar {
-  width: 40px;
-  height: 40px;
+  width: 34px;
+  height: 34px;
   border-radius: 50%;
+  box-shadow: 0 0 0 1px var(--surface-border);
 }
 
 .mainLoginButton {
-  margin: 3rem auto;
+  margin: 2.5rem auto 3rem;
   width: fit-content;
 }
 
 .explainerContainer {
   padding: var(--viewport-padding);
+  padding-top: 2rem;
   padding-bottom: 0;
-  max-width: 600px;
+  max-width: var(--content-width);
   margin: 0 auto;
 }

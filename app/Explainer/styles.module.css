@@ -1,13 +1,20 @@
 .explainer {
   background: var(--surface-bg);
+  border: 1px solid var(--surface-border);
+  box-shadow: var(--surface-shadow);
   display: flow-root;
-  padding: 1rem 1rem;
+  padding: 1.25rem 1.5rem;
   border-radius: var(--container-rounding);
 
-  line-height: 1.7;
+  line-height: 1.65;
+  text-wrap: pretty;
 
   p {
-    margin: 1.5em 0;
+    margin: 1.1em 0;
+  }
+
+  strong {
+    font-weight: 600;
   }
 
   > *:last-child {
@@ -19,6 +26,10 @@
   }
 
   details {
+    margin-top: 1.25em;
+    padding-top: 1em;
+    border-top: 1px solid var(--surface-border);
+
     > *:last-child {
       margin-bottom: 0;
     }
@@ -27,6 +38,15 @@
   summary {
     cursor: pointer;
     color: var(--link-color);
+    font-weight: 500;
     width: fit-content;
+
+    &:hover {
+      color: var(--link-hover-color);
+    }
+  }
+
+  @media (width < 500px) {
+    padding: 1rem 1.1rem;
   }
 }
