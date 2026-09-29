@@ -5,17 +5,15 @@ import {
 import { assertOrigin } from '../../utils/url';
 
 const route: ExportedHandler<Env>['fetch'] = async (request, env) => {
+  const requestUrl = new URL(request.url);
   const state = generateState();
   const url = createAuthorizationURL(
     env.GITHUB_CLIENT_ID,
     state,
-    import.meta.env.PROD
-      ? 'https://interop-rank.jakearchibald.com/auth/github/callback'
-      : null
+    new URL('/auth/github/callback', requestUrl.origin).href
   );
 
   // Get redirect parameter from query string
-  const requestUrl = new URL(request.url);
   const redirectPath = requestUrl.searchParams.get('redirect') || '/';
 
   assertOrigin(redirectPath, requestUrl.origin);

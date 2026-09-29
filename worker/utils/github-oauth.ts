@@ -6,12 +6,12 @@ export function generateState(): string {
 export function createAuthorizationURL(
   clientId: string,
   state: string,
-  redirectURI: string | null
+  redirectURI: string
 ): URL {
   const url = new URL('https://github.com/login/oauth/authorize');
   url.searchParams.set('client_id', clientId);
   url.searchParams.set('state', state);
-  if (redirectURI) url.searchParams.set('redirect_uri', redirectURI);
+  url.searchParams.set('redirect_uri', redirectURI);
   return url;
 }
 
