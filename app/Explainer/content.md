@@ -1,6 +1,6 @@
 This site lets you rank the proposals you care about, giving us (the Firefox team) data we can use when reviewing which proposals should be taken on for [Interop 2027](https://github.com/web-platform-tests/interop/tree/main/2027).
 
-This is the second year we're doing this, and last year's submissions not only helped us push the right proposals in the Interop process, it was also used to prioritize web platform feature development in Firefox.
+This is the second year we're doing this, and last year's 1900+ rankings not only helped us push the right proposals in the Interop process, it was also used to prioritize web platform feature development in Firefox.
 
 **Please only rank proposals you feel positively about.** Anything you rank will be taken as a positive signal. If there are features you don't know or even feel negatively about, leave them unranked.
 
