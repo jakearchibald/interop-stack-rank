@@ -217,8 +217,8 @@ const PairSorter: FunctionComponent<Props> = ({
         <h3 class={styles.question}>Re-use your previous answers?</h3>
         <p class={styles.promptText}>
           You've compared some of these before. Re-using those answers means
-          fewer questions, but it will undo any reordering you've done since
-          that contradicts them.
+          fewer questions, but it may clash with any manual reordering you've
+          done since then.
         </p>
         <div class={styles.actions}>
           <div class={styles.promptChoices}>
