@@ -15,6 +15,8 @@ import * as pairSorterStyles from './PairSorter/styles.module.css';
 import * as rootStyles from '../styles.module.css';
 import { viewTransitionWithTypes } from '../utils/viewTransition';
 import sortSVG from '../icons/sort.svg?raw';
+import closeSVG from '../icons/close.svg?raw';
+import * as utilStyles from '../utils.module.css';
 
 function getUnscaledPosition(rect: DOMRect, scale: number) {
   const centerX = rect.x + rect.width / 2;
@@ -113,6 +115,8 @@ function doFlip(container: HTMLElement, { raisedAnimId }: DoFlipOptions = {}) {
   });
 }
 
+const tooManyDismissedKey = 'tooManyMessageDismissed';
+
 /** Beyond this, users are nudged to rank fewer items. */
 const recommendedMaxRanked = 15;
 
@@ -139,6 +143,23 @@ const Ranker: FunctionComponent<Props> = ({
   const tooManyRanked = useComputed(
     () => rankedItems.value.length > recommendedMaxRanked,
   );
+  const tooManyDismissed = useSignal(
+    localStorage.getItem(tooManyDismissedKey) === 'true',
+  );
+
+  const dismissTooMany = () => {
+    localStorage.setItem(tooManyDismissedKey, 'true');
+    tooManyDismissed.value = true;
+    doFlip(containerRef.current!);
+
+    // The focused button is going away, so move focus to the ranked list.
+    requestAnimationFrame(() => {
+      const button = containerRef.current?.querySelector<HTMLElement>(
+        `.${styles.rankedList} button`,
+      );
+      button?.focus({ preventScroll: true });
+    });
+  };
 
   const insertBeforeId = (
     item: RankingItem,
@@ -561,7 +582,7 @@ const Ranker: FunctionComponent<Props> = ({
             Help me order these
           </button>
         ))}
-      {tooManyRanked.value && (
+      {tooManyRanked.value && !tooManyDismissed.value && (
         <div class={styles.tooManyMessage}>
           <p>
             Wow! That's a lot to rank! We recommend ranking{' '}
@@ -569,6 +590,13 @@ const Ranker: FunctionComponent<Props> = ({
             {rankedItems.value.length}). Stick to your favorites. Or, ignore us
             and carry on! We'll still use the data.
           </p>
+          <button
+            class={`${rootStyles.button} ${styles.dismissButton}`}
+            onClick={dismissTooMany}
+          >
+            <span class={utilStyles.srOnly}>Dismiss</span>
+            <span dangerouslySetInnerHTML={{ __html: closeSVG }} />
+          </button>
         </div>
       )}
       {rankedItems.value.length === 0 ? (

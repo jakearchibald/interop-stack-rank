@@ -136,9 +136,10 @@
 }
 
 .tooManyMessage {
+  position: relative;
   max-width: 680px;
   margin: 0 auto 1rem;
-  padding: 0.8rem 1rem;
+  padding: 0.8rem 2.75rem;
   box-sizing: border-box;
   text-align: center;
   text-wrap: pretty;
@@ -155,6 +156,30 @@
     border-radius: 0;
     border-left: 0;
     border-right: 0;
+  }
+}
+
+.dismissButton {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  display: grid;
+  place-items: center;
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
+  color: var(--text-color-secondary);
+  background: none;
+
+  &:hover {
+    color: var(--text-color);
+    background-color: var(--neutral-button-bg);
+  }
+
+  svg {
+    display: block;
+    width: 1.15rem;
+    fill: currentColor;
   }
 }
 
