@@ -344,7 +344,7 @@
   {
     "id": 1373,
     "titleHTML": "CSS <code>interpolate-&#8288;size</code> property and <code>calc-&#8288;size()</code> function",
-    "subtitleHTML": "Allows animating to <code>height:&nbsp;auto</code> and other intrinsic sizing keywords."
+    "subtitleHTML": "Allows animating to <code>height:&nbsp;auto</code>, and using intrinsic sizes in calculations."
   },
   {
     "id": 1372,
