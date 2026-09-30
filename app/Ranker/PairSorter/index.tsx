@@ -18,7 +18,7 @@ import {
 } from './binaryInsertionSort';
 import {
   clearAnswers,
-  getAnswer,
+  createAnswerLookup,
   hasAnswersFor,
   loadAnswers,
   removeAnswer,
@@ -44,14 +44,8 @@ const PairSorter: FunctionComponent<Props> = ({
   // ranking is changed by other means.
   const state = useSignal(createSortState(items));
   const answers = useMemo(loadAnswers, []);
-  const offerReuse = useMemo(
-    () =>
-      hasAnswersFor(
-        answers,
-        items.map((item) => item.id),
-      ),
-    [],
-  );
+  const itemIds = useMemo(() => items.map((item) => item.id), []);
+  const offerReuse = useMemo(() => hasAnswersFor(answers, itemIds), []);
   const phase = useSignal<'reuse-prompt' | 'sorting'>(
     offerReuse ? 'reuse-prompt' : 'sorting',
   );
@@ -62,10 +56,18 @@ const PairSorter: FunctionComponent<Props> = ({
   const firstChoiceRef = useRef<HTMLButtonElement>(null);
   const closeRef = useRef<HTMLButtonElement>(null);
 
-  // Pairs are never compared twice within a sort, so this only finds answers
-  // from previous sorts. If the user chose to start over, there are none.
+  // Rebuilt whenever answers change. If the user chose to start over, this
+  // only contains answers from the current sort, which the sort never needs to
+  // look up, since it already accounts for them.
+  const answerLookup = useSignal(
+    useMemo(() => createAnswerLookup(answers, itemIds), []),
+  );
+  const updateAnswerLookup = () => {
+    answerLookup.value = createAnswerLookup(answers, itemIds);
+  };
+
   const getKnownAnswer: KnownAnswer<RankingItem> = (item, other) =>
-    getAnswer(answers, item.id, other.id);
+    answerLookup.value(item.id, other.id);
 
   const comparison = useComputed(() => getComparison(state.value));
 
@@ -118,6 +120,7 @@ const PairSorter: FunctionComponent<Props> = ({
 
       if (response === true) saveAnswer(answers, item.id, other.id);
       else if (response === false) saveAnswer(answers, other.id, item.id);
+      if (response !== 'same') updateAnswerLookup();
 
       history.value = [...history.value, answeredState];
       questionsAnswered.value++;
@@ -141,6 +144,7 @@ const PairSorter: FunctionComponent<Props> = ({
       // question was asked.
       const { item, other } = getComparison(previousState)!;
       removeAnswer(answers, item.id, other.id);
+      updateAnswerLookup();
 
       history.value = history.value.slice(0, -1);
       questionsAnswered.value--;
@@ -159,6 +163,7 @@ const PairSorter: FunctionComponent<Props> = ({
         onReorder(getOrder(state.value));
       } else {
         clearAnswers(answers);
+        updateAnswerLookup();
       }
       phase.value = 'sorting';
     });
