@@ -1,4 +1,4 @@
-This site lets you rank the proposals you care about, giving us (the Firefox team) data we can use when reviewing which proposals should be taken on for [Interop 2027](https://github.com/web-platform-tests/interop/tree/main/2027).
+This site lets you rank the [Interop 2027](https://github.com/web-platform-tests/interop/tree/main/2027) proposals you care about, giving us (the Firefox team) data we can use when reviewing which proposals should be taken on.
 
 This is the second year we're doing this, and last year's 1900+ rankings not only helped us push the right proposals in the Interop process, it was also used to prioritize web platform feature development in Firefox.
 
