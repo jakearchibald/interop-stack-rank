@@ -255,6 +255,7 @@ const Ranker: FunctionComponent<Props> = ({
   };
 
   const fetchControllerRef = useRef<AbortController | null>(null);
+  const saveStatus = useSignal<'idle' | 'saving' | 'saved' | 'error'>('idle');
 
   const postRankings = () => {
     if (fetchControllerRef.current) {
@@ -265,6 +266,13 @@ const Ranker: FunctionComponent<Props> = ({
 
     const controller = new AbortController();
     fetchControllerRef.current = controller;
+
+    // Delay showing 'saving', so fast saves don't flicker
+    const savingTimeout = setTimeout(() => {
+      saveStatus.value = 'saving';
+    }, 1000);
+    const clearSavingTimeout = () => clearTimeout(savingTimeout);
+    controller.signal.addEventListener('abort', clearSavingTimeout);
 
     const postPromise = (async () => {
       const rankingBody = JSON.stringify({
@@ -286,17 +294,24 @@ const Ranker: FunctionComponent<Props> = ({
 
         if (response.ok) {
           localStorage.removeItem('unsavedRanking');
-        } else {
-          if (response.status === 401) {
-            onUnauthenticated();
-          }
-          console.error('Failed to save rankings:', response.statusText);
+          saveStatus.value = 'saved';
+          return;
         }
+
+        saveStatus.value = 'error';
+
+        if (response.status === 401) {
+          onUnauthenticated();
+          return;
+        }
+
+        throw Error(response.statusText || `HTTP ${response.status}`);
       } catch (error: unknown) {
         if (error instanceof Error && error.name === 'AbortError') {
           // Fetch was aborted, likely due to a new request being made
           return;
         }
+        saveStatus.value = 'error';
         console.error('Error saving rankings:', error);
 
         if (error instanceof Error) {
@@ -307,6 +322,7 @@ const Ranker: FunctionComponent<Props> = ({
       }
     })();
 
+    postPromise.then(clearSavingTimeout, clearSavingTimeout);
     pushToastMessage({ type: 'saving', until: postPromise });
   };
 
@@ -510,6 +526,22 @@ const Ranker: FunctionComponent<Props> = ({
           </span>
         </span>
       </h2>
+      {!readOnly && (
+        <p
+          class={classes({
+            [styles.saveStatus]: true,
+            [styles.saveError]: saveStatus.value === 'error',
+          })}
+        >
+          {saveStatus.value === 'idle'
+            ? 'Changes are saved automatically'
+            : saveStatus.value === 'saving'
+              ? 'Saving…'
+              : saveStatus.value === 'saved'
+                ? '✓ Saved'
+                : "Couldn't save. Your changes are kept in this browser and will be retried."}
+        </p>
+      )}
       {canSort &&
         (sorting.value ? (
           <PairSorter

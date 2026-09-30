@@ -12,7 +12,7 @@ You don't need to rank everything. **Ranking ~10 items will give us great data t
 
 Your ranked items are stored on the server, keyed against your Github user ID, along with your Github name, username, and avatar URL. This is visible to select members of the Firefox team.
 
-Only your ranked items are stored on the server. The order of unranked items is initially random, then stored locally, so the order is stable.
+The order of unranked items is not stored on the server. They're initially random, then stored locally, so the order is stable.
 
 We intend to share the individual rankings with the Interop team for analysis, but without the associated Github data (ids, name, username, avatar URL).
 
