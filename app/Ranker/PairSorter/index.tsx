@@ -275,7 +275,7 @@ const PairSorter: FunctionComponent<Props> = ({
             ? 'All done! Your previous answers put your ranking in order.'
             : `All done! Your ranking is in order, after ${
                 questionsAnswered.value
-              } ${questionsAnswered.value === 1 ? 'question' : 'questions'}. `}
+              } ${questionsAnswered.value === 1 ? 'question' : 'questions'}.`}{' '}
           You can still reorder your items manually if you wish.
         </p>
         <div class={styles.actions}>
