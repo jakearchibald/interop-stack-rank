@@ -213,6 +213,17 @@ const Ranker: FunctionComponent<Props> = ({
       sorting.value = value;
     });
 
+  const startSorterFromBottom = () => {
+    // The top of the list is offscreen, so a view transition wouldn't be seen.
+    sorting.value = true;
+    // Wait for Preact to render.
+    setTimeout(() => {
+      containerRef.current
+        ?.querySelector('#ranked-proposals')
+        ?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  };
+
   const closeSorter = async () => {
     const sorterHadFocus = containerRef.current
       ?.querySelector(`.${pairSorterStyles.pairSorter}`)
@@ -487,9 +498,11 @@ const Ranker: FunctionComponent<Props> = ({
     };
   }, [readOnly]);
 
+  const canSort = !readOnly && rankedItems.value.length > 1;
+
   return (
     <div ref={containerRef} class={styles.rankingContainer}>
-      <h2 class={styles.sectionTitle}>
+      <h2 class={styles.sectionTitle} id="ranked-proposals">
         <span>
           Ranked proposals{' '}
           <span class={`${styles.nowrap} ${styles.subtle}`}>
@@ -497,8 +510,7 @@ const Ranker: FunctionComponent<Props> = ({
           </span>
         </span>
       </h2>
-      {!readOnly &&
-        rankedItems.value.length > 1 &&
+      {canSort &&
         (sorting.value ? (
           <PairSorter
             items={rankedItems.value}
@@ -529,7 +541,10 @@ const Ranker: FunctionComponent<Props> = ({
       )}
       {rankedItems.value.length === 0 ? (
         <div class={styles.noItems} key="no-items">
-          <p class={styles.emptyMessage}>Move items here to rank them</p>
+          <p class={styles.emptyMessage}>
+            Nothing ranked yet. Start by going through the list below, and add
+            all the things you're particularly excited about.
+          </p>
           {draggingItem.value && (
             <div
               class={`${styles.dropTarget} ${styles.firstDropTarget}`}
@@ -675,6 +690,18 @@ const Ranker: FunctionComponent<Props> = ({
             </Fragment>
           ))}
         </ol>
+      )}
+      {canSort && !sorting.value && (
+        <button
+          class={`${rootStyles.button} ${pairSorterStyles.startButton} ${styles.bottomStartButton}`}
+          onClick={startSorterFromBottom}
+        >
+          <span
+            class={pairSorterStyles.startIcon}
+            dangerouslySetInnerHTML={{ __html: sortSVG }}
+          />
+          Help me rank the items I selected
+        </button>
       )}
 
       <div class={styles.draggingItemContainer} ref={draggingItemRef}>
