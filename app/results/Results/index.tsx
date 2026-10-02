@@ -8,7 +8,7 @@ import * as rootStyles from '../../styles.module.css';
 import { classes } from '../../utils/classes';
 import { useLiveSignal } from '../../utils/useLiveSignal';
 import VS from './VS';
-import { itemsById } from './data';
+import { itemsById, reactionsById } from './data';
 import { generateCsv } from 'export-to-csv';
 
 type SortKey =
@@ -17,7 +17,9 @@ type SortKey =
   | 'top3ChoiceCount'
   | 'rankCount'
   | 'averageRank'
-  | 'smallRankingTopChoiceCount';
+  | 'smallRankingTopChoiceCount'
+  | 'positiveReactions'
+  | 'negativeReactions';
 
 // import tmpDataURL from './tmp-data.json?url';
 
@@ -58,6 +60,8 @@ interface ResultData {
   rankCount: number;
   averageRank: number;
   smallRankingTopChoiceCount: number;
+  positiveReactions: number;
+  negativeReactions: number;
 }
 
 const ResultsList: FunctionalComponent<{
@@ -127,6 +131,8 @@ const ResultsList: FunctionalComponent<{
         smallRankingTopChoiceCount: smallRankingTopChoiceCount.get(id) || 0,
         rankCount: rankCounts.get(id) || 0,
         averageRank: validCount > 0 ? (rankSums.get(id) || 0) / validCount : 0,
+        positiveReactions: reactionsById.get(id)?.positive || 0,
+        negativeReactions: reactionsById.get(id)?.negative || 0,
       } satisfies ResultData;
     });
 
@@ -156,6 +162,12 @@ const ResultsList: FunctionalComponent<{
         sorted.sort(
           (a, b) => b.smallRankingTopChoiceCount - a.smallRankingTopChoiceCount
         );
+        break;
+      case 'positiveReactions':
+        sorted.sort((a, b) => b.positiveReactions - a.positiveReactions);
+        break;
+      case 'negativeReactions':
+        sorted.sort((a, b) => b.negativeReactions - a.negativeReactions);
         break;
     }
 
@@ -307,6 +319,30 @@ const ResultsList: FunctionalComponent<{
               </a>{' '}
               (0=top, 1=bottom)
             </th>
+            <th
+              class={classes({
+                [styles.selected]: sortKey.value === 'positiveReactions',
+              })}
+            >
+              <a
+                href="?sort=positiveReactions"
+                onClick={handleSortClick('positiveReactions')}
+              >
+                Positive Reactions
+              </a>
+            </th>
+            <th
+              class={classes({
+                [styles.selected]: sortKey.value === 'negativeReactions',
+              })}
+            >
+              <a
+                href="?sort=negativeReactions"
+                onClick={handleSortClick('negativeReactions')}
+              >
+                Negative Reactions
+              </a>
+            </th>
           </tr>
         </thead>
         <tbody>
@@ -328,6 +364,8 @@ const ResultsList: FunctionalComponent<{
               <td>{result.top3ChoiceCount}</td>
               <td>{result.rankCount}</td>
               <td>{result.averageRank.toFixed(3)}</td>
+              <td>{result.positiveReactions}</td>
+              <td>{result.negativeReactions}</td>
             </tr>
           ))}
         </tbody>

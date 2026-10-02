@@ -367,11 +367,6 @@
     "subtitleHTML": "Replaces content at a named range or insertion point, allowing partial updates to be streamed into the document out of order."
   },
   {
-    "id": 1365,
-    "titleHTML": "HTML <code>headingoffset</code> and <code>headingreset</code> attributes",
-    "subtitleHTML": "Offsets the heading level of descendant <code>&lt;h1&gt;</code>–<code>&lt;h6&gt;</code> elements. Includes the CSS <code>:heading()</code> pseudo-class."
-  },
-  {
     "id": 1364,
     "titleHTML": "CSS container scroll-state queries",
     "subtitleHTML": "The <code>@container&nbsp;scroll-&#8288;state(...)</code> at-rule applies styles based on the sticky positioning, snapped, and scrollable state of the container."

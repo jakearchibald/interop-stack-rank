@@ -9,7 +9,8 @@
     "preview": "npm run build && vite preview",
     "deploy": "npm run build && wrangler deploy",
     "cf-typegen": "wrangler types",
-    "fetch-issue-data": "node lib/fetch-issues.js"
+    "fetch-issue-data": "node lib/fetch-issues.js",
+    "fetch-reactions": "GITHUB_TOKEN=$(gh auth token) node lib/fetch-reactions.js"
   },
   "devDependencies": {
     "@cloudflare/vite-plugin": "^1.61.0",
