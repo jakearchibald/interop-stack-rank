@@ -16,17 +16,14 @@ const admins = new Set([
 
 const dataAccess = new Set([
   ...admins,
-  498917, // Philip
   244772, // Simon
-  1152698, // Patrick
   118266, // Keith
   332653, // jrmuizel
   9219935, // smaug---
-  39398, // stubbornella
 ]);
 
 export function requireDataAccess(
-  user: SessionUser | null
+  user: SessionUser | null,
 ): asserts user is SessionUser {
   if (!user) {
     throw new Response('Unauthorized', { status: 401 });
@@ -38,7 +35,7 @@ export function requireDataAccess(
 }
 
 export function requireAdmin(
-  user: SessionUser | null
+  user: SessionUser | null,
 ): asserts user is SessionUser {
   if (!user) {
     throw new Response('Unauthorized', { status: 401 });
