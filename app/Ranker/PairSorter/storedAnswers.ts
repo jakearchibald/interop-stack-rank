@@ -1,4 +1,7 @@
-const storageKey = 'pairSorterAnswers';
+import type { PairAnswerList } from '../../../shared/user-data';
+
+/** Answers used to be stored locally, before they were saved to the server. */
+const legacyStorageKey = 'pairSorterAnswers';
 
 /** Maps a pair key to the ID of the preferred item. */
 export type PairAnswers = Map<string, number>;
@@ -7,28 +10,49 @@ function pairKey(idA: number, idB: number): string {
   return idA < idB ? `${idA}-${idB}` : `${idB}-${idA}`;
 }
 
-export function loadAnswers(): PairAnswers {
+export function answersFromList(list: PairAnswerList): PairAnswers {
   const answers: PairAnswers = new Map();
+  for (const [preferredId, otherId] of list) {
+    answers.set(pairKey(preferredId, otherId), preferredId);
+  }
+  return answers;
+}
+
+export function answersToList(answers: PairAnswers): PairAnswerList {
+  return [...answers].map(([key, preferredId]) => {
+    const [idA, idB] = key.split('-').map(Number);
+    return [preferredId, preferredId === idA ? idB : idA];
+  });
+}
+
+/**
+ * Moves any locally stored answers into `answers`, without overwriting
+ * existing answers. Returns whether there were any.
+ */
+export function takeLegacyAnswers(answers: PairAnswers): boolean {
+  const json = localStorage.getItem(legacyStorageKey);
+  if (json === null) return false;
 
   try {
-    const data = JSON.parse(localStorage.getItem(storageKey) ?? '{}');
-    for (const [key, preferredId] of Object.entries(data)) {
-      if (typeof preferredId === 'number') answers.set(key, preferredId);
+    for (const [key, preferredId] of Object.entries(JSON.parse(json))) {
+      if (typeof preferredId === 'number' && !answers.has(key)) {
+        answers.set(key, preferredId);
+      }
     }
   } catch {
     // Ignore JSON parse errors
   }
 
-  return answers;
+  localStorage.removeItem(legacyStorageKey);
+  return true;
 }
 
-export function saveAnswer(
+export function setAnswer(
   answers: PairAnswers,
   preferredId: number,
   otherId: number
 ): void {
   answers.set(pairKey(preferredId, otherId), preferredId);
-  localStorage.setItem(storageKey, JSON.stringify(Object.fromEntries(answers)));
 }
 
 export function removeAnswer(
@@ -37,12 +61,33 @@ export function removeAnswer(
   idB: number
 ): void {
   answers.delete(pairKey(idA, idB));
-  localStorage.setItem(storageKey, JSON.stringify(Object.fromEntries(answers)));
 }
 
-export function clearAnswers(answers: PairAnswers): void {
-  answers.clear();
-  localStorage.removeItem(storageKey);
+/**
+ * Removes answers that contradict where `movedId` now sits in `order`, since
+ * moving it manually is a newer statement of preference. Only pairs involving
+ * the moved item are affected, as that's all the user expressed.
+ * Answers implied by transitivity aren't stored, but they're built from direct
+ * answers, so removing those also removes contradicting inferences that start
+ * from the moved item.
+ */
+export function removeContradictedAnswers(
+  answers: PairAnswers,
+  order: number[],
+  movedId: number
+): void {
+  const movedIndex = order.indexOf(movedId);
+  if (movedIndex === -1) return;
+
+  for (const [index, otherId] of order.entries()) {
+    if (otherId === movedId) continue;
+    const preferredId = answers.get(pairKey(movedId, otherId));
+    if (preferredId === undefined) continue;
+    const movedIsAbove = movedIndex < index;
+    if (movedIsAbove !== (preferredId === movedId)) {
+      removeAnswer(answers, movedId, otherId);
+    }
+  }
 }
 
 /**

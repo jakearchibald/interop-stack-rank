@@ -12,6 +12,10 @@ import { classes } from '../utils/classes';
 import { pushToastMessage } from '../Toasts/useToastData';
 import PairSorter from './PairSorter';
 import * as pairSorterStyles from './PairSorter/styles.module.css';
+import {
+  answersToList,
+  removeContradictedAnswers,
+} from './PairSorter/storedAnswers';
 import * as rootStyles from '../styles.module.css';
 import { viewTransitionWithTypes } from '../utils/viewTransition';
 import sortSVG from '../icons/sort.svg?raw';
@@ -138,7 +142,7 @@ const Ranker: FunctionComponent<Props> = ({
   readOnly,
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
-  const { rankedItems, unrankedItems } = useRankingSignals(user);
+  const { rankedItems, unrankedItems, pairAnswers } = useRankingSignals(user);
   const sorting = useSignal(false);
   const tooManyRanked = useComputed(
     () => rankedItems.value.length > recommendedMaxRanked,
@@ -194,6 +198,14 @@ const Ranker: FunctionComponent<Props> = ({
         item,
         ...destinationList.value.slice(insertIndex),
       ];
+    }
+
+    if (targetList === 'ranked') {
+      removeContradictedAnswers(
+        pairAnswers,
+        rankedItems.value.map((i) => i.id),
+        item.id,
+      );
     }
 
     queueMicrotask(() => {
@@ -298,6 +310,7 @@ const Ranker: FunctionComponent<Props> = ({
     const postPromise = (async () => {
       const rankingBody = JSON.stringify({
         ranking: rankedItems.value.map((item) => item.id),
+        pairAnswers: answersToList(pairAnswers),
       });
       localStorage.setItem('unsavedRanking', rankingBody);
       localStorage.setItem(
@@ -567,7 +580,9 @@ const Ranker: FunctionComponent<Props> = ({
         (sorting.value ? (
           <PairSorter
             items={rankedItems.value}
+            answers={pairAnswers}
             onReorder={applySortedOrder}
+            onAnswersChange={postRankings}
             onClose={closeSorter}
           />
         ) : (

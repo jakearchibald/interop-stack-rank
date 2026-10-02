@@ -1,9 +1,15 @@
 import { type Signal, useSignal } from '@preact/signals';
-import { useMemo } from 'preact/hooks';
+import { useMemo, useState } from 'preact/hooks';
 
 import type { RankingItem } from '.';
 import type { User } from '../../shared/user-data';
 import allItems from './data.json';
+import {
+  answersFromList,
+  answersToList,
+  type PairAnswers,
+  takeLegacyAnswers,
+} from './PairSorter/storedAnswers';
 
 export const itemsById = new Map<number, RankingItem>();
 for (const item of allItems) itemsById.set(item.id, item);
@@ -26,34 +32,52 @@ function shuffle(array: unknown[], rand: () => number = Math.random) {
   }
 }
 
+function getUnsavedData(): { ranking?: unknown; pairAnswers?: unknown } {
+  try {
+    return JSON.parse(localStorage.getItem('unsavedRanking') ?? '{}') ?? {};
+  } catch {
+    // Ignore JSON parse errors
+    return {};
+  }
+}
+
 export function useRankingSignals(user: User): {
   rankedItems: Signal<RankingItem[]>;
   unrankedItems: Signal<RankingItem[]>;
+  /** Mutated in place, and saved along with the ranking. */
+  pairAnswers: PairAnswers;
 } {
+  const initialRankingIds = useMemo<number[]>(() => {
+    const { ranking } = getUnsavedData();
+    return Array.isArray(ranking) ? ranking : user.rankings;
+  }, [user.rankings]);
+
   const initialRankedItems = useMemo<RankingItem[]>(() => {
-    let rankingIds: number[] | null = null;
-
-    const lsUnsaved = localStorage.getItem('unsavedRanking');
-
-    if (lsUnsaved) {
-      try {
-        const unsavedData = JSON.parse(lsUnsaved);
-        if (unsavedData && Array.isArray(unsavedData.ranking)) {
-          rankingIds = unsavedData.ranking;
-        }
-      } catch {
-        // Ignore JSON parse errors
-      }
-    }
-
-    if (!rankingIds) {
-      rankingIds = user.rankings;
-    }
-
-    return rankingIds
+    return initialRankingIds
       .map((id) => itemsById.get(id))
       .filter((item): item is RankingItem => item !== undefined);
-  }, [user.rankings]);
+  }, [initialRankingIds]);
+
+  const [pairAnswers] = useState<PairAnswers>(() => {
+    const { pairAnswers } = getUnsavedData();
+    const answers = answersFromList(
+      Array.isArray(pairAnswers) ? pairAnswers : user.pairAnswers,
+    );
+
+    // Queue answers from before they were saved to the server. The ranker
+    // saves unsaved data on load.
+    if (takeLegacyAnswers(answers)) {
+      localStorage.setItem(
+        'unsavedRanking',
+        JSON.stringify({
+          ranking: initialRankingIds,
+          pairAnswers: answersToList(answers),
+        }),
+      );
+    }
+
+    return answers;
+  });
 
   const initialUnrankedItems = useMemo<RankingItem[]>(() => {
     const rankingIdsSet = new Set(user.rankings);
@@ -100,5 +124,5 @@ export function useRankingSignals(user: User): {
   const rankedItems = useSignal<RankingItem[]>(initialRankedItems);
   const unrankedItems = useSignal<RankingItem[]>(initialUnrankedItems);
 
-  return { rankedItems, unrankedItems };
+  return { rankedItems, unrankedItems, pairAnswers };
 }

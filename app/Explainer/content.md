@@ -10,7 +10,9 @@ You don't need to rank everything. **Ranking ~10 items will give us great data t
 
 <summary>How your data is stored and used</summary>
 
-Your ranked items are stored on the server, keyed against your Github user ID, along with your Github name, username, and avatar URL. This is visible to select members of the Firefox team.
+Your ranked items are stored on the server, along with any item vs item choices. These are keyed against your Github user ID, along with your Github name, username, and avatar URL. This is visible to select members of the Firefox team.
+
+The item vs item choices are only stored so they're available to you in later sessions.
 
 The order of unranked items is not stored on the server. They're initially random, then stored locally, so the order is stable.
 

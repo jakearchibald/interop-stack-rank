@@ -17,18 +17,22 @@ import {
   skipKnownComparisons,
 } from './binaryInsertionSort';
 import {
-  clearAnswers,
   createAnswerLookup,
   hasAnswersFor,
-  loadAnswers,
+  type PairAnswers,
   removeAnswer,
-  saveAnswer,
+  setAnswer,
 } from './storedAnswers';
 import { viewTransitionWithTypes } from '../../utils/viewTransition';
 
 interface Props {
   items: RankingItem[];
+  /** Updated in place as questions are answered. */
+  answers: PairAnswers;
+  /** Called when the order changes. Answers should be saved along with it. */
   onReorder: (items: RankingItem[]) => void;
+  /** Called when answers change without the order changing. */
+  onAnswersChange: () => void;
   onClose: () => void;
 }
 
@@ -37,13 +41,14 @@ type Response = boolean | 'same';
 
 const PairSorter: FunctionComponent<Props> = ({
   items,
+  answers,
   onReorder,
+  onAnswersChange,
   onClose,
 }) => {
   // Only the initial items are used. The parent closes the sorter if the
   // ranking is changed by other means.
   const state = useSignal(createSortState(items));
-  const answers = useMemo(loadAnswers, []);
   const itemIds = useMemo(() => items.map((item) => item.id), []);
   const offerReuse = useMemo(() => hasAnswersFor(answers, itemIds), []);
   const phase = useSignal<'reuse-prompt' | 'sorting'>(
@@ -118,8 +123,8 @@ const PairSorter: FunctionComponent<Props> = ({
       const itemPreferred =
         response === 'same' ? Math.random() < 0.5 : response;
 
-      if (response === true) saveAnswer(answers, item.id, other.id);
-      else if (response === false) saveAnswer(answers, other.id, item.id);
+      if (response === true) setAnswer(answers, item.id, other.id);
+      else if (response === false) setAnswer(answers, other.id, item.id);
       if (response !== 'same') updateAnswerLookup();
 
       history.value = [...history.value, answeredState];
@@ -162,8 +167,9 @@ const PairSorter: FunctionComponent<Props> = ({
         state.value = skipKnownComparisons(state.value, getKnownAnswer);
         onReorder(getOrder(state.value));
       } else {
-        clearAnswers(answers);
+        answers.clear();
         updateAnswerLookup();
+        onAnswersChange();
       }
       phase.value = 'sorting';
     });
@@ -222,8 +228,7 @@ const PairSorter: FunctionComponent<Props> = ({
         <h3 class={styles.question}>Re-use your previous answers?</h3>
         <p class={styles.promptText}>
           You've compared some of these before. Re-using those answers means
-          fewer questions, but it may clash with any manual reordering you've
-          done since then.
+          fewer questions.
         </p>
         <div class={styles.actions}>
           <div class={styles.promptChoices}>

@@ -44,6 +44,7 @@ wrangler deploy
 ## Code style
 
 - Optional function parameters go in an options object, even when there's only one: `fn(required, { option })`, not `fn(required, option)`.
+- Prefer `for…of` loops over `.forEach()`. Use `.entries()` when the index is needed.
 
 ## Architecture
 
