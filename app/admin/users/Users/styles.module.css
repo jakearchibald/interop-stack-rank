@@ -1,0 +1,44 @@
+.usersTable {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 2rem;
+  background: var(--surface-bg);
+  border: 1px solid var(--surface-border);
+  box-shadow: var(--surface-shadow);
+
+  & th {
+    text-align: left;
+    font-weight: normal;
+    font-size: 0.8rem;
+    color: var(--text-color-secondary);
+  }
+
+  & th,
+  & td {
+    padding: 0.5rem 0.8rem;
+    border-bottom: 1px solid var(--surface-border);
+  }
+
+  & td:first-child {
+    width: 32px;
+    padding-right: 0;
+  }
+
+  & .numeric {
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+.avatar {
+  display: block;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  box-shadow: 0 0 0 1px var(--surface-border);
+}
+
+.username {
+  color: var(--text-color-secondary);
+}
+

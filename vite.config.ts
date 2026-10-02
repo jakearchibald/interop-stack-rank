@@ -25,6 +25,8 @@ export default defineConfig({
             index: 'index.html',
             results: 'results/index.html',
             admin: 'admin/index.html',
+            adminUsers: 'admin/users/index.html',
+            adminUser: 'admin/user/index.html',
           },
         },
       },

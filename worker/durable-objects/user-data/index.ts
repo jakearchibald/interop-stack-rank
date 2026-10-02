@@ -1,6 +1,10 @@
 import { DurableObject } from 'cloudflare:workers';
 import validIds from './valid-ids.json';
-import type { PairAnswerList, User } from '../../../shared/user-data';
+import type {
+  PairAnswerList,
+  User,
+  UserSummary,
+} from '../../../shared/user-data';
 
 let validIdSet: Set<number> | null = null;
 
@@ -233,6 +237,24 @@ export class UserData extends DurableObject<Env> {
     }
 
     return result;
+  }
+
+  /** All users, with the most ranked items first. */
+  getUserSummaries(): UserSummary[] {
+    return this.#sql
+      .exec<UserSummary>(
+        `
+          SELECT
+            githubId,
+            displayName,
+            githubUsername,
+            avatarSrc,
+            COALESCE(json_array_length(rankings), 0) AS rankedCount
+          FROM users
+          ORDER BY rankedCount DESC, displayName COLLATE NOCASE
+        `
+      )
+      .toArray();
   }
 
   clearAllData() {

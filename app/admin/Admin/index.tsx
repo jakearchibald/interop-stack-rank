@@ -42,6 +42,12 @@ const Admin: FunctionalComponent = () => {
       <h2>Admin</h2>
       <ul class={styles.actions}>
         <li>
+          <a class={globalStyles.button} href="users/">
+            Users
+          </a>
+          <p>See who has ranked, and view individual rankings.</p>
+        </li>
+        <li>
           <button
             class={`${globalStyles.button} ${styles.dangerButton}`}
             disabled={busy.value}

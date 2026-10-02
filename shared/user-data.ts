@@ -9,3 +9,11 @@ export interface User {
   rankings: number[];
   pairAnswers: PairAnswerList;
 }
+
+export type UserSummary = {
+  githubId: number;
+  displayName: string;
+  githubUsername: string;
+  avatarSrc: string;
+  rankedCount: number;
+};
