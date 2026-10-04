@@ -330,7 +330,11 @@ const PairSorter: FunctionComponent<Props> = ({
         max={estimatedTotal}
         aria-label="Sorting progress"
       />
-      <div class={styles.choices}>
+      {/* Keyed to avoid stuck 'active' state when changing question */}
+      <div
+        class={styles.choices}
+        key={choices.value.map(({ item }) => item.id).join('-')}
+      >
         {choices.value.map(({ item, preferred }, index) => (
           <button
             key={index}
