@@ -58,7 +58,8 @@ interface ResultData {
   topChoiceCount: number;
   top3ChoiceCount: number;
   rankCount: number;
-  averageRank: number;
+  /** Null if the item doesn't appear in any rankings with more than 1 item. */
+  averageRank: number | null;
   smallRankingTopChoiceCount: number;
   positiveReactions: number;
   negativeReactions: number;
@@ -130,7 +131,8 @@ const ResultsList: FunctionalComponent<{
         top3ChoiceCount: top3ChoiceCounts.get(id) || 0,
         smallRankingTopChoiceCount: smallRankingTopChoiceCount.get(id) || 0,
         rankCount: rankCounts.get(id) || 0,
-        averageRank: validCount > 0 ? (rankSums.get(id) || 0) / validCount : 0,
+        averageRank:
+          validCount > 0 ? (rankSums.get(id) || 0) / validCount : null,
         positiveReactions: reactionsById.get(id)?.positive || 0,
         negativeReactions: reactionsById.get(id)?.negative || 0,
       } satisfies ResultData;
@@ -140,38 +142,31 @@ const ResultsList: FunctionalComponent<{
   });
 
   const sortedResults = useComputed(() => {
-    const sorted = [...results.value];
+    const key = sortKey.value;
+    const ascending = key === 'averageRank';
 
-    switch (sortKey.value) {
-      case 'schulzeWins':
-        sorted.sort((a, b) => b.schulzeWins - a.schulzeWins);
-        break;
-      case 'topChoiceCount':
-        sorted.sort((a, b) => b.topChoiceCount - a.topChoiceCount);
-        break;
-      case 'top3ChoiceCount':
-        sorted.sort((a, b) => b.top3ChoiceCount - a.top3ChoiceCount);
-        break;
-      case 'rankCount':
-        sorted.sort((a, b) => b.rankCount - a.rankCount);
-        break;
-      case 'averageRank':
-        sorted.sort((a, b) => a.averageRank - b.averageRank);
-        break;
-      case 'smallRankingTopChoiceCount':
-        sorted.sort(
-          (a, b) => b.smallRankingTopChoiceCount - a.smallRankingTopChoiceCount
-        );
-        break;
-      case 'positiveReactions':
-        sorted.sort((a, b) => b.positiveReactions - a.positiveReactions);
-        break;
-      case 'negativeReactions':
-        sorted.sort((a, b) => b.negativeReactions - a.negativeReactions);
-        break;
+    // Descending (except averageRank), with nulls last
+    const sorted = [...results.value].sort((a, b) => {
+      const aValue = a[key];
+      const bValue = b[key];
+      if (aValue === bValue) return 0;
+      if (aValue === null) return 1;
+      if (bValue === null) return -1;
+      return ascending ? aValue - bValue : bValue - aValue;
+    });
+
+    // Competition ranking: tied items share a position (1, 2, 2, 4)
+    const positions: number[] = [];
+    for (const [index, result] of sorted.entries()) {
+      const tiedWithPrevious =
+        index > 0 && result[key] === sorted[index - 1][key];
+      positions.push(tiedWithPrevious ? positions[index - 1] : index + 1);
     }
 
-    return sorted;
+    return sorted.map((result, index) => ({
+      result,
+      position: positions[index],
+    }));
   });
 
   const handleSortClick = (key: SortKey) => {
@@ -211,7 +206,7 @@ const ResultsList: FunctionalComponent<{
     const data = [...table.querySelectorAll('tbody tr')].map((row, i) => {
       const cells = [...row.querySelectorAll('td')].slice(1);
       return {
-        issue: sortedResults.value[i].id,
+        issue: sortedResults.value[i].result.id,
         ...Object.fromEntries(
           cells.map((cell, i) => [`col${i}`, cell.textContent || ''])
         ),
@@ -346,9 +341,9 @@ const ResultsList: FunctionalComponent<{
           </tr>
         </thead>
         <tbody>
-          {sortedResults.value.map((result, index) => (
+          {sortedResults.value.map(({ result, position }) => (
             <tr key={result.id}>
-              <td>{index + 1}</td>
+              <td>{position}</td>
               <td>
                 <a
                   href={`https://github.com/web-platform-tests/interop/issues/${result.id}`}
@@ -363,7 +358,7 @@ const ResultsList: FunctionalComponent<{
               <td>{result.smallRankingTopChoiceCount}</td>
               <td>{result.top3ChoiceCount}</td>
               <td>{result.rankCount}</td>
-              <td>{result.averageRank.toFixed(3)}</td>
+              <td>{result.averageRank?.toFixed(3) ?? '–'}</td>
               <td>{result.positiveReactions}</td>
               <td>{result.negativeReactions}</td>
             </tr>
