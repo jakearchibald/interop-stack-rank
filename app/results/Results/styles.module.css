@@ -66,9 +66,13 @@
   & tbody tr {
     background: var(--surface-bg);
 
+    &.stripe {
+      background: var(--surface-raised-bg);
+    }
+
     @media (hover: hover) {
       &:hover {
-        background: var(--surface-raised-bg);
+        background: var(--highlight-bg);
       }
     }
   }

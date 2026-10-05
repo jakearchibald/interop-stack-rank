@@ -163,10 +163,12 @@ const ResultsList: FunctionalComponent<{
       positions.push(tiedWithPrevious ? positions[index - 1] : index + 1);
     }
 
-    return sorted.map((result, index) => ({
-      result,
-      position: positions[index],
-    }));
+    // Stripe by position, so tied rows share a stripe
+    let stripe = true;
+    return sorted.map((result, index) => {
+      if (positions[index] !== positions[index - 1]) stripe = !stripe;
+      return { result, position: positions[index], stripe };
+    });
   });
 
   const handleSortClick = (key: SortKey) => {
@@ -341,8 +343,8 @@ const ResultsList: FunctionalComponent<{
           </tr>
         </thead>
         <tbody>
-          {sortedResults.value.map(({ result, position }) => (
-            <tr key={result.id}>
+          {sortedResults.value.map(({ result, position, stripe }) => (
+            <tr key={result.id} class={classes({ [styles.stripe]: stripe })}>
               <td>{position}</td>
               <td>
                 <a
