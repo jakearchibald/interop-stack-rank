@@ -1,8 +1,8 @@
 [
   {
     "id": 1471,
-    "titleHTML": "Streaming HTML insertion",
-    "subtitleHTML": "Methods such as <code>streamHTML()</code> and <code>streamAppendHTML()</code> return writable streams that incrementally insert HTML into an existing tree."
+    "titleHTML": "Streaming HTML insertion with sanitizing",
+    "subtitleHTML": "Methods such as <code>streamHTML()</code> and <code>streamAppendHTML()</code> return writable streams that incrementally insert sanitized HTML into an existing tree."
   },
   {
     "id": 1470,
@@ -184,7 +184,7 @@
   },
   {
     "id": 1416,
-    "titleHTML": "<code>setHTML()</code> and related methods",
+    "titleHTML": "Additional sanitizing HTML methods and trusted types integration",
     "subtitleHTML": "Such as <code>beforeHTML()</code>, <code>appendHTML()</code>, and <code>replaceWithHTML()</code>, which insert sanitized HTML into an existing tree."
   },
   {
@@ -472,7 +472,7 @@
   },
   {
     "id": 1336,
-    "titleHTML": "Sanitizer API",
+    "titleHTML": "Sanitizer API, via <code>document.parseHTML()</code> and <code>element.setHTML()</code>",
     "subtitleHTML": "Customizes the sanitization of HTML inserted into the DOM, to prevent cross-site scripting attacks."
   },
   {
