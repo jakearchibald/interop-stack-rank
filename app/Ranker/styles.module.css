@@ -171,9 +171,11 @@
   color: var(--text-color-secondary);
   background: none;
 
-  &:hover {
-    color: var(--text-color);
-    background-color: var(--neutral-button-bg);
+  @media (hover: hover) {
+    &:hover {
+      color: var(--text-color);
+      background-color: var(--neutral-button-bg);
+    }
   }
 
   svg {

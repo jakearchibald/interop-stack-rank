@@ -55,8 +55,10 @@
       font-weight: 600;
       text-decoration: none;
 
-      &:hover {
-        text-decoration: underline;
+      @media (hover: hover) {
+        &:hover {
+          text-decoration: underline;
+        }
       }
     }
   }
@@ -64,8 +66,10 @@
   & tbody tr {
     background: var(--surface-bg);
 
-    &:hover {
-      background: var(--surface-raised-bg);
+    @media (hover: hover) {
+      &:hover {
+        background: var(--surface-raised-bg);
+      }
     }
   }
 

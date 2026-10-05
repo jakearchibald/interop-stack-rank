@@ -39,8 +39,10 @@
   background-color: var(--danger-solid);
   color: white;
 
-  &:hover {
-    background-color: var(--danger-solid-hover);
+  @media (hover: hover) {
+    &:hover {
+      background-color: var(--danger-solid-hover);
+    }
   }
 
   &:disabled {

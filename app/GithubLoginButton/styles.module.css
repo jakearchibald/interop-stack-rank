@@ -21,8 +21,10 @@
   }
 }
 
-.githubButton:hover {
-  background-color: light-dark(#3a4048, #fff);
+@media (hover: hover) {
+  .githubButton:hover {
+    background-color: light-dark(#3a4048, #fff);
+  }
 }
 
 .icon {

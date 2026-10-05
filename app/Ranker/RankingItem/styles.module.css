@@ -19,11 +19,13 @@
     transition: fill 120ms ease;
   }
 
-  &:hover {
-    background-color: var(--neutral-button-bg);
+  @media (hover: hover) {
+    &:hover {
+      background-color: var(--neutral-button-bg);
 
-    svg {
-      fill: var(--text-color-secondary);
+      svg {
+        fill: var(--text-color-secondary);
+      }
     }
   }
 }
@@ -44,8 +46,10 @@
     text-decoration-color: transparent;
     transition: text-decoration-color 120ms ease;
 
-    &:hover {
-      text-decoration-color: currentColor;
+    @media (hover: hover) {
+      &:hover {
+        text-decoration-color: currentColor;
+      }
     }
   }
 }
@@ -68,9 +72,11 @@
     fill: currentColor;
   }
 
-  &:hover {
-    color: var(--text-color);
-    background-color: var(--neutral-button-hover-bg);
+  @media (hover: hover) {
+    &:hover {
+      color: var(--text-color);
+      background-color: var(--neutral-button-hover-bg);
+    }
   }
 }
 
@@ -82,9 +88,11 @@
   color: var(--accent);
   background-color: var(--accent-soft);
 
-  &:hover {
-    color: var(--accent-hover);
-    background-color: var(--accent-soft-hover);
+  @media (hover: hover) {
+    &:hover {
+      color: var(--accent-hover);
+      background-color: var(--accent-soft-hover);
+    }
   }
 }
 
@@ -92,9 +100,11 @@
   color: var(--danger);
   background-color: var(--danger-soft);
 
-  &:hover {
-    color: var(--danger);
-    background-color: var(--danger-soft-hover);
+  @media (hover: hover) {
+    &:hover {
+      color: var(--danger);
+      background-color: var(--danger-soft-hover);
+    }
   }
 }
 

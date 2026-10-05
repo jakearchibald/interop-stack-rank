@@ -102,9 +102,11 @@
     border-color 120ms ease,
     background-color 120ms ease;
 
-  &:hover {
-    border-color: var(--accent);
-    background-color: var(--accent-soft);
+  @media (hover: hover) {
+    &:hover {
+      border-color: var(--accent);
+      background-color: var(--accent-soft);
+    }
   }
 
   &:focus-visible {
@@ -139,9 +141,11 @@
     border-color 120ms ease,
     background-color 120ms ease;
 
-  &:hover {
-    border-color: var(--accent);
-    background-color: var(--accent-soft);
+  @media (hover: hover) {
+    &:hover {
+      border-color: var(--accent);
+      background-color: var(--accent-soft);
+    }
   }
 
   &:focus-visible {
@@ -240,8 +244,10 @@
   color: var(--danger);
   background-color: var(--danger-soft);
 
-  &:hover {
-    background-color: var(--danger-soft-hover);
+  @media (hover: hover) {
+    &:hover {
+      background-color: var(--danger-soft-hover);
+    }
   }
 }
 
@@ -249,8 +255,10 @@
   color: var(--accent-contrast);
   background-color: var(--accent);
 
-  &:hover {
-    background-color: var(--accent-hover);
+  @media (hover: hover) {
+    &:hover {
+      background-color: var(--accent-hover);
+    }
   }
 }
 
@@ -259,16 +267,20 @@
   color: var(--text-color);
   background-color: var(--neutral-button-bg);
 
-  &:hover {
-    background-color: var(--neutral-button-hover-bg);
+  @media (hover: hover) {
+    &:hover {
+      background-color: var(--neutral-button-hover-bg);
+    }
   }
 
   &[aria-disabled='true'] {
     cursor: default;
     opacity: 0.5;
 
-    &:hover {
-      background-color: var(--neutral-button-bg);
+    @media (hover: hover) {
+      &:hover {
+        background-color: var(--neutral-button-bg);
+      }
     }
   }
 }
@@ -283,8 +295,10 @@
   font-size: 0.9rem;
   box-shadow: var(--surface-shadow);
 
-  &:hover {
-    background-color: var(--accent-hover);
+  @media (hover: hover) {
+    &:hover {
+      background-color: var(--accent-hover);
+    }
   }
 }
 

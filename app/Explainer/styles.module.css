@@ -41,8 +41,10 @@
     font-weight: 500;
     width: fit-content;
 
-    &:hover {
-      color: var(--link-hover-color);
+    @media (hover: hover) {
+      &:hover {
+        color: var(--link-hover-color);
+      }
     }
   }
 
