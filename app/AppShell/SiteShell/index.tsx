@@ -24,7 +24,7 @@ const SiteShell: FunctionalComponent<Props> = ({ children, userDetails }) => {
         </p>
         <p>
           <a
-            href="https://github.com/jakearchibald/interop-stack-rank"
+            href="https://github.com/mozilla/interop-stack-rank"
             target="_blank"
             class={styles.githubLink}
           >
