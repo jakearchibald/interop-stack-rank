@@ -13,7 +13,7 @@
   "routes": [
     { "pattern": "interop-rank.jakearchibald.com", "custom_domain": true },
     {
-      "pattern": "interop.wordle-analyzer.com/*",
+      "pattern": "interop-rank.fxdx.dev/*",
       "zone_name": "jakearchibald.com",
     },
   ],
