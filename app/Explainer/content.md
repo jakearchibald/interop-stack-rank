@@ -4,7 +4,7 @@ This is the second year we're doing this, and last year's 1900+ rankings not onl
 
 **Please only rank proposals you feel positively about.** Anything you rank will be taken as a positive signal. If there are features you don't know or even feel negatively about, leave them unranked.
 
-You don't need to rank everything. **Ranking ~10 items will give us great data to work with**. Rankings autosave – keep tweaking the list until you're happy with it.
+You don't need to rank everything. **Ranking ~10 items will give us great data to work with**. Rankings autosave – you can come back and keep tweaking your list until the ranking process is over.
 
 <details>
 
