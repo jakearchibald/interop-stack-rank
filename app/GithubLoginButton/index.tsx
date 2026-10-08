@@ -8,13 +8,16 @@ interface Props {
   size?: 'small' | 'large';
 }
 
-const GithubLoginButton: FunctionalComponent<Props> = ({ children, size }) => {
+/** URL that signs in via GitHub, then returns to the current page. */
+export function getLoginURL(): string {
   const currentPath = location.pathname + location.search;
-  const loginUrl = `/auth/github?redirect=${encodeURIComponent(currentPath)}`;
+  return `/auth/github?redirect=${encodeURIComponent(currentPath)}`;
+}
 
+const GithubLoginButton: FunctionalComponent<Props> = ({ children, size }) => {
   return (
     <a
-      href={loginUrl}
+      href={getLoginURL()}
       class={classes({
         [sharedStyles.button]: true,
         [styles.githubButton]: true,

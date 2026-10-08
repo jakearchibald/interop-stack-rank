@@ -41,6 +41,51 @@ function getUnsavedData(): { ranking?: unknown; pairAnswers?: unknown } {
   }
 }
 
+/**
+ * Get the items that aren't in `rankedIds`, in a random order that's stable
+ * across reloads (stored in localStorage).
+ */
+export function getStableUnrankedOrder({
+  rankedIds = new Set(),
+}: { rankedIds?: Set<number> } = {}): RankingItem[] {
+  const allUnranked = allItems.filter((item) => !rankedIds.has(item.id));
+  const allUnrankedIdsSet = new Set(allUnranked.map((item) => item.id));
+
+  // Get IDs from localStorage
+  let savedUnranked: number[] = [];
+  const lsUnranked = localStorage.getItem('unranked');
+
+  if (lsUnranked) {
+    try {
+      savedUnranked = JSON.parse(lsUnranked);
+    } catch {
+      // Ignore JSON parse errors
+    }
+  }
+
+  const unranked: RankingItem[] = [];
+
+  // Restore items from localStorage, if they're still unranked & exist
+  for (const id of savedUnranked) {
+    if (!allUnrankedIdsSet.has(id)) continue;
+    allUnrankedIdsSet.delete(id);
+    const item = itemsById.get(id);
+    if (item) unranked.push(item);
+  }
+
+  // Append remaining items
+  const remainingItems = [...allUnrankedIdsSet].map((id) => itemsById.get(id)!);
+  shuffle(remainingItems);
+  unranked.push(...remainingItems);
+
+  // Store order so it's stable across reloads
+  // This is so people can take breaks and come back to ranking.
+  const idsToStore = unranked.map((item) => item.id);
+  localStorage.setItem('unranked', JSON.stringify(idsToStore));
+
+  return unranked;
+}
+
 export function useRankingSignals(user: User): {
   rankedItems: Signal<RankingItem[]>;
   unrankedItems: Signal<RankingItem[]>;
@@ -79,47 +124,10 @@ export function useRankingSignals(user: User): {
     return answers;
   });
 
-  const initialUnrankedItems = useMemo<RankingItem[]>(() => {
-    const rankingIdsSet = new Set(user.rankings);
-    const allUnranked = allItems.filter((item) => !rankingIdsSet.has(item.id));
-    const allUnrankedIdsSet = new Set(allUnranked.map((item) => item.id));
-
-    // Get IDs from localStorage
-    let savedUnranked: number[] = [];
-    const lsUnranked = localStorage.getItem('unranked');
-
-    if (lsUnranked) {
-      try {
-        savedUnranked = JSON.parse(lsUnranked);
-      } catch {
-        // Ignore JSON parse errors
-      }
-    }
-
-    const unranked: RankingItem[] = [];
-
-    // Restore items from localStorage, if they're still unranked & exist
-    for (const id of savedUnranked) {
-      if (!allUnrankedIdsSet.has(id)) continue;
-      allUnrankedIdsSet.delete(id);
-      const item = itemsById.get(id);
-      if (item) unranked.push(item);
-    }
-
-    // Append remaining items
-    const remainingItems = [...allUnrankedIdsSet].map(
-      (id) => itemsById.get(id)!
-    );
-    shuffle(remainingItems);
-    unranked.push(...remainingItems);
-
-    // Store order so it's stable across reloads
-    // This is so people can take breaks and come back to ranking.
-    const idsToStore = unranked.map((item) => item.id);
-    localStorage.setItem('unranked', JSON.stringify(idsToStore));
-
-    return unranked;
-  }, [user.rankings]);
+  const initialUnrankedItems = useMemo<RankingItem[]>(
+    () => getStableUnrankedOrder({ rankedIds: new Set(user.rankings) }),
+    [user.rankings],
+  );
 
   const rankedItems = useSignal<RankingItem[]>(initialRankedItems);
   const unrankedItems = useSignal<RankingItem[]>(initialUnrankedItems);

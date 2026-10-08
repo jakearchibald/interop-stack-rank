@@ -24,10 +24,12 @@ pushToastMessage({ type: 'loading', until: userDataPromise });
 
 interface AppInnerProps {
   loggedInContent?: (user: User) => ComponentChildren;
+  loggedOutContent?: ComponentChildren;
 }
 
 const AppInner: FunctionalComponent<AppInnerProps> = ({
   loggedInContent,
+  loggedOutContent,
   children,
 }) => {
   if (!user.value) {
@@ -41,6 +43,7 @@ const AppInner: FunctionalComponent<AppInnerProps> = ({
         <div class={styles.mainLoginButton}>
           <GithubLoginButton>Sign in with GitHub</GithubLoginButton>
         </div>
+        {loggedOutContent}
       </SiteShell>
     );
   }
@@ -84,16 +87,23 @@ const AppInner: FunctionalComponent<AppInnerProps> = ({
 
 interface AppShellProps {
   loggedInContent?: (user: User) => ComponentChildren;
+  loggedOutContent?: ComponentChildren;
 }
 
 const AppShell: FunctionalComponent<AppShellProps> = ({
   loggedInContent,
+  loggedOutContent,
   children,
 }) => {
   return (
     <>
       <Suspense fallback={<SiteShell>{children}</SiteShell>}>
-        <AppInner loggedInContent={loggedInContent}>{children}</AppInner>
+        <AppInner
+          loggedInContent={loggedInContent}
+          loggedOutContent={loggedOutContent}
+        >
+          {children}
+        </AppInner>
       </Suspense>
       <Toasts />
     </>
