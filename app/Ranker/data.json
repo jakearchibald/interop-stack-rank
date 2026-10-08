@@ -41,7 +41,7 @@
   {
     "id": 1460,
     "titleHTML": "CSS <code>sibling-&#8288;count()</code> and <code>sibling-&#8288;index()</code> functions",
-    "subtitleHTML": "Allow styling based on an element&#39;s position among its siblings."
+    "subtitleHTML": "Fix remaining test failures."
   },
   {
     "id": 1459,
