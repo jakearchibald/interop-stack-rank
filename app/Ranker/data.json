@@ -40,7 +40,7 @@
   },
   {
     "id": 1460,
-    "titleHTML": "CSS <code>sibling-&#8288;count()</code> and <code>sibling-&#8288;index()</code> functions",
+    "titleHTML": "Improve CSS <code>sibling-&#8288;count()</code> and <code>sibling-&#8288;index()</code> functions interop.",
     "subtitleHTML": "Fix remaining test failures."
   },
   {
