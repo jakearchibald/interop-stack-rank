@@ -16,4 +16,6 @@ export type UserSummary = {
   githubUsername: string;
   avatarSrc: string;
   rankedCount: number;
+  /** Null if the user hasn't shared their ranking. */
+  shareId: string | null;
 };

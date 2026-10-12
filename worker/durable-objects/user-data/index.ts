@@ -279,7 +279,8 @@ export class UserData extends DurableObject<Env> {
             displayName,
             githubUsername,
             avatarSrc,
-            COALESCE(json_array_length(rankings), 0) AS rankedCount
+            COALESCE(json_array_length(rankings), 0) AS rankedCount,
+            shareId
           FROM users
           ORDER BY rankedCount DESC, displayName COLLATE NOCASE
         `

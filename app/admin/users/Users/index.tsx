@@ -3,6 +3,7 @@ import { lazyCompute } from '../../../lazyCompute';
 import type { UserSummary } from '../../../../shared/user-data';
 import { adminFetch } from '../../adminFetch';
 import { sizedAvatar } from '../../../../shared/avatar';
+import { sharePath } from '../../../../shared/share';
 import * as adminStyles from '../../Admin/styles.module.css';
 import * as styles from './styles.module.css';
 import * as utilStyles from '../../../utils.module.css';
@@ -39,6 +40,7 @@ const Users: FunctionalComponent = () => {
             </th>
             <th>Name</th>
             <th class={styles.numeric}>Ranked</th>
+            <th>Shared</th>
           </tr>
         </thead>
         <tbody>
@@ -59,6 +61,15 @@ const Users: FunctionalComponent = () => {
                 <span class={styles.username}>({user.githubUsername})</span>
               </td>
               <td class={styles.numeric}>{user.rankedCount}</td>
+              <td>
+                {user.shareId ? (
+                  <a href={sharePath(user.githubUsername, user.shareId)}>
+                    View
+                  </a>
+                ) : (
+                  <span class={styles.notShared}>No</span>
+                )}
+              </td>
             </tr>
           ))}
         </tbody>
