@@ -40,3 +40,8 @@
   margin-top: 1.5rem;
   text-align: center;
 }
+
+/* Element selector for extra specificity, to override the ranker's styles */
+h2.sharedSectionTitle {
+  margin-top: 0;
+}

@@ -12,8 +12,8 @@ interface Props {
   /** Shown after the list. */
   footer?: ComponentChildren;
   /**
-   * 'shared' centers the user's details and leaves out their GitHub link, for
-   * publicly shared rankings.
+   * 'shared' centers the user's details, leaves out their GitHub link, and
+   * tightens the spacing, for publicly shared rankings.
    */
   variant?: 'default' | 'shared';
 }
@@ -67,7 +67,12 @@ const UserRanking: FunctionalComponent<Props> = ({
         </div>
       </div>
       <div class={rankerStyles.rankingContainer}>
-        <h2 class={rankerStyles.sectionTitle}>
+        <h2
+          class={classes({
+            [rankerStyles.sectionTitle]: true,
+            [styles.sharedSectionTitle]: variant === 'shared',
+          })}
+        >
           <span>
             Ranked proposals{' '}
             <span class={`${rankerStyles.nowrap} ${rankerStyles.subtle}`}>
