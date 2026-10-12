@@ -8,6 +8,12 @@
     font-family: var(--font-headline);
     font-size: 1.6rem;
   }
+
+  /* Matches the explainer on the homepage */
+  & p {
+    line-height: 1.65;
+    text-wrap: pretty;
+  }
 }
 
 .buttons {

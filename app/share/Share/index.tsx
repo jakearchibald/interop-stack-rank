@@ -162,9 +162,30 @@ const Share: FunctionalComponent<Props> = ({ user }) => {
         <a href="/">← Back to your ranking</a>
       </p>
       <h2>Share your ranking</h2>
+      <p>You can share your ranking directly from this site:</p>
+      <div class={styles.buttons}>
+        <CopyButton onCopy={copyShareURL}>
+          {shareURL.value ? 'Copy ranking URL' : 'Create and copy ranking URL'}
+        </CopyButton>
+        {shareURL.value && (
+          <button
+            class={`${rootStyles.button} ${rootStyles.dangerButton}`}
+            onClick={() => revokeDialog.current!.showModal()}
+          >
+            Revoke ranking URL
+          </button>
+        )}
+      </div>
+      {shareURL.value && (
+        <p class={styles.shareURL}>
+          <a href={shareURL.value}>{shareURL.value}</a>
+        </p>
+      )}
+      {revokeError.value && <p>Couldn't revoke the ranking URL.</p>}
       <p>
-        At Firefox we love blogs! Copy your list, so you can post it with your
-        own commentary:
+        But also, at Firefox we love blogs! So if you'd rather write a blog
+        post, you can copy your list, and post it along with your own
+        commentary:
       </p>
       <div class={styles.buttons}>
         <CopyButton
@@ -204,26 +225,7 @@ const Share: FunctionalComponent<Props> = ({ user }) => {
         </a>{' '}
         (linking to it won't work).
       </p>
-      <p>Alternatively, you can share your ranking directly from this site:</p>
-      <div class={styles.buttons}>
-        <CopyButton onCopy={copyShareURL}>
-          {shareURL.value ? 'Copy ranking URL' : 'Create and copy ranking URL'}
-        </CopyButton>
-        {shareURL.value && (
-          <button
-            class={`${rootStyles.button} ${rootStyles.dangerButton}`}
-            onClick={() => revokeDialog.current!.showModal()}
-          >
-            Revoke ranking URL
-          </button>
-        )}
-      </div>
-      {shareURL.value && (
-        <p class={styles.shareURL}>
-          <a href={shareURL.value}>{shareURL.value}</a>
-        </p>
-      )}
-      {revokeError.value && <p>Couldn't revoke the ranking URL.</p>}
+
       <dialog
         ref={revokeDialog}
         class={styles.dialog}
