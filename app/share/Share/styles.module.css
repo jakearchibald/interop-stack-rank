@@ -71,6 +71,8 @@
 }
 
 .altText {
+  /* The alt text uses line breaks */
+  white-space: pre-line;
   padding: 0.75rem 1rem;
   background: var(--surface-bg);
   border: 1px solid var(--surface-border);

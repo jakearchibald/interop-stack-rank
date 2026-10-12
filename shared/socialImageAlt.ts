@@ -18,8 +18,8 @@ export function socialImageAltText(user: PublicUser): string {
 
   const items = titles
     .map((title, i) => `${i + 1}. ${title}${title.endsWith('.') ? '' : '.'}`)
-    .join(' ');
+    .join('\n');
 
   const picks = titles.length === 1 ? 'top pick' : 'top picks';
-  return `${user.displayName}'s ${picks} in the 2027 Web Platform Feature Ranking: ${items}`;
+  return `${user.displayName}'s ${picks} in the 2027 Web Platform Feature Ranking:\n\n${items}`;
 }
