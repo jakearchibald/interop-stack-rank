@@ -27,7 +27,10 @@
   width: 100%;
   height: auto;
   border-radius: var(--container-rounding);
-  box-shadow: var(--surface-shadow);
+  box-shadow:
+    /* The image's background matches the page in light mode */
+    0 0 0 1px light-dark(var(--surface-border), transparent),
+    var(--surface-shadow);
 }
 
 .shareURL {
