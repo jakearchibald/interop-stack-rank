@@ -2,6 +2,7 @@ import { renderToString } from 'preact-render-to-string';
 import SiteShell from '../../app/AppShell/SiteShell';
 import UserRanking from '../../app/UserRanking';
 import {
+  cleanDisplayName,
   socialImageItemCount,
   socialImageVersion,
   type PublicUser,
@@ -30,7 +31,7 @@ export async function renderSharePage(
     `social.png?v=${socialImageVersion(user)}`,
     pageURL
   ).href;
-  const title = `${user.displayName}'s 2027 Web Platform Feature Ranking`;
+  const title = `${cleanDisplayName(user)}'s 2027 Web Platform Feature Ranking`;
   const imageAlt = socialImageAltText(user);
   const topTitles = user.rankings
     .slice(0, socialImageItemCount)

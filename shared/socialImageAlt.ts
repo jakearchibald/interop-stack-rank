@@ -1,5 +1,9 @@
 import betterTitles from '../lib/better-titles.js';
-import { socialImageItemCount, type PublicUser } from './share';
+import {
+  cleanDisplayName,
+  socialImageItemCount,
+  type PublicUser,
+} from './share';
 
 /**
  * A proposal's title as plain text. Titles are Markdown, but only use
@@ -21,5 +25,5 @@ export function socialImageAltText(user: PublicUser): string {
     .join('\n');
 
   const picks = titles.length === 1 ? 'top pick' : 'top picks';
-  return `${user.displayName}'s ${picks} in the 2027 Web Platform Feature Ranking:\n\n${items}`;
+  return `${cleanDisplayName(user)}'s ${picks} in the 2027 Web Platform Feature Ranking:\n\n${items}`;
 }

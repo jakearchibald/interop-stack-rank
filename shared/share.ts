@@ -6,6 +6,19 @@ export interface PublicUser {
   rankings: number[];
 }
 
+/**
+ * The user's name, without invisible formatting characters (such as zero-width
+ * spaces and text direction overrides), which some names contain. The social
+ * image's fonts don't have glyphs for these, so they'd render as boxes.
+ */
+export function cleanDisplayName(user: PublicUser): string {
+  const name = user.displayName
+    .replace(/\p{Cf}/gu, '')
+    .replace(/\s+/g, ' ')
+    .trim();
+  return name || user.githubUsername;
+}
+
 /** The number of items shown in the social image. */
 export const socialImageItemCount = 3;
 

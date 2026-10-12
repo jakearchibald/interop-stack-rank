@@ -4,13 +4,13 @@ import yogaWasm from 'satori/yoga.wasm';
 import resvgWasm from '@resvg/resvg-wasm/index_bg.wasm';
 // satori doesn't support WOFF2, so these are the WOFF versions.
 import headline600 from '@fontsource/mozilla-headline/files/mozilla-headline-latin-600-normal.woff?inline';
+import headline600Ext from '@fontsource/mozilla-headline/files/mozilla-headline-latin-ext-600-normal.woff?inline';
 import text400 from '@fontsource/mozilla-text/files/mozilla-text-latin-400-normal.woff?inline';
-import text400Ext from '@fontsource/mozilla-text/files/mozilla-text-latin-ext-400-normal.woff?inline';
 import text500 from '@fontsource/mozilla-text/files/mozilla-text-latin-500-normal.woff?inline';
-import text500Ext from '@fontsource/mozilla-text/files/mozilla-text-latin-ext-500-normal.woff?inline';
 import code500 from '@fontsource/source-code-pro/files/source-code-pro-latin-500-normal.woff?inline';
 import betterTitles from '../../lib/better-titles.js';
 import { sizedAvatar } from '../../shared/avatar';
+import { prepareName } from './nameFont';
 import {
   socialImageItemCount,
   socialImageVersion,
@@ -75,10 +75,9 @@ function getFonts() {
 
     fonts = [
       font('Mozilla Headline', headline600, 600),
+      font('Mozilla Headline Ext', headline600Ext, 600),
       font('Mozilla Text', text400, 400),
-      font('Mozilla Text', text400Ext, 400),
       font('Mozilla Text', text500, 500),
-      font('Mozilla Text', text500Ext, 500),
       font('Source Code Pro', code500, 500),
     ];
   }
@@ -161,8 +160,9 @@ function Title({ markdown }: { markdown: string }) {
 }
 
 async function renderPNG(user: PublicUser): Promise<Uint8Array<ArrayBuffer>> {
-  const [avatar] = await Promise.all([
+  const [avatar, name] = await Promise.all([
     fetchAvatar(user.avatarSrc),
+    prepareName(user),
     initSatoriOnce(),
     initResvgOnce(),
   ]);
@@ -197,13 +197,13 @@ async function renderPNG(user: PublicUser): Promise<Uint8Array<ArrayBuffer>> {
         <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
           <div
             style={{
-              fontFamily: 'Mozilla Headline',
+              fontFamily: name.fontFamily,
               fontWeight: 600,
               fontSize: 52,
               lineHeight: 1.1,
             }}
           >
-            {user.displayName}
+            {name.text}
           </div>
           <div style={{ fontSize: 28, color: '#5b606c' }}>
             2027 Web Platform Feature Ranking
@@ -265,7 +265,7 @@ async function renderPNG(user: PublicUser): Promise<Uint8Array<ArrayBuffer>> {
         ))}
       </div>
     </div>,
-    { width, height, fonts: getFonts() }
+    { width, height, fonts: [...getFonts(), ...name.fonts] }
   );
 
   const resvg = new Resvg(svg, { fitTo: { mode: 'width', value: width } });
