@@ -3,6 +3,7 @@ import { useSignal } from '@preact/signals';
 import { useRef } from 'preact/hooks';
 import type { User } from '../../../shared/user-data';
 import { socialImageVersion } from '../../../shared/share';
+import { socialImageAltText } from '../../../shared/socialImageAlt';
 import { rankingToHTML, rankingToMarkdown } from './formatList';
 import { classes } from '../../utils/classes';
 import { lazyCompute } from '../../lazyCompute';
@@ -134,6 +135,7 @@ const Share: FunctionalComponent<Props> = ({ user }) => {
   }
 
   const imageURL = `/api/share/social.png?v=${socialImageVersion(user)}`;
+  const altText = socialImageAltText(user);
 
   const copyShareURL = async () => {
     const urlPromise = shareURLRequest('POST').then((url) => {
@@ -212,7 +214,7 @@ const Share: FunctionalComponent<Props> = ({ user }) => {
       <img
         class={styles.socialImage}
         src={imageURL}
-        alt={`${user.displayName}'s top ranked proposals`}
+        alt={altText}
         width={1200}
         height={630}
       />
@@ -225,6 +227,13 @@ const Share: FunctionalComponent<Props> = ({ user }) => {
         </a>{' '}
         (linking to it won't work).
       </p>
+      <p>Suggested alt text:</p>
+      <p class={styles.altText}>{altText}</p>
+      <div class={styles.buttons}>
+        <CopyButton onCopy={() => writeToClipboard({ 'text/plain': altText })}>
+          Copy alt text
+        </CopyButton>
+      </div>
 
       <dialog
         ref={revokeDialog}

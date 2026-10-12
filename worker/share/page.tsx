@@ -1,5 +1,4 @@
 import { renderToString } from 'preact-render-to-string';
-import betterTitles from '../../lib/better-titles.js';
 import SiteShell from '../../app/AppShell/SiteShell';
 import UserRanking from '../../app/UserRanking';
 import {
@@ -7,11 +6,7 @@ import {
   socialImageVersion,
   type PublicUser,
 } from '../../shared/share';
-
-/** Titles are Markdown, but only use backticks for code. */
-function plainTitle(id: number): string | undefined {
-  return betterTitles[id]?.title.replaceAll('`', '');
-}
+import { plainTitle, socialImageAltText } from '../../shared/socialImageAlt';
 
 /**
  * Renders a shared ranking. The page is entirely rendered here, with no
@@ -36,6 +31,7 @@ export async function renderSharePage(
     pageURL
   ).href;
   const title = `${user.displayName}'s 2027 Web Platform Feature Ranking`;
+  const imageAlt = socialImageAltText(user);
   const topTitles = user.rankings
     .slice(0, socialImageItemCount)
     .map(plainTitle)
@@ -62,6 +58,8 @@ export async function renderSharePage(
     'meta[name="description"]': description,
     'meta[property="og:image"]': imageURL,
     'meta[name="twitter:image"]': imageURL,
+    'meta[property="og:image:alt"]': imageAlt,
+    'meta[name="twitter:image:alt"]': imageAlt,
     'meta[property="og:url"]': pageURL,
   };
 
