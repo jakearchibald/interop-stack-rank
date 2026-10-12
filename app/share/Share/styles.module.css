@@ -1,0 +1,62 @@
+.container {
+  padding: var(--viewport-padding);
+  max-width: var(--content-width);
+  margin: 0 auto;
+  box-sizing: border-box;
+
+  & h2 {
+    font-family: var(--font-headline);
+    font-size: 1.6rem;
+  }
+}
+
+.buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.socialImage {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: var(--container-rounding);
+  box-shadow: var(--surface-shadow);
+}
+
+.shareURL {
+  overflow-wrap: anywhere;
+}
+
+.copyButton {
+  display: grid;
+  justify-items: center;
+}
+
+.copyLabel {
+  grid-area: 1 / 1;
+  transition: opacity 120ms ease;
+}
+
+.inactive {
+  opacity: 0;
+}
+
+.dialog {
+  max-width: min(400px, calc(100vw - 2rem));
+  box-sizing: border-box;
+  padding: 1.5rem;
+  border: 1px solid var(--surface-border);
+  border-radius: var(--container-rounding);
+  background: var(--surface-bg);
+  color: var(--text-color);
+  box-shadow: var(--surface-shadow-raised);
+
+  & p {
+    margin: 0 0 1.25rem;
+  }
+
+  &::backdrop {
+    background: rgb(0 0 0 / 40%);
+  }
+}

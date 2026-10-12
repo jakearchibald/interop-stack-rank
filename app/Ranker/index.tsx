@@ -5,6 +5,7 @@ import PointerTracker from '../utils/PointerTracker';
 import * as styles from './styles.module.css';
 import * as itemStyles from './RankingItem/styles.module.css';
 import type { User } from '../../shared/user-data';
+import type { RankingItem as RankingItemData } from './types';
 import { itemsById, useRankingSignals } from './useRankingSignals';
 import { useComputed, useSignal } from '@preact/signals';
 import RankingItem from './RankingItem';
@@ -19,6 +20,7 @@ import {
 import * as rootStyles from '../styles.module.css';
 import { viewTransitionWithTypes } from '../utils/viewTransition';
 import sortSVG from '../icons/sort.svg?raw';
+import shareSVG from '../icons/share.svg?raw';
 import closeSVG from '../icons/close.svg?raw';
 import * as utilStyles from '../utils.module.css';
 
@@ -124,11 +126,7 @@ const tooManyDismissedKey = 'tooManyMessageDismissed';
 /** Beyond this, users are nudged to rank fewer items. */
 const recommendedMaxRanked = 15;
 
-export interface RankingItem {
-  id: number;
-  titleHTML: string;
-  subtitleHTML?: string;
-}
+export type RankingItem = RankingItemData;
 
 interface Props {
   user: User;
@@ -549,6 +547,7 @@ const Ranker: FunctionComponent<Props> = ({
   }, [readOnly]);
 
   const canSort = !readOnly && rankedItems.value.length > 1;
+  const canShare = rankedItems.value.length > 0;
 
   return (
     <div ref={containerRef} class={styles.rankingContainer}>
@@ -576,27 +575,42 @@ const Ranker: FunctionComponent<Props> = ({
                 : "Couldn't save. Your changes are kept in this browser and will be retried."}
         </p>
       )}
-      {canSort &&
-        (sorting.value ? (
-          <PairSorter
-            items={rankedItems.value}
-            answers={pairAnswers}
-            onReorder={applySortedOrder}
-            onAnswersChange={postRankings}
-            onClose={closeSorter}
-          />
-        ) : (
-          <button
-            class={`${rootStyles.button} ${pairSorterStyles.startButton}`}
-            onClick={() => setSortingWithTransition(true)}
-          >
-            <span
-              class={pairSorterStyles.startIcon}
-              dangerouslySetInnerHTML={{ __html: sortSVG }}
-            />
-            Help me order these
-          </button>
-        ))}
+      {canSort && sorting.value ? (
+        <PairSorter
+          items={rankedItems.value}
+          answers={pairAnswers}
+          onReorder={applySortedOrder}
+          onAnswersChange={postRankings}
+          onClose={closeSorter}
+        />
+      ) : (
+        canShare && (
+          <div class={styles.topButtons}>
+            {canSort && (
+              <button
+                class={`${rootStyles.button} ${pairSorterStyles.startButton}`}
+                onClick={() => setSortingWithTransition(true)}
+              >
+                <span
+                  class={pairSorterStyles.startIcon}
+                  dangerouslySetInnerHTML={{ __html: sortSVG }}
+                />
+                Help me order these
+              </button>
+            )}
+            <a
+              href="/share/"
+              class={`${rootStyles.button} ${rootStyles.neutralButton} ${styles.shareButton}`}
+            >
+              <span
+                class={pairSorterStyles.startIcon}
+                dangerouslySetInnerHTML={{ __html: shareSVG }}
+              />
+              Share
+            </a>
+          </div>
+        )
+      )}
       {tooManyRanked.value && !tooManyDismissed.value && (
         <div class={styles.tooManyMessage}>
           <p>

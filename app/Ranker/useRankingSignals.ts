@@ -3,7 +3,7 @@ import { useMemo, useState } from 'preact/hooks';
 
 import type { RankingItem } from '.';
 import type { User } from '../../shared/user-data';
-import allItems from './data.json';
+import { allItems, itemsById } from './items';
 import {
   answersFromList,
   answersToList,
@@ -11,8 +11,7 @@ import {
   takeLegacyAnswers,
 } from './PairSorter/storedAnswers';
 
-export const itemsById = new Map<number, RankingItem>();
-for (const item of allItems) itemsById.set(item.id, item);
+export { itemsById };
 
 function shuffle(array: unknown[], rand: () => number = Math.random) {
   let currentIndex = array.length;

@@ -10,7 +10,9 @@ const SiteShell: FunctionalComponent<Props> = ({ children, userDetails }) => {
   return (
     <>
       <div class={styles.siteHeader}>
-        <h1>2027 Web Platform Feature Ranking</h1>
+        <h1>
+          <a href="/">2027 Web Platform Feature Ranking</a>
+        </h1>
         <div>{userDetails}</div>
       </div>
       <div>{children}</div>

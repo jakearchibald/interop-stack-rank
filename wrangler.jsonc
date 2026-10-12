@@ -45,6 +45,12 @@
       "id": "a1629b159890402dab0d65a95b48217c",
     },
   ],
+  /**
+   * Static Assets
+   * The Vite plugin sets the directory. The binding is used to fetch the
+   * shared ranking page template.
+   */
+  "assets": { "binding": "ASSETS" },
   "durable_objects": {
     "bindings": [
       {

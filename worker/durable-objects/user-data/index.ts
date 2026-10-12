@@ -5,6 +5,11 @@ import type {
   User,
   UserSummary,
 } from '../../../shared/user-data';
+import {
+  shareIdAlphabet,
+  shareIdLength,
+  type PublicUser,
+} from '../../../shared/share';
 
 let validIdSet: Set<number> | null = null;
 
@@ -34,6 +39,7 @@ type UserDBValue = {
   avatarSrc: string;
   rankings: string;
   pairAnswers: ArrayBuffer | null;
+  shareId: string | null;
 };
 
 /**
@@ -58,6 +64,10 @@ const migrations: string[] = [
   `,
   // See encodePairAnswers for the format.
   `ALTER TABLE users ADD COLUMN pairAnswers BLOB`,
+  // See generateShareId for the format.
+  `ALTER TABLE users ADD COLUMN shareId TEXT`,
+  // SQLite can't add a UNIQUE column, so it's enforced with an index.
+  `CREATE UNIQUE INDEX users_shareId ON users (shareId)`,
 ];
 
 /**
@@ -82,6 +92,26 @@ function decodePairAnswers(buffer: ArrayBuffer | null): PairAnswerList {
     answers.push([data[i], data[i + 1]]);
   }
   return answers;
+}
+
+/**
+ * Share IDs make shared ranking URLs hard to guess. 12 characters from a
+ * 27-character alphabet is around 57 bits.
+ */
+function generateShareId(): string {
+  // Bytes at or above this are rejected, so each character is equally likely.
+  const limit = 256 - (256 % shareIdAlphabet.length);
+  let id = '';
+
+  while (id.length < shareIdLength) {
+    for (const byte of crypto.getRandomValues(new Uint8Array(shareIdLength))) {
+      if (byte >= limit) continue;
+      id += shareIdAlphabet[byte % shareIdAlphabet.length];
+      if (id.length === shareIdLength) break;
+    }
+  }
+
+  return id;
 }
 
 export class UserData extends DurableObject<Env> {
@@ -255,6 +285,68 @@ export class UserData extends DurableObject<Env> {
         `
       )
       .toArray();
+  }
+
+  /** Gets the user's share ID, or null if they haven't shared. */
+  getShareId(githubId: number): string | null {
+    const row = this.#sql
+      .exec<{
+        shareId: string | null;
+      }>('SELECT shareId FROM users WHERE githubId = ?', githubId)
+      .toArray()[0];
+
+    return row?.shareId ?? null;
+  }
+
+  /**
+   * Gets the user's share ID, creating one if needed. Returns null if the
+   * user doesn't exist.
+   */
+  createShareId(githubId: number): string | null {
+    const existing = this.getShareId(githubId);
+    if (existing) return existing;
+
+    const shareId = generateShareId();
+    const { rowsWritten } = this.#sql.exec(
+      'UPDATE users SET shareId = ? WHERE githubId = ?',
+      shareId,
+      githubId
+    );
+    return rowsWritten ? shareId : null;
+  }
+
+  /** Stops the user's ranking being shared, breaking existing links. */
+  revokeShareId(githubId: number) {
+    this.#sql.exec(
+      'UPDATE users SET shareId = NULL WHERE githubId = ?',
+      githubId
+    );
+  }
+
+  getUserByShareId(shareId: string): PublicUser | null {
+    const row = this.#sql
+      .exec<
+        Pick<
+          UserDBValue,
+          'displayName' | 'githubUsername' | 'avatarSrc' | 'rankings'
+        >
+      >(
+        `
+          SELECT displayName, githubUsername, avatarSrc, rankings
+          FROM users WHERE shareId = ?
+        `,
+        shareId
+      )
+      .toArray()[0];
+
+    if (!row) return null;
+
+    return {
+      displayName: row.displayName,
+      githubUsername: row.githubUsername,
+      avatarSrc: row.avatarSrc,
+      rankings: JSON.parse(row.rankings),
+    };
   }
 
   clearAllData() {

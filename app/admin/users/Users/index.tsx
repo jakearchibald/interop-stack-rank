@@ -1,7 +1,8 @@
 import type { FunctionalComponent } from 'preact';
 import { lazyCompute } from '../../../lazyCompute';
 import type { UserSummary } from '../../../../shared/user-data';
-import { adminFetch, sizedAvatar } from '../../adminFetch';
+import { adminFetch } from '../../adminFetch';
+import { sizedAvatar } from '../../../../shared/avatar';
 import * as adminStyles from '../../Admin/styles.module.css';
 import * as styles from './styles.module.css';
 import * as utilStyles from '../../../utils.module.css';

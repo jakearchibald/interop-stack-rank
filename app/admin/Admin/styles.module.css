@@ -34,19 +34,3 @@
     color: var(--text-color-secondary);
   }
 }
-
-.dangerButton {
-  background-color: var(--danger-solid);
-  color: white;
-
-  @media (hover: hover) {
-    &:hover {
-      background-color: var(--danger-solid-hover);
-    }
-  }
-
-  &:disabled {
-    opacity: 0.5;
-    cursor: default;
-  }
-}

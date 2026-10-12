@@ -15,9 +15,3 @@ export async function adminFetch<T>(url: string): Promise<AdminFetchResult<T>> {
 
   return { data: (await response.json()) as T };
 }
-
-export function sizedAvatar(avatarSrc: string, size: number): string {
-  const url = new URL(avatarSrc);
-  url.searchParams.set('s', String(size));
-  return url.toString();
-}

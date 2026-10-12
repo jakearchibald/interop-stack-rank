@@ -2,7 +2,10 @@
   "extends": "./tsconfig.node.json",
   "compilerOptions": {
     "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.worker.tsbuildinfo",
-    "types": ["vite/client"]
+    "types": ["vite/client"],
+    // For server-rendering components from app/.
+    "jsx": "react-jsx",
+    "jsxImportSource": "preact"
   },
   "include": ["worker-configuration.d.ts", "worker", "shared"]
 }

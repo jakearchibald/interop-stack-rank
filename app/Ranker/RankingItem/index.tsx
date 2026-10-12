@@ -1,5 +1,6 @@
 import { type FunctionComponent } from 'preact';
-import type { RankingItem as RankingItemType } from '../index';
+import type { RankingItem as RankingItemType } from '../types';
+import { issueURL } from '../items';
 import * as styles from './styles.module.css';
 import * as utilStyles from '../../utils.module.css';
 import * as parentStyles from '../styles.module.css';
@@ -77,7 +78,7 @@ const RankingItem: FunctionComponent<Props> = ({
       )}
       <div class={styles.itemName}>
         <a
-          href={`https://github.com/web-platform-tests/interop/issues/${item.id}`}
+          href={issueURL(item.id)}
           target="_blank"
           rel="noopener noreferrer"
           dangerouslySetInnerHTML={{ __html: item.titleHTML }}

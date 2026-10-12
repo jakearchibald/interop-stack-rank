@@ -27,6 +27,8 @@ export default defineConfig({
             admin: 'admin/index.html',
             adminUsers: 'admin/users/index.html',
             adminUser: 'admin/user/index.html',
+            share: 'share/index.html',
+            shareTemplate: 'share-template/index.html',
           },
         },
       },

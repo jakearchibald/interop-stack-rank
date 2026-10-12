@@ -49,7 +49,7 @@ const Admin: FunctionalComponent = () => {
         </li>
         <li>
           <button
-            class={`${globalStyles.button} ${styles.dangerButton}`}
+            class={`${globalStyles.button} ${globalStyles.dangerButton}`}
             disabled={busy.value}
             onClick={clearData}
           >
