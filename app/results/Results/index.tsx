@@ -68,16 +68,23 @@ interface ResultData {
 const ResultsList: FunctionalComponent<{
   rankings: number[][];
 }> = ({ rankings }) => {
-  const initialSortKey = useMemo(() => {
-    // Get current sort from URL
+  const { initialSortKey, initialMinRankingSize } = useMemo(() => {
+    // Get current sort & filter from URL
     const params = new URLSearchParams(window.location.search);
-    return (params.get('sort') || 'schulzeWins') as SortKey;
+    return {
+      initialSortKey: (params.get('sort') || 'schulzeWins') as SortKey,
+      initialMinRankingSize: Math.max(1, Number(params.get('minSize')) || 1),
+    };
   }, []);
 
   const sortKey = useSignal<SortKey>(initialSortKey);
+  const minRankingSize = useSignal(initialMinRankingSize);
 
   const tableRef = useRef<HTMLTableElement>(null);
-  const rankingsSignal = useLiveSignal(rankings);
+  const allRankingsSignal = useLiveSignal(rankings);
+  const rankingsSignal = useComputed(() =>
+    allRankingsSignal.value.filter((r) => r.length >= minRankingSize.value)
+  );
 
   const results = useComputed(() => {
     const rankings = rankingsSignal.value;
@@ -181,8 +188,21 @@ const ResultsList: FunctionalComponent<{
     };
   };
 
+  const onMinRankingSizeInput = (e: Event) => {
+    const value = Math.max(
+      1,
+      Math.floor(Number((e.target as HTMLInputElement).value)) || 1
+    );
+    const url = new URL(location.href);
+    if (value === 1) url.searchParams.delete('minSize');
+    else url.searchParams.set('minSize', String(value));
+    history.replaceState({}, '', url);
+    minRankingSize.value = value;
+  };
+
   const rankingSizeStats = useComputed(() => {
     const sizes = rankingsSignal.value.map((r) => r.length);
+    if (sizes.length === 0) return null;
     const max = Math.max(...sizes);
     const mean = sizes.reduce((a, b) => a + b, 0) / sizes.length;
     const sorted = [...sizes].sort((a, b) => a - b);
@@ -227,14 +247,34 @@ const ResultsList: FunctionalComponent<{
 
   return (
     <div class={styles.container}>
-      <VS rankings={rankings} />
-      <h2>Overall Results</h2>
-      <p>Number of rankings: {rankings.length}.</p>
-      <p>
-        Ranking sizes: max = {rankingSizeStats.value.max}, mean ={' '}
-        {rankingSizeStats.value.mean.toFixed(2)}, median ={' '}
-        {rankingSizeStats.value.median}.
+      <p class={styles.filter}>
+        <label>
+          Ignore rankings with fewer than{' '}
+          <input
+            type="number"
+            min={1}
+            step={1}
+            value={minRankingSize.value}
+            onInput={onMinRankingSizeInput}
+          />{' '}
+          items
+        </label>
       </p>
+      <VS rankings={rankingsSignal.value} />
+      <h2>Overall Results</h2>
+      <p>
+        Number of rankings: {rankingsSignal.value.length}
+        {rankingsSignal.value.length !== rankings.length &&
+          ` (${rankings.length - rankingsSignal.value.length} ignored)`}
+        .
+      </p>
+      {rankingSizeStats.value && (
+        <p>
+          Ranking sizes: max = {rankingSizeStats.value.max}, mean ={' '}
+          {rankingSizeStats.value.mean.toFixed(2)}, median ={' '}
+          {rankingSizeStats.value.median}.
+        </p>
+      )}
       <p>
         <a href={dataFetchURL}>Raw JSON data</a> - An array of each ranking,
         where the numbers are Interop GitHub issue IDs.

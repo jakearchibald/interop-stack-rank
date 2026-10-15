@@ -10,6 +10,27 @@
   }
 }
 
+.filter {
+  margin: 0;
+
+  & input {
+    width: 4.5em;
+    padding: 0.3rem 0.5rem;
+    font-size: 1rem;
+    font-family: inherit;
+    color: inherit;
+    border: 1px solid var(--surface-border);
+    border-radius: 0.5rem;
+    background: var(--surface-bg);
+
+    &:focus-visible {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-soft);
+    }
+  }
+}
+
 .resultsList {
   & > li {
     margin-bottom: 1rem;
