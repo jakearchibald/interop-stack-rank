@@ -254,7 +254,8 @@ const ResultsList: FunctionalComponent<{
             type="number"
             min={1}
             step={1}
-            value={minRankingSize.value}
+            // Uncontrolled, so clearing the field doesn't snap it back to 1
+            defaultValue={String(initialMinRankingSize)}
             onInput={onMinRankingSizeInput}
           />{' '}
           items
