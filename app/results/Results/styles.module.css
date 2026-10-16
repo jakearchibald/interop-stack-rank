@@ -10,8 +10,10 @@
   }
 }
 
-.filter {
-  margin: 0;
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 0.5ch;
 
   & input {
     width: 4.5em;

@@ -68,22 +68,29 @@ interface ResultData {
 const ResultsList: FunctionalComponent<{
   rankings: number[][];
 }> = ({ rankings }) => {
-  const { initialSortKey, initialMinRankingSize } = useMemo(() => {
-    // Get current sort & filter from URL
-    const params = new URLSearchParams(window.location.search);
-    return {
-      initialSortKey: (params.get('sort') || 'schulzeWins') as SortKey,
-      initialMinRankingSize: Math.max(1, Number(params.get('minSize')) || 1),
-    };
-  }, []);
+  const { initialSortKey, initialMinRankingSize, initialMaxRankingSize } =
+    useMemo(() => {
+      // Get current sort & filter from URL
+      const params = new URLSearchParams(window.location.search);
+      return {
+        initialSortKey: (params.get('sort') || 'schulzeWins') as SortKey,
+        initialMinRankingSize: Math.max(1, Number(params.get('minSize')) || 1),
+        initialMaxRankingSize:
+          Number(params.get('maxSize')) || candidates.length,
+      };
+    }, []);
 
   const sortKey = useSignal<SortKey>(initialSortKey);
   const minRankingSize = useSignal(initialMinRankingSize);
+  const maxRankingSize = useSignal(initialMaxRankingSize);
 
   const tableRef = useRef<HTMLTableElement>(null);
   const allRankingsSignal = useLiveSignal(rankings);
   const rankingsSignal = useComputed(() =>
-    allRankingsSignal.value.filter((r) => r.length >= minRankingSize.value)
+    allRankingsSignal.value.filter(
+      (r) =>
+        r.length >= minRankingSize.value && r.length <= maxRankingSize.value,
+    ),
   );
 
   const results = useComputed(() => {
@@ -106,7 +113,7 @@ const ResultsList: FunctionalComponent<{
       if (ranking.length <= smallRankingLimit) {
         smallRankingTopChoiceCount.set(
           topChoice,
-          (smallRankingTopChoiceCount.get(topChoice) || 0) + 1
+          (smallRankingTopChoiceCount.get(topChoice) || 0) + 1,
         );
       }
 
@@ -188,16 +195,29 @@ const ResultsList: FunctionalComponent<{
     };
   };
 
+  const setSizeParam = (param: string, value: number | null) => {
+    const url = new URL(location.href);
+    if (value === null) url.searchParams.delete(param);
+    else url.searchParams.set(param, String(value));
+    history.replaceState({}, '', url);
+  };
+
   const onMinRankingSizeInput = (e: Event) => {
     const value = Math.max(
       1,
-      Math.floor(Number((e.target as HTMLInputElement).value)) || 1
+      Math.floor(Number((e.target as HTMLInputElement).value)) || 1,
     );
-    const url = new URL(location.href);
-    if (value === 1) url.searchParams.delete('minSize');
-    else url.searchParams.set('minSize', String(value));
-    history.replaceState({}, '', url);
+    setSizeParam('minSize', value === 1 ? null : value);
     minRankingSize.value = value;
+  };
+
+  const onMaxRankingSizeInput = (e: Event) => {
+    // Empty or invalid means no limit (all items)
+    const value =
+      Math.floor(Number((e.target as HTMLInputElement).value)) ||
+      candidates.length;
+    setSizeParam('maxSize', value === candidates.length ? null : value);
+    maxRankingSize.value = value;
   };
 
   const rankingSizeStats = useComputed(() => {
@@ -230,7 +250,7 @@ const ResultsList: FunctionalComponent<{
       return {
         issue: sortedResults.value[i].result.id,
         ...Object.fromEntries(
-          cells.map((cell, i) => [`col${i}`, cell.textContent || ''])
+          cells.map((cell, i) => [`col${i}`, cell.textContent || '']),
         ),
       };
     });
@@ -247,7 +267,7 @@ const ResultsList: FunctionalComponent<{
 
   return (
     <div class={styles.container}>
-      <p class={styles.filter}>
+      <div class={styles.filters}>
         <label>
           Ignore rankings with fewer than{' '}
           <input
@@ -258,9 +278,21 @@ const ResultsList: FunctionalComponent<{
             defaultValue={String(initialMinRankingSize)}
             onInput={onMinRankingSizeInput}
           />{' '}
-          items
+          items.
         </label>
-      </p>
+        <label>
+          Ignore rankings with more than{' '}
+          <input
+            type="number"
+            min={1}
+            step={1}
+            max={candidates.length}
+            defaultValue={String(initialMaxRankingSize)}
+            onInput={onMaxRankingSizeInput}
+          />{' '}
+          items.
+        </label>
+      </div>
       <VS rankings={rankingsSignal.value} />
       <h2>Overall Results</h2>
       <p>
@@ -412,7 +444,9 @@ const ResultsList: FunctionalComponent<{
         <button
           class={`${rootStyles.button} ${rootStyles.neutralButton}`}
           onClick={onDownloadCSV}
-        >Download table as CSV</button>
+        >
+          Download table as CSV
+        </button>
       </p>
     </div>
   );
