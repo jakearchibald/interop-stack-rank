@@ -398,7 +398,7 @@ const ResultsList: FunctionalComponent<{
                 href="?sort=positiveReactions"
                 onClick={handleSortClick('positiveReactions')}
               >
-                Positive Reactions
+                Positive GitHub Reactions
               </a>
             </th>
             <th
@@ -410,7 +410,7 @@ const ResultsList: FunctionalComponent<{
                 href="?sort=negativeReactions"
                 onClick={handleSortClick('negativeReactions')}
               >
-                Negative Reactions
+                Negative GitHub Reactions
               </a>
             </th>
           </tr>
