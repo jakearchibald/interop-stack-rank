@@ -179,6 +179,8 @@ async function renderPNG(user: PublicUser): Promise<Uint8Array<ArrayBuffer>> {
         height,
         display: 'flex',
         flexDirection: 'column',
+        // With fewer items, or shorter titles, the content is shorter.
+        justifyContent: 'center',
         padding: '48px 64px',
         background: '#f4f5f8',
         color: '#1a1c21',
