@@ -491,6 +491,10 @@
     "subtitleHTML": "Forwards IDrefs (such as <code>for</code> and <code>aria-&#8288;labelledby</code>) to an element inside a shadow root."
   },
   {
+    "id": 1332,
+    "titleHTML": "Document Isolation Policy"
+  },
+  {
     "id": 1331,
     "titleHTML": "WebUSB API",
     "subtitleHTML": "Exposes USB-compatible devices to web pages."
